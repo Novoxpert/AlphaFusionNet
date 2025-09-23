@@ -1,0 +1,15 @@
+
+numpy>=1.24
+pandas>=2.0
+pyarrow>=12
+matplotlib>=3.7
+tqdm>=4.66
+torch>=2.2
+transformers>=4.41
+sentencepiece>=0.1.99
+tokenizers>=0.15
+python-binance>=1.0.19
+cvxpy>=1.4
+ecos>=2.0
+osqp>=0.6
+scs>=3.2
