@@ -1,4 +1,4 @@
-# MarketPilot
+# AlphaFusionNet
 Adaptive AI-Driven Portfolio Intelligence
 
 # Novo 🚀
@@ -25,6 +25,6 @@ The goal of this project is to provide an open-source core for financial data an
 
 ### Steps
 ```bash
-git clone https://github.com/novoxpert/MarketPilot.git
-cd MarketPilot
+git clone https://github.com/novoxpert/AlphaFusionNet.git
+cd AlphaFusionNet
 pip install -r requirements.txt
