@@ -1,0 +1,19 @@
+# PortaMind configuration file
+
+quant:
+  alpha: 0.7          # Default blending coefficient (0 = all NetWeaver, 1 = all NeuralFusion)
+  gross: 1.0          # Total portfolio gross exposure
+  w_min: -0.4         # Minimum per-asset weight
+  w_max: 0.4          # Maximum per-asset weight
+
+llm:
+  model_name: gpt-4o-mini
+  timeout: 30
+
+topk:
+  default_netweaver: null   # Optional top-k for NetWeaver conversion
+  default_final: 10         # Optional top-k for final PortaMind portfolio
+
+logging:
+  level: INFO
+  file: logs/portamind.log
