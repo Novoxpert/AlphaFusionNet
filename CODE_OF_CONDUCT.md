@@ -1,6 +1,6 @@
 # Contributor Code of Conduct
 
-The purpose of this Code of Conduct is to foster an open, inclusive, and respectful community around **MarketPilot**. All participants are expected to adhere to these guidelines when interacting with the project, its maintainers, and other contributors.
+The purpose of this Code of Conduct is to foster an open, inclusive, and respectful community around **AlphaFusionNet**. All participants are expected to adhere to these guidelines when interacting with the project, its maintainers, and other contributors.
 
 ---
 
@@ -65,11 +65,11 @@ Maintainers are expected to act consistently and fairly when addressing reports.
 
 ## Scope
 
-This Code of Conduct applies to all spaces associated with the MarketPilot project, including but not limited to:
+This Code of Conduct applies to all spaces associated with the AlphaFusionNet project, including but not limited to:
 
 - GitHub issues and pull requests  
 - Mailing lists, chat channels, and forums  
-- Conference talks or public events related to MarketPilot  
+- Conference talks or public events related to AlphaFusionNet  
 
 ---
 
@@ -81,3 +81,4 @@ This Code of Conduct is adapted from the [Contributor Covenant v2.1](https://www
 
 **Maintainer:** _NovoXpert Maintainer Team_  
 **Last Updated:** _October 2025_
+
