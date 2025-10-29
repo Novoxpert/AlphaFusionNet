@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./NetWeaver/apps/Financial-GraphAttention"
+        "./NetWeaver/apps/Financial-GraphAttention",
+        "./apps/NetWeaver/apps/Financial-GraphAttention"
     ]
 }
