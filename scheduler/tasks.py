@@ -87,8 +87,9 @@ def initial_run():
     run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--hours', '1')
     #run_background('-m', 'apps.NeuralFusionCore.scripts.api_service')
     run_background('-m', 'scripts.alphafusionnet_api_service')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--hours', '1')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--hours', '6')
     run_background('-m', 'apps.ChronoBridge.scripts.chronobridge_api_service')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_train_service ','--latest_month', '1','--no_analysis')
    
     print("[TASK] API service started in background")
 
@@ -99,12 +100,15 @@ def daily_update():
     run_script('-m','apps.NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest', '--hours', '6')
     run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'finetune', '--latest_hours', '6')
     run_script('-m','apps.NeuralFusionCore.scripts.finetune_service', '--epochs', '2')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--hours', '6')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_finetune_service ','--latest_month', '1','--no_analysis')
 
 # --------- 4-hourly prediction workflow ----------
 @app.task
 def prediction_4h():
  
     run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--hours', '1')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--hours', '1')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--hours', '6')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '6','--future_steps','10','--no_timestamp')
     run_script('-m','scripts.alphafusionnet_service')
     

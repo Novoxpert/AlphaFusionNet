@@ -76,9 +76,15 @@ if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY not found in .env")
 
 # -------------------------------
+# Define paths relative to project root
+# -------------------------------
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))             # /AlphaFusionNet/scripts
+BASE_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))          # /AlphaFusionNet
+
+# -------------------------------
 # Logging setup
 # -------------------------------
-LOG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logs")
+LOG_DIR = os.path.join(BASE_DIR, "logs")
 os.makedirs(LOG_DIR, exist_ok=True)
 LOG_FILE = os.path.join(LOG_DIR, "alphafusionnet_service.log")
 logging.basicConfig(
@@ -91,8 +97,8 @@ logger = logging.getLogger(__name__)
 # -------------------------------
 # Load config
 # -------------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CONFIG_FILE = os.path.join(BASE_DIR, "./config/AFN_config.yaml")
+# Config file
+CONFIG_FILE = os.path.join(BASE_DIR, "config", "AFN_config.yaml")
 
 try:
     with open(CONFIG_FILE, "r") as f:
@@ -122,10 +128,56 @@ llm = OpenAI_LLM(
 controller = LLMAlphaFusionNetController(quant_core=quant, llm_client=llm)
 
 # -------------------------------
-# Example inputs (replace with live data)
+# inputs 
 # -------------------------------
-nf_weights = {"AAPL": 0.12, "MSFT": 0.08, "NVDA": 0.15, "TSLA": -0.05, "AMZN": 0.06}
-nw_scores = {"NVDA": 0.07, "TSLA": -0.06, "AAPL": 0.03, "GME": 0.11}
+# NeuralFusionCore prediction file
+NFC_PATH = os.path.join(BASE_DIR, "apps", "NeuralFusionCore", "scripts", "NeuralFusionCore_prediction.json")
+
+try:
+    with open(NFC_PATH, "r") as f:
+        nf_data = json.load(f)
+    nf_weights = dict(zip(nf_data["stocks"], nf_data["weights"]))
+    nf_ts = nf_data.get("ts")
+    nf_ts_parsed = datetime.fromisoformat(nf_ts.replace("Z", "+00:00")) if nf_ts else datetime.now(timezone.utc)
+    logger.info(f"Loaded NeuralFusionCore weights from {NFC_PATH}")
+except Exception as e:
+    logger.error(f"Failed to load NeuralFusionCore_prediction: {e}")
+    raise RuntimeError(f"Error reading {NFC_PATH}: {e}")
+
+print("✅ Loaded nf weights:")
+print(nf_weights)
+
+# NetWeaver prediction CSV
+NW_PATH = os.path.join(BASE_DIR, "apps", "NetWeaver", "results", "predict", "selected_prediction.csv")
+
+# Load the CSV into a DataFrame
+df = pd.read_csv(NW_PATH)
+
+# Make sure columns exist
+if not {"symbol", "predicted_return"}.issubset(df.columns):
+    raise ValueError(f"CSV file {NW_PATH} must contain 'symbol' and 'predicted_return' columns")
+
+# Convert to dictionary: {'AAPL': 0.03, 'NVDA': 0.07, ...}
+nw_scores = dict(zip(df["symbol"], df["predicted_return"]))
+
+print("✅ Loaded scores:")
+print(nw_scores)
+try:
+    client = MongoClient("mongodb://127.0.0.1:27017/")
+    db = client["db_portfolio"]
+    collection = db["NetWeaver_predictions"]
+
+    doc = {
+        "timestamp": nf_ts_parsed,
+        "predicted_return": nw_scores.fillna(0.0).to_dict()
+    }
+
+    collection.insert_one(doc)
+    logger.info("NetWeaver predictions saved to MongoDB successfully.")
+    print("NetWeaver predictions saved to MongoDB successfully.")
+except Exception as e:
+    logger.error("Failed to save NetWeaver predictions to MongoDB: %s", e)
+    print("Failed to save NetWeaver Predictions to MongoDB:", e)
 
 # -------------------------------
 # Run AlphaFusionNet decision
@@ -217,7 +269,7 @@ try:
     collection = db["AlphaFusionNet_predictions"]
 
     doc = {
-        "timestamp": datetime.now(timezone.utc),
+        "timestamp": nf_ts_parsed,
         "policy": out["policy"],
         "final_weights": final_weights.fillna(0.0).to_dict()
     }
