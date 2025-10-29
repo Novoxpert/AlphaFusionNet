@@ -1,4 +1,4 @@
-# AlphaFusionNet
+# AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine
 
 This repository provides an end-to-end pipeline for portfolio modeling that integrates three core components: **NeuralFusionCore**, which directly predicts portfolio weights; **ChronoBridge**, which generates time-aligned fused embeddings; **NetWeaver**, which leverages these embeddings for downstream portfolio optimization and analysis; and **AlphaFusionNet**, which is a Hybrid Portfolio Decision-Making Engine.
 
@@ -18,9 +18,28 @@ It supports:
 11) Combining both quantitative and qualitative reasoning and producing final portfolio weights
 12) Full CI-quality testing and unit testing suite that validates API, model, data pipeline, and persistence.
 
+## Table of Contents
+
+1. [Overview](#overview)  
+2. [Key Features](#key-features)  
+3. [Repository Layout](#repository-layout)  
+4. [Required Downloads](#required-downloads)  
+5. [Setup](#setup)  
+6. [Pipeline](#pipeline)  
+   - [Run Scheduler](#1-run-scheduler)  
+   - [Run NeuralFusionCore API Service](#2-run-neuralfusioncore-api-service)  
+   - [Run ChronoBridge](#3-run-chronobridge)  
+   - [Run ChronoBridge API Service](#4-run-chronobridge-api-service)  
+   - [Run Tests](#5-run-tests)  
+7. [Script Cheat-Sheet](#script-cheat-sheet)  
+8. [Dependencies](#dependencies)  
+9. [Appendix](#appendix)  
+   - [Upstream Repositories](#upstream-repositories)   
+10. [Authors & Citation](#authors--citation)  
+11. [Support](#support)
 ---
 
-## 📁 Repository Layout (exact)
+## Repository Layout
 
 ```
 AlphaFusionNet
@@ -28,9 +47,11 @@ AlphaFusionNet
 │
 ├── apps/
 │    ├── ChronoBridge/
-│    │      └── scripts/
-│    │            ├── chronobridge_api_service.py 
-│    │            └── chronobridge_service.py
+│    │       ├── scripts/
+│    │       │     ├── chronobridge_api_service.py 
+│    │       │     └── chronobridge_service.py
+│    │       └──apps/
+│    │              └──NeuralFusionCore
 │    │
 │    ├── NeuralFusionCore/
 │    │     ├── data/
@@ -64,6 +85,26 @@ AlphaFusionNet
 │    │           └── api_service.py
 │    │
 │    └── NetWeaver/
+│          ├── src/
+│          │   ├── data_pipeline.py         # Main data processing pipeline
+│          │   ├── train.py                 # Model training with analysis
+│          │   ├── run_analysis.py          # Standalone analysis script
+│          │   ├── parse_arg.py             # Argument parsing utilities
+│          │   └── utils/
+│          │       ├── data_utils.py        # Data management utilities
+│          │       ├── metrics_utils.py     # Evaluation metrics
+│          │       ├── analysis_utils.py    # Analysis functions
+│          │       └── training_logger.py   # Logging utilities
+│          ├── data/
+│          │   ├── raw/
+│          │   │   ├── SP500_dataset/
+│          │   │   └── *.npy (graph files)
+│          │   └── processed/
+│          │       └── model_data.pickle
+│          └── results/
+│              ├── saved_models/            # Model checkpoints
+│              ├── train/                   # Training logs
+│              └── analysis/                # Analysis outputs
 │ 
 │ 
 │
@@ -114,7 +155,7 @@ AlphaFusionNet
 > Any folders missing on your machine will be created by the scripts if needed.
 
 ---
-## 🔗 Required Downloads
+## Required Downloads
 
 ### LLM models (for news embeddings, etc.)
 Place downloaded models under a folder you will reference (e.g. `apps/NeuralFusionCore/models/` at repo root):
@@ -122,10 +163,14 @@ Place downloaded models under a folder you will reference (e.g. `apps/NeuralFusi
 - https://drive.google.com/drive/folders/1htASoZVoRYkjzl8Svsi8fxc-x7eUEtCO?usp=sharing
 
 
-## ⚙️ Setup
+## Setup
 
 ```bash
-cd Stream/
+
+# Clone repository
+git clone https://github.com/Novoxpert/AlphaFusionNet.git
+cd AlphaFusionNet
+
 
 # (optional) create a virtual environment
 python -m venv .venv
@@ -140,7 +185,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 ---
-## 🚀 Pipeline (Direct Weights)
+## Pipeline 
 
 ### 1) run scheduler    
 
@@ -180,7 +225,7 @@ pip install pytest
 ptest -v tests
 ```
 ---
-## 🧩 Script Cheat‑Sheet
+## Script Cheat‑Sheet
 
 - **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, features, news embeddings,training loops, utilities, and backtesting specialized for direct weights.  
 - **`apps/NeuralFusionCore/config.py`** — central configuration / argument helpers used by the scripts.
@@ -228,5 +273,49 @@ python -m apps.NeuralFusionCore.scripts.prediction_service --hours 4
 - **`scheduler/scheduler.py`** — Defines all Celery tasks for data ingestion, feature processing, model training, fine-tuning, and prediction 
 - **`scheduler/tasks.py`** — Configures the Celery beat scheduler to automatically trigger periodic workflows(daily updates and 4-hourly predictions) at defined times.
 - **`scheduler/trigger.py`** — Manually triggers the one-time initial workflow(historical or first-time pipeline run) by sending the initial_run task to Celery.
+---
+## Dependencies
 
+* Python 3.12+
+* PyTorch 2.x
+
+---
+## Appendix
+
+### Upstream Repositories
+
+Influential upstream repositories:
+
+* [**NeuralFusionCore**](https://github.com/Novoxpert/NeuralFusionCore): Direct Portfolio Weight Forecasting with Cross‑Gated Attention Fusion
+* [**ChronoBridge**](https://github.com/Novoxpert/ChronoBridge): Multi-Modal Embedding Fusion & Serving Pipeline
+* [**NetWeaver**](https://github.com/Novoxpert/NetWeaver): Financial Graph Attention Network for Stock Prediction
+
+---
+## Authors & Citation
+
+**Developed by the [Novoxpert Research Team](https://github.com/Novoxpert)**  
+Lead Contributors:
+ - [Elham Esmaeilnia](https://github.com/Elham-Esmaeilnia)
+ 
+
+If you use this repository or build upon our work, please cite:
+
+> Novoxpert Research (2025). *AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine.*  
+> GitHub: [https://github.com/Novoxpert/AlphaFusionNet](https://github.com/Novoxpert/AlphaFusionNet)
+
+```bibtex
+@software{novoxpert_neuralfusioncore_2025,
+  author       = {Elham Esmaeilnia},
+  title        = {AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine},
+  organization = {Novoxpert Research},
+  year         = {2025},
+  url          = {https://github.com/Novoxpert/AlphaFusionNet}
+}
+```
+---
+## Support
+
+- **Issues & Bugs**: [Open on GitHub](https://github.com/Novoxpert/AlphaFusionNet/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Novoxpert/AlphaFusionNet/discussions)
+- **Feature Requests**: Open a feature request issue
 ---
