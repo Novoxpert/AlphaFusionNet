@@ -1,5 +1,5 @@
 """
-test_train_service.py
+test_neuralfusioncore_train_service.py
 Description: Unit tests for train_service.py
 Author: Elham Esmaeilnia (elham.e.shirvani@gmail.com)
 Date: 2025 Oct 14

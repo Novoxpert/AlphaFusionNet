@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-test_api_service.py
+test_neuralfusioncore_api_service.py
 -------------------
 Unit and integration tests for the FastAPI service (api_service.py).
 Validates API endpoints for latest prediction, historical data, and health checks.

@@ -304,7 +304,7 @@ If you use this repository or build upon our work, please cite:
 > GitHub: [https://github.com/Novoxpert/AlphaFusionNet](https://github.com/Novoxpert/AlphaFusionNet)
 
 ```bibtex
-@software{novoxpert_neuralfusioncore_2025,
+@software{novoxpert_alphafusionnet_2025,
   author       = {Elham Esmaeilnia},
   title        = {AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine},
   organization = {Novoxpert Research},

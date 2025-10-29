@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-test_data_ingest_service.py
+test_neuralfusioncore_data_ingest_service.py
 ---------------------------
 Unit tests for data_ingest_service.py.
 Mocks ClickHouse, MongoDB, and Redis clients to test fetch & push functions.
