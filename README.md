@@ -82,19 +82,20 @@ AlphaFusionNet
 │    │           ├── train_service.py
 │    │           ├── finetune_service.py
 │    │           ├── prediction_service.py 
+│    │           ├── backtesting_service.py
 │    │           └── api_service.py
 │    │
 │    └── NetWeaver/
 │          ├── src/
-│          │   ├── data_pipeline.py         # Main data processing pipeline
-│          │   ├── train.py                 # Model training with analysis
-│          │   ├── run_analysis.py          # Standalone analysis script
-│          │   ├── parse_arg.py             # Argument parsing utilities
+│          │   ├── data_pipeline.py        
+│          │   ├── train.py                 
+│          │   ├── run_analysis.py          
+│          │   ├── parse_arg.py            
 │          │   └── utils/
-│          │       ├── data_utils.py        # Data management utilities
-│          │       ├── metrics_utils.py     # Evaluation metrics
-│          │       ├── analysis_utils.py    # Analysis functions
-│          │       └── training_logger.py   # Logging utilities
+│          │       ├── data_utils.py        
+│          │       ├── metrics_utils.py     
+│          │       ├── analysis_utils.py    
+│          │       └── training_logger.py   
 │          ├── data/
 │          │   ├── raw/
 │          │   │   ├── SP500_dataset/
@@ -102,9 +103,9 @@ AlphaFusionNet
 │          │   └── processed/
 │          │       └── model_data.pickle
 │          └── results/
-│              ├── saved_models/            # Model checkpoints
-│              ├── train/                   # Training logs
-│              └── analysis/                # Analysis outputs
+│              ├── saved_models/            
+│              ├── train/                   
+│              └── analysis/                
 │ 
 │ 
 │
@@ -131,17 +132,20 @@ AlphaFusionNet
 │    ├── test_api_service.py
 │    ├── test_chronobridge_api_service.py
 │    ├── test_chronobridge_service.py
-│    ├── test_data_ingest_service.py
-│    ├── test_features_service.py
-│    ├── test_finetune_service.py
+│    ├── test_netweaver_finetune_service.py
+│    ├── test_netweaver_train_service.py
+│    ├── test_netweaver_prediction_service.py
+│    ├── test_neuralfusioncore_data_ingest_service.py
+│    ├── test_neuralfusioncore_features_service.py
+│    ├── test_neuralfusioncore_finetune_service.py
 │    ├── test_health_clickhouse.py
 │    ├── test_health_mongo.py
 │    ├── test_health_redis.py
-│    ├── test_model.py
-│    ├── test_prediction_service.py
+│    ├── test_neuralfusioncore_model.py
+│    ├── test_neuralfusioncore_prediction_service.py
 │    ├── test_redis_clickhouse_integration.py
 │    ├── test_redis_mongo_integration.py
-│    └── test_train_service.py
+│    └── test_neuralfusioncore_train_service.py
 │
 ├── README.md
 ├── scheduler/
@@ -222,7 +226,7 @@ python -m apps.ChronoBridge.scripts.chronobridge_api_ervice
 run Full CI-quality testing and unit testing suite.
 ```bash
 pip install pytest
-ptest -v tests
+pytest -v tests
 ```
 ---
 ## Script Cheat‑Sheet
@@ -266,8 +270,18 @@ Usage Example:
 ```bash
 python -m apps.NeuralFusionCore.scripts.prediction_service --hours 4 
 ```
+- **`apps/NeuralFusionCore/scripts/backtesting_service.py`** —Backtesting & Model Evaluation Service for Market-News Fusion Model.
+
+Usage Example:
+```bash
+python -m apps.NeuralFusionCore.scripts.backtesting_service --epochs 50 --mode fetch --hours 12 
+```
 - **`apps/NeuralFusionCore/scripts/api_service.py`** — create API for Get NeuralFusion weights from Mongodb.
-- **`apps/ChronoBridge/scripts/chronobridge_service.py`** — extract trained fused embeddings per asset and store in MongoDB
+- **`apps/ChronoBridge/scripts/chronobridge_service.py`** — extract trained fused embeddings per asset and store in MongoDB.
+Usage Example:
+```bash
+python -m apps.ChronoBridge.scripts.chronobridge_service --mode synchrone --hours 4 
+```
 - **`apps/ChronoBridge/scripts/chronobridge_api_service.py`** — create API for Get Fused embeddings from Mongodb.
 - **`tests/*.py`** —  Full CI-quality testing and unit testing suite that validates API, model, data pipelines.
 - **`scheduler/scheduler.py`** — Defines all Celery tasks for data ingestion, feature processing, model training, fine-tuning, and prediction 
