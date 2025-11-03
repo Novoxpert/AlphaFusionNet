@@ -20,13 +20,15 @@ import json
 from unittest.mock import patch, MagicMock, mock_open
 import pandas as pd
 import torch  # Keep real torch for isinstance/type checks
-
+import numpy as np
 # -------------------- DUMMY DATA --------------------
 dummy_df = pd.DataFrame({
     "a": [1, 2],
     "b": [3, 4],
     "cnt": [5, 6],
-    "timestamp": [7, 8]
+    "timestamp": [7, 8],
+    "dateTime": pd.to_datetime(["2024-01-01", "2024-01-01 00:01"], errors='coerce'),
+    "embedding": [np.zeros(768), np.zeros(768)] 
 })
 
 dummy_meta = {
@@ -78,7 +80,7 @@ def test_prediction_service_flow(mock_no_grad, mock_torch_load, mock_torch_avail
         return_value=MagicMock(
             squeeze=lambda dim: MagicMock(
                 cpu=lambda: MagicMock(
-                    numpy=lambda: [[0.5, -0.5]]
+                    numpy=lambda: np.array([[0.5, -0.5]])
                 )
             )
         )
