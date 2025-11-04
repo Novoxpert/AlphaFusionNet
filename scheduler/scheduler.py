@@ -22,6 +22,11 @@ app.conf.beat_schedule = {
         'task': 'tasks.prediction_4h',
         'schedule': crontab(minute=0, hour='*/4'),
     },
+    # 4-hour and 15 min (forward-looking) live testing  workflow 
+    'live-test-4h-15min': {
+        'task': 'tasks.live_test_4h_15min',
+        'schedule': crontab(minute=15, hour='*/4'),
+    },
 }
 
 app.conf.timezone = 'Asia/Tehran'  # change to custom timezone
