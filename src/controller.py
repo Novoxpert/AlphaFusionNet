@@ -1,3 +1,47 @@
+"""
+controller.py
+
+LLM-Driven AlphaFusionNet Controller
+
+This module implements a controller that integrates AlphaFusionNet's quantitative
+signal engine with an LLM-based policy generator. It fuses outputs from:
+
+- NeuralFusionCore (neural network alpha model / `w_neural`)
+- NetWeaver (LLM-interpreted sentiment/network scores / `s_net`)
+
+The LLM proposes portfolio construction rules (policy), including:
+- Alpha fusion coefficient (blend between quant + LLM signals)
+- Weighting method (rank / softmax / proportional)
+- Gross exposure and top-k constraints
+- Overrides and sector multipliers
+- Reasoning text (auditable model explanation)
+
+The controller then:
+1. Sends model signals to the LLM as structured JSON.
+2. Validates and sanitizes the returned policy.
+3. Converts NetWeaver scores to allocatable weights.
+4. Fuses neural and LLM signals according to the policy.
+5. Applies exposure normalization and optional top-k filtering.
+6. Returns final portfolio weights and policy metadata.
+
+Intended Purpose
+----------------
+This module enables human-aligned, explainable, and dynamically adaptive
+portfolio construction by combining classical quant signals with LLM-driven
+policy logic — useful for discretionary overlays, compliance review, 
+and research on hybrid quant-AI decision systems.
+
+Outputs
+-------
+dict with:
+- policy: validated LLM policy parameters
+- final_weights: pandas.Series of portfolio weights
+- w_net_converted: converted NetWeaver weights used in fusion
+
+Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
+Date: 2025 Oct 22
+Version: 1.1.0 
+"""
 from typing import Dict, Optional, Any
 import numpy as np
 import pandas as pd
