@@ -60,7 +60,7 @@ import json
 import logging
 import yaml
 from pymongo import MongoClient
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 import pandas as pd
 from dotenv import load_dotenv
 from src.quant_alphafusionnet import QuantAlphaFusionNet
@@ -75,6 +75,24 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
     raise RuntimeError("OPENAI_API_KEY not found in .env")
 
+#--------------------------------
+# Mongo Client
+#--------------------------------
+mongo_user = os.getenv("NOVO_MONGO_USER")
+mongo_pass = os.getenv("NOVO_MONGO_PASS")
+mongo_host = os.getenv("NOVO_MONGO_HOST")
+mongo_port = os.getenv("NOVO_MONGO_PORT")
+mongo_auth_db = os.getenv("NOVO_MONGO_AUTH_DB")
+mongo_db_name = os.getenv("NOVO_MONGO_DB")
+
+mongo_uri = (
+    f"mongodb://{mongo_user}:{mongo_pass}@"
+    f"{mongo_host}:{mongo_port}/"
+    f"{mongo_db_name}?authSource={mongo_auth_db}"
+)
+
+client = MongoClient(mongo_uri)
+db = client[mongo_db_name]
 # -------------------------------
 # Define paths relative to project root
 # -------------------------------
@@ -163,8 +181,6 @@ nw_scores = dict(zip(df["symbol"], df["predicted_return"]))
 print("✅ Loaded scores:")
 print(nw_scores)
 try:
-    client = MongoClient("mongodb://127.0.0.1:27017/")
-    db = client["db_portfolio"]
     collection = db["NetWeaver_predictions"]
 
     doc = {
@@ -264,8 +280,6 @@ print("NetWeaver converted weights:", out["w_net_converted"])
 print("Final AlphaFusionNet weights:", out["final_weights"])
 final_weights = out["final_weights"]
 try:
-    client = MongoClient("mongodb://127.0.0.1:27017/")
-    db = client["db_portfolio"]
     collection = db["AlphaFusionNet_predictions"]
 
     doc = {
