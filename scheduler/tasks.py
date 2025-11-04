@@ -85,12 +85,12 @@ def initial_run():
     run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'train', '--latest_hours', '6')
     run_script('-m','apps.NeuralFusionCore.scripts.train_service', '--epochs', '5')
     run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode','inference', '--hours', '1')
-    #run_background('-m', 'apps.NeuralFusionCore.scripts.api_service')
-    run_background('-m', 'scripts.alphafusionnet_api_service')
     run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--hours', '6')
-    run_background('-m', 'apps.ChronoBridge.scripts.chronobridge_api_service')
     run_script('-m','apps.NetWeaver.src.services.netweaver_train_service ','--latest_month', '1','--no_analysis')
-   
+    run_background('-m', 'apps.ChronoBridge.scripts.chronobridge_api_service')
+    run_background('-m', 'scripts.alphafusionnet_api_service')
+    run_background('-m', 'scripts.future_testing_api_service')
+
     print("[TASK] API service started in background")
 
 # --------- Daily workflow ----------
@@ -106,8 +106,13 @@ def daily_update():
 # --------- 4-hourly prediction workflow ----------
 @app.task
 def prediction_4h():
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchrone','--hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchrone', '--hours', '6')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchronize','--hours', '6')
+    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchronize', '--hours', '6')
     run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '6','--future_steps','10','--no_timestamp')
     run_script('-m','scripts.alphafusionnet_service')
     
+
+#--------- 4-hour and 15 min (forward-looking) live testing  workflow ----------
+@app.task
+def live_test_4h_15min():
+    run_script('-m','scripts.future_testing_service')    
