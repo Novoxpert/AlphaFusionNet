@@ -81,7 +81,7 @@ def get_last_prediction_timestamp():
     Fetch the last prediction document from AlphaFusionNet_predictions collection
     and return its timestamp and final_weights.
     """
-    last_doc = alpha_col.find_one(sort=[("timestamp", -1)])
+    last_doc = alpha_col.find_one(sort=[("timestamp", -2)])
     if last_doc is None:
         logging.warning("No predictions found in AlphaFusionNet_predictions.")
         return None, None
