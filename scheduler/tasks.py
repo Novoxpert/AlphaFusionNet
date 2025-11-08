@@ -105,7 +105,7 @@ def daily_update():
 
 # --------- 4-hourly prediction workflow ----------
 @app.task
-def prediction_4h():
+def prediction_14PM():
     run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchronize','--hours', '6')
     run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchronize', '--hours', '6')
     run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '6','--future_steps','10','--no_timestamp')
@@ -114,5 +114,5 @@ def prediction_4h():
 
 #--------- 4-hour and 15 min (forward-looking) live testing  workflow ----------
 @app.task
-def live_test_4h_15min():
+def live_test_18PM_pluse_10min():
     run_script('-m','scripts.future_testing_service')    
