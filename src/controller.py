@@ -55,7 +55,7 @@ class LLMAlphaFusionNetController:
         self.llm = llm_client
         self.default_alpha = 0.7
         self.default_method = "rank"
-        self.default_gross_net = 0.5
+        self.default_gross_net = 1.0
 
     def build_prompt(self, w_neural: Dict[str,float], s_net: Dict[str,float], notes: Optional[str]=None) -> str:
         return json.dumps({"neuralfusioncore_weights": w_neural,"netweaver_scores":s_net,"notes": notes or ""})
@@ -66,6 +66,7 @@ class LLMAlphaFusionNetController:
         method = raw_policy.get("method", self.default_method)
         policy["method"] = method if method in {"rank","softmax","proportional"} else self.default_method
         policy["gross_net"] = float(np.clip(raw_policy.get("gross_net", self.default_gross_net),0,2))
+        policy["gross_net"] = 1.0
         policy["topk_net"] = int(raw_policy["topk_net"]) if str(raw_policy.get("topk_net")).isdigit() else None
         policy["topk_final"] = int(raw_policy["topk_final"]) if str(raw_policy.get("topk_final")).isdigit() else None
         policy["overrides"] = raw_policy.get("overrides",{})
@@ -88,7 +89,7 @@ class LLMAlphaFusionNetController:
         # Convert NetWeaver scores to weights
         w_net_conv = self.quant.convert_netweaver_to_weights(
             s_net,
-            gross_net=policy.get("gross_net", 0.5),
+            gross_net=policy.get("gross_net", 1.0),
             method=policy.get("method", "rank"),
             topk=policy.get("topk_net"),
         )

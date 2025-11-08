@@ -66,6 +66,7 @@ from dotenv import load_dotenv
 from src.quant_alphafusionnet import QuantAlphaFusionNet
 from src.llm_alphafusionnet import OpenAI_LLM
 from src.controller import LLMAlphaFusionNetController
+from src.TradingAgent import TradingAgent
 
 # -------------------------------
 # Load environment variables
@@ -133,7 +134,8 @@ topk_cfg = cfg.get("topk", {})
 # -------------------------------
 quant = QuantAlphaFusionNet(
     alpha=quant_cfg.get("alpha", 0.7),
-    gross=quant_cfg.get("gross", 1.0),
+    #gross=quant_cfg.get("gross", 1.0),
+    gross= 1.0,
     w_min=quant_cfg.get("w_min", -0.4),
     w_max=quant_cfg.get("w_max", 0.4),
 )
@@ -185,7 +187,7 @@ try:
 
     doc = {
         "timestamp": nf_ts_parsed,
-        "predicted_return": nw_scores.fillna(0.0).to_dict()
+        "predicted_return": nw_scores
     }
 
     collection.insert_one(doc)
@@ -201,96 +203,230 @@ except Exception as e:
 out = controller.decide(
     w_neural=nf_weights,
     s_net=nw_scores,
-    notes="""You are the decision-making policy analyst for AlphaFusionNet — a hybrid AI portfolio optimizer 
-that fuses quantitative and relational intelligence. You are provided with two model outputs:
+    notes="""You are the decision-making policy analyst for **AlphaFusionNet** — a hybrid AI portfolio optimizer 
+that fuses quantitative and relational intelligence to generate coherent, risk-adjusted trading policies.  
+You are provided with two model outputs: **NeuralFusion** and **NetWeaver**.
 
-1. NeuralFusion module:
-   - Produces signed portfolio weights for all assets (longs and shorts).
-   - These weights are derived from a fusion of TimesNet (temporal OHLCV dynamics) 
-     and BigBird (news and sentiment embeddings).
-   - The optimization objective is a differentiable Sharpe ratio loss, 
-     so weights reflect *risk-adjusted confidence* in long/short exposure.
-   - Positive weights → expected outperformance with controlled volatility.
-   - Negative weights → expected underperformance or hedging candidates.
+---
 
-2. NetWeaver module:
-   - Produces a graph-based understanding of inter-stock relationships using a GAT (Graph Attention Network).
-   - Each score represents predicted *relative return ratio* and direction (+ for upward, - for downward).
-   - Top-k assets represent highest predicted alpha opportunities 
-     within their sectoral or structural relationships.
+### 1. Model Inputs and Their Roles
 
-Your task:
-----------
-Fuse these two model perspectives into a coherent *policy JSON* that defines how AlphaFusionNet 
-should combine risk-adjusted weights and relational alpha signals.
+#### **NeuralFusion module**
+- Produces **signed portfolio weights** for all assets (longs and shorts).
+- These weights are derived from a fusion of **TimesNet** (temporal OHLCV dynamics) 
+  and **BigBird** (news and sentiment embeddings).
+- The optimization objective is a **differentiable Sharpe ratio loss**, so weights reflect 
+  *risk-adjusted confidence* in long/short exposure.
+- **Positive weights →** expected outperformance with controlled volatility.  
+  **Negative weights →** expected underperformance or hedging candidates.
+
+#### **NetWeaver module**
+- Produces a **graph-based understanding** of inter-stock relationships using a **GAT (Graph Attention Network)**.
+- Each score represents a **predicted relative return ratio** and direction  
+  (+ for expected upward performance, − for expected downward).
+- **Top-k assets** represent the highest relational alpha opportunities 
+  within their sectoral or structural graph neighborhoods.
+
+---
+
+### 2. Task: Construct a Unified Policy
+
+Your objective is to **fuse both model perspectives** into a single *policy JSON* that governs how AlphaFusionNet 
+combines risk-adjusted portfolio weights (NeuralFusion) and relational alpha signals (NetWeaver).
 
 Be explicit about:
-  - The **fusion coefficient α** (balance between risk control and return-seeking behavior).
-  - The **weighting method** ("rank", "softmax", or "proportional").
-  - The **gross exposure fraction** allocated to the NetWeaver signals (`gross_net`).
-  - Whether to apply **top-k selection** for the NetWeaver or final fusion stage.
-  - Any **ticker-specific overrides** or **sector multipliers** (e.g., overweight tech if market sentiment is strong).
-  - A concise but detailed **reasoning** paragraph, grounded in market logic.
+- **Fusion coefficient (α):** numeric balance between risk control and return-seeking behavior.  
+  - α ≈ 1 → prioritize NeuralFusion (risk discipline).  
+  - α ≈ 0 → prioritize NetWeaver (aggressive alpha-hunting).
+- **Weighting method:** one of `"rank"`, `"softmax"`, or `"proportional"`.
+- **Gross exposure fraction (`gross_net`):**  
+  Always set `gross_net = 1.0` — NetWeaver operates under the same normalized gross exposure as NeuralFusion.
+- **Top-k selections:** whether to apply top-k filtering to NetWeaver (`topk_net`) or to final fusion (`topk_final`).
+- **Ticker-specific overrides:** manual adjustments for individual tickers (if justified).
+- **Sector multipliers:** optional bias by sector (e.g., overweight tech, underweight energy).
 
-Market context (recent regime example):
----------------------------------------
-- Volatility regime: Moderate-to-high (VIX ~ 22)
-- Sector rotation: Technology showing resilience, consumer discretionary slowing.
-- Macro backdrop: Inflation cooling but rates remain elevated.
-- Market breadth: Narrow leadership in large caps; small caps lagging.
-- News sentiment: Positive tone in earnings but mixed on policy outlook.
+---
 
-Your output must be a structured JSON object:
+### 3. Market Context (for reasoning)
+
+Assume the following recent market regime:
+- **Volatility:** Moderate-to-high (VIX ≈ 22)  
+- **Sector rotation:** Technology showing resilience; consumer discretionary slowing  
+- **Macro backdrop:** Inflation cooling but interest rates remain elevated  
+- **Market breadth:** Narrow leadership in large caps; small caps lagging  
+- **News sentiment:** Positive earnings tone but mixed policy outlook  
+
+---
+
+### 4. Risk Management (Mandatory Section)
+
+You must design per-asset **Stop Loss (SL)** and **Take Profit (TP)** levels, assuming the **total portfolio 
+market capitalization = 100,000 USD**.
+
+Rules:
+- For each asset *i*, compute its **position size** = `weight_i × 100,000`.
+- Then define:
+  - **SL**: expected downside threshold (negative % return or equivalent USD loss)
+  - **TP**: expected upside threshold (positive % return or equivalent USD gain)
+- SL/TP can be expressed either as **percentages** or **absolute USD** values, 
+  but always provide **both** in your JSON.
+- Example:  
+  `AAPL weight = 0.10 → position = $10,000 → SL = -0.05 (−5% = −$500), TP = +0.10 (+10% = +$1,000)`
+
+---
+### 4.1 Mandatory JSON Schema Enforcement
+
+MANDATORY: For every asset in the final portfolio, you MUST include a "risk_controls" entry with
+SL and TP, expressed both as percentages and in USD (SL_usd, TP_usd).  
+Do NOT omit any asset. Every ticker must appear in "risk_controls".  
+
+The output JSON must strictly follow this structure (no extra fields, no missing tickers):
+
 {
-  "alpha": float, 
-  "method": str, 
-  "gross_net": float, 
-  "topk_net": int | null, 
-  "topk_final": int | null, 
-  "overrides": dict, 
-  "sector_multipliers": dict, 
-  "reasoning": str
+  "alpha": float,
+  "method": str,
+  "gross_net": 1.0,
+  "topk_net": int | null,
+  "topk_final": int | null,
+  "overrides": dict,
+  "sector_multipliers": dict,
+  "reasoning": str,
+  "risk_controls": {
+      "TICKER1": {"SL": -0.05, "TP": 0.10, "SL_usd": float, "TP_usd": float},
+      "TICKER2": {"SL": -0.05, "TP": 0.10, "SL_usd": float, "TP_usd": float},
+      ...
+  }
 }
-Ensure your reasoning connects model insights to market context and clearly explains 
-the policy choices."""
+---
+### 4.2 Explicit Calculation Rule
+
+For every asset in the final portfolio:
+
+1. Compute position size: position_i = weight_i × 100,000
+2. Stop Loss (SL): -5% of position size → SL_usd = position_i × (-0.05)
+3. Take Profit (TP): +10% of position size → TP_usd = position_i × 0.10
+4. Fill both percentage and USD fields in "risk_controls" for each ticker.
+5. Ensure every ticker in final_weights has an entry in "risk_controls".
+---
+### 5. Output Requirements
+
+Return a single **structured JSON object** strictly in this format:
+
+```json
+{
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {
+    "TSLA": 0.05
+  },
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Energy": 0.9
+  },
+  "reasoning": "Concise but analytically grounded explanation linking NeuralFusion risk signals, NetWeaver alpha maps, and macro context. Describe why α, method, and exposure splits were chosen.",
+  "risk_controls": {
+    "AAPL": {"SL": -0.05, "TP": 0.10, "SL_usd": -500, "TP_usd": 1000},
+    "MSFT": {"SL": -0.04, "TP": 0.08, "SL_usd": -400, "TP_usd": 800},
+    "NVDA": {"SL": -0.06, "TP": 0.12, "SL_usd": -600, "TP_usd": 1200}
+  }
+}"""
 )
 
 # -------------------------------
 # Apply top-k final portfolio
 # -------------------------------
-topk_final = topk_cfg.get("default_final", None)
-if topk_final is not None:
+topk_final = out["policy"].get("topk_final") or topk_cfg.get("default_final", None)
+
+if topk_final is not None and isinstance(topk_final, int):
     abs_sorted = out["final_weights"].abs().sort_values(ascending=False)
     topk_idxs = abs_sorted.head(topk_final).index
     out["final_weights"] = out["final_weights"].reindex(topk_idxs).copy()
-    out["final_weights"] /= out["final_weights"].abs().sum()  # normalize gross exposure
+
+# ✅ Always normalize final weights to gross = 1
+out["final_weights"] = out["final_weights"] / out["final_weights"].abs().sum()
 
 # -------------------------------
 # Logging results
 # -------------------------------
-logger.info("AlphaFusionNet Policy: %s", json.dumps(out["policy"]))
+logger.info("AlphaFusionNet Policy: %s", json.dumps(out["policy"], indent=2))
 logger.info("NetWeaver converted weights: %s", out["w_net_converted"].to_dict())
 logger.info("Final AlphaFusionNet weights: %s", out["final_weights"].to_dict())
+
+# If risk controls (SL/TP) exist in the policy, log them separately
+if "risk_controls" in out["policy"]:
+    logger.info("Risk Controls (SL/TP): %s", json.dumps(out["policy"]["risk_controls"], indent=2))
+
+# -------------------------------
+# Ensure risk_controls exist (mandatory)
+# -------------------------------
+total_portfolio_value = 100_000  # USD
+
+risk_controls = out["policy"].get("risk_controls", {})
+
+for ticker, weight in out["final_weights"].items():
+    position_size = weight * total_portfolio_value
+
+    # Default SL/TP percentages (can be adjusted or made dynamic)
+    sl_pct = -0.05  # -5% loss
+    tp_pct = 0.10   # +10% gain
+
+    # Only add if not already present from LLM
+    if ticker not in risk_controls:
+        risk_controls[ticker] = {
+            "SL": sl_pct,
+            "TP": tp_pct,
+            "SL_usd": round(position_size * sl_pct, 2),
+            "TP_usd": round(position_size * tp_pct, 2)
+        }
+
+# Update policy
+out["policy"]["risk_controls"] = risk_controls
 
 # -------------------------------
 # Console output
 # -------------------------------
-print("Policy:", out["policy"])
-print("NetWeaver converted weights:", out["w_net_converted"])
-print("Final AlphaFusionNet weights:", out["final_weights"])
-final_weights = out["final_weights"]
+print("\n✅ --- AlphaFusionNet Decision Summary ---")
+print("Policy JSON:")
+print(json.dumps(out["policy"], indent=2))
+print("\nFinal AlphaFusionNet Weights:")
+print(out["final_weights"])
+print("Gross exposure check:", round(out["final_weights"].abs().sum(), 4))
+print(out["policy"].get("risk_controls", {}))
+
+print("------------------------------------------\n")
+
+# -------------------------------
+# Trading Agent Reasoning
+#--------------------------------
+final_weights = out["final_weights"].fillna(0.0)
+agent = TradingAgent()
+reasoning = agent.generate_reasoning(
+        final_weights=final_weights.to_dict(),
+        risk_controls=out["policy"].get("risk_controls", {}),
+        notes="Moderate-high volatility, tech sector resilience",
+        timestamp=nf_ts_parsed
+)
+print("✅ Generated TradingAgent reasoning:\n", reasoning)
+# -------------------------------
+# MongoDB save
+# -------------------------------
+
 try:
     collection = db["AlphaFusionNet_predictions"]
-
     doc = {
         "timestamp": nf_ts_parsed,
         "policy": out["policy"],
-        "final_weights": final_weights.fillna(0.0).to_dict()
+        "final_weights": final_weights.to_dict(),
+        "risk_controls": out["policy"].get("risk_controls", {}),
     }
 
     collection.insert_one(doc)
     logger.info("AlphaFusionNet decision saved to MongoDB successfully.")
-    print("AlphaFusionNet decision saved to MongoDB successfully.")
+    print("✅ AlphaFusionNet decision saved to MongoDB successfully.")
+
 except Exception as e:
     logger.error("Failed to save AlphaFusionNet decision to MongoDB: %s", e)
-    print("Failed to save AlphaFusionNet decision to MongoDB:", e)
+    print("❌ Failed to save AlphaFusionNet decision to MongoDB:", e)
