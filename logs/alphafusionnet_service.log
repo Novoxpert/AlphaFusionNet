@@ -6,3 +6,227 @@
 2025-10-29 15:28:21,052 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.047619047619047616, 'OANDA:XAUUSD': 0.04523809523809524, 'SP:SPX': 0.04285714285714286, 'TVC:IXIC': 0.04047619047619048, 'NASDAQ:AMZN': 0.0380952380952381, 'BINANCE:BNBUSDT': 0.03571428571428571, 'BINANCE:ETHUSDT': 0.03333333333333333, 'NASDAQ:AVGO': 0.030952380952380953, 'NASDAQ:PEP': 0.02857142857142857, 'NASDAQ:AAPL': 0.02619047619047619, 'NASDAQ:NVDA': 0.023809523809523808, 'NASDAQ:MSFT': 0.02142857142857143, 'NYSE:NOW': 0.01904761904761905, 'NYSE:CVX': 0.016666666666666666, 'NYSE:MS': 0.014285714285714285, 'NYSE:JPM': 0.011904761904761904, 'NASDAQ:META': 0.009523809523809525, 'NASDAQ:QCOM': 0.007142857142857143, 'NYSE:WFC': 0.004761904761904762, 'NYSE:KO': 0.002380952380952381}
 2025-10-29 15:28:21,052 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.5354330708664343, 'ETHUSDT': 0.22047244094474297, 'BTCUSDT': 0.11023622047237149, 'XETR:DAX': 0.02249718785150439, 'OANDA:XAUUSD': 0.021372328458929172, 'SP:SPX': 0.020247469066353954, 'TVC:IXIC': 0.019122609673778733, 'NASDAQ:AMZN': 0.017997750281203515, 'BINANCE:BNBUSDT': 0.016872890888628294, 'BINANCE:ETHUSDT': 0.015748031496053073}
 2025-10-29 15:28:21,057 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:02:54,525 - ERROR - Failed to load NeuralFusionCore_prediction: [Errno 2] No such file or directory: '/home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json'
+2025-11-08 14:04:07,242 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:04:07,246 - ERROR - Failed to save NetWeaver predictions to MongoDB: 'dict' object has no attribute 'fillna'
+2025-11-08 14:04:07,254 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Unable to determine SOCKS version from socks://127.0.0.1:1080/"
+}
+2025-11-08 14:04:07,254 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.09523809523809523, 'OANDA:XAUUSD': 0.09047619047619047, 'SP:SPX': 0.08571428571428572, 'TVC:IXIC': 0.08095238095238096, 'NASDAQ:AMZN': 0.0761904761904762, 'BINANCE:BNBUSDT': 0.07142857142857142, 'BINANCE:ETHUSDT': 0.06666666666666667, 'NASDAQ:AVGO': 0.06190476190476191, 'NASDAQ:PEP': 0.05714285714285714, 'NASDAQ:AAPL': 0.05238095238095238, 'NASDAQ:NVDA': 0.047619047619047616, 'NASDAQ:MSFT': 0.04285714285714286, 'NYSE:NOW': 0.0380952380952381, 'NYSE:CVX': 0.03333333333333333, 'NYSE:MS': 0.02857142857142857, 'NYSE:JPM': 0.023809523809523808, 'NASDAQ:META': 0.01904761904761905, 'NASDAQ:QCOM': 0.014285714285714285, 'NYSE:WFC': 0.009523809523809525, 'NYSE:KO': 0.004761904761904762}
+2025-11-08 14:04:07,254 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.5128205128207627, 'ETHUSDT': 0.17948717948708742, 'BTCUSDT': 0.08974358974354371, 'XETR:DAX': 0.03663003663001785, 'OANDA:XAUUSD': 0.03479853479851695, 'SP:SPX': 0.032967032967016065, 'TVC:IXIC': 0.03113553113551517, 'NASDAQ:AMZN': 0.02930402930401428, 'BINANCE:BNBUSDT': 0.02747252747251339, 'BINANCE:ETHUSDT': 0.025641025641012498}
+2025-11-08 14:04:07,265 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:05:41,381 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:05:41,383 - ERROR - Failed to save NetWeaver predictions to MongoDB: 'dict' object has no attribute 'fillna'
+2025-11-08 14:05:45,084 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility environment. Given the current market context, with technology showing resilience, the top-k selections focus on the strongest relational signals from NetWeaver, while the final fusion incorporates a broader set of assets to ensure diversification and risk control."
+}
+2025-11-08 14:05:45,084 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:05:45,084 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:05:45,091 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:31:01,804 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:31:01,816 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:31:07,911 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities in the current moderate-to-high volatility environment. The softmax method allows for a more nuanced distribution of weights based on the relative scores from NetWeaver, which is crucial given the narrow leadership in large caps. The gross_net is set to 1.0 to maintain full exposure, aligning with NeuralFusion's risk-adjusted weights. Top-k selections are applied to both NetWeaver and final fusion to focus on the most promising assets while controlling for risk."
+}
+2025-11-08 14:31:07,911 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:31:07,911 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:31:07,915 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:32:36,258 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:32:36,266 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:32:41,290 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities in the current moderate-to-high volatility environment. The softmax method allows for a more nuanced distribution of weights based on the relative scores from NetWeaver, which is crucial given the narrow leadership in large caps. The top-k selections focus on the strongest relational signals while maintaining a diversified exposure across sectors, particularly favoring technology due to its resilience in the current market context."
+}
+2025-11-08 14:32:41,290 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:32:41,290 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:32:41,291 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:39:40,728 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:39:40,736 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:39:46,194 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility environment. Given the current market context, with technology showing resilience, the top-k selections focus on the strongest relational signals from NetWeaver, while the final fusion incorporates a broader set of assets to mitigate risk. This approach aligns with the need for cautious exposure amidst a narrow leadership market."
+}
+2025-11-08 14:39:46,194 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:39:46,194 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:39:46,196 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:46:57,890 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:46:57,897 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:47:15,852 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha through NetWeaver's relational insights. The softmax method allows for a smooth distribution of weights, accommodating the varying confidence levels from both models. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to ensure full utilization of the available capital while managing risk effectively. The top-k selections are set to filter the best opportunities from NetWeaver, ensuring that only the most promising assets are included in the final portfolio, which is also limited to 15 to maintain focus and manage complexity."
+}
+2025-11-08 14:47:15,852 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:47:15,852 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:47:15,854 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:49:26,934 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:49:26,942 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:49:31,876 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is appropriate to maintain full market participation. The top-k selections focus on the most promising assets from NetWeaver, ensuring we capture the best opportunities while managing risk effectively."
+}
+2025-11-08 14:49:31,876 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:49:31,876 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:49:31,878 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 14:51:01,047 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:51:01,055 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:51:08,367 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on the relative scores from NetWeaver, which is crucial given the current moderate-to-high volatility environment. The top-k selections are set to 10 for NetWeaver to focus on the most promising assets while allowing for a broader final selection of 15 to capture additional opportunities. This approach aligns with the observed sector rotation towards technology and the need for a diversified yet risk-conscious portfolio."
+}
+2025-11-08 14:51:08,367 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:51:08,367 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:58:13,984 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:58:13,992 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:58:19,012 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a more nuanced weighting of assets based on their relative scores, accommodating the moderate-to-high volatility environment. The top-k selections focus on the strongest relational signals from NetWeaver, while the overall gross exposure remains at 1.0 to align with NeuralFusion's risk discipline. This approach is justified by the current market context, where technology shows resilience and a selective focus on high-potential assets is warranted."
+}
+2025-11-08 14:58:19,013 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:58:19,013 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:58:51,017 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 14:58:51,025 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 14:58:57,197 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a more nuanced distribution of weights based on the relative scores from NetWeaver, which is crucial given the current moderate-to-high volatility environment. The top-k selections focus on the strongest relational signals, ensuring that the portfolio is concentrated on the most promising assets while maintaining a diversified risk profile."
+}
+2025-11-08 14:58:57,197 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 14:58:57,197 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 14:58:57,199 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 15:36:51,122 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 15:36:51,130 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 15:36:57,770 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a more nuanced distribution of weights based on the relative scores from NetWeaver, which is crucial given the current moderate-to-high volatility environment. The top-k selections focus on the strongest relational signals while ensuring a diversified exposure across sectors, particularly favoring technology due to its resilience in the current market context."
+}
+2025-11-08 15:36:57,771 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 15:36:57,771 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 15:36:57,783 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 15:41:41,058 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 15:41:41,066 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 15:41:45,293 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing both risk management from NeuralFusion and alpha generation from NetWeaver. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility environment. The top-k selections focus on the strongest relational signals while maintaining a diversified exposure across sectors, particularly favoring technology given its resilience in the current market context."
+}
+2025-11-08 15:41:45,294 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 15:41:45,294 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 15:41:45,305 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 15:45:18,791 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 15:45:18,799 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 15:45:24,333 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing both risk management from NeuralFusion and alpha generation from NetWeaver. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility in the current market. The top-k selections focus on the most promising assets based on relational scores, while the overall gross exposure is set to 1.0 to align with NeuralFusion's risk discipline. This approach is particularly relevant given the current sector rotation favoring technology, which is reflected in the sector multipliers."
+}
+2025-11-08 15:45:24,333 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 15:45:24,333 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 15:45:27,069 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-08 15:56:04,433 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-08 15:56:04,441 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-08 15:56:08,778 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing both risk management from NeuralFusion and alpha generation from NetWeaver. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility environment. The top-k selections focus on the strongest relational signals while maintaining a diversified exposure across sectors, particularly favoring technology given its resilience in the current market context."
+}
+2025-11-08 15:56:08,779 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.057170097007487375, 'OANDA:XAUUSD': 0.05043676770168347, 'SP:SPX': 0.050215832534045185, 'TVC:IXIC': 0.05011359902017283, 'NASDAQ:AMZN': 0.049968756875578176, 'BINANCE:BNBUSDT': 0.04995141013738739, 'BINANCE:ETHUSDT': 0.04976575438370059, 'NASDAQ:AVGO': 0.04974505486594858, 'NASDAQ:PEP': 0.049691023464709286, 'NASDAQ:AAPL': 0.04965049348475902, 'NASDAQ:NVDA': 0.04932912105245279, 'NASDAQ:MSFT': 0.04932912105245279, 'NYSE:NOW': 0.04932912105245279, 'NYSE:CVX': 0.04932912105245279, 'NYSE:MS': 0.04932912105245279, 'NYSE:JPM': 0.04932912105245279, 'NASDAQ:META': 0.04932912105245279, 'NASDAQ:QCOM': 0.04932912105245279, 'NYSE:WFC': 0.04932912105245279, 'NYSE:KO': 0.04932912105245279}
+2025-11-08 15:56:08,779 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.4957376101948793, 'ETHUSDT': 0.16111472331317467, 'BTCUSDT': 0.08055736165658733, 'XETR:DAX': 0.02479869635693876, 'OANDA:XAUUSD': 0.021877977350566607, 'SP:SPX': 0.021782142212555318, 'TVC:IXIC': 0.02173779633943757, 'NASDAQ:AMZN': 0.021674968103147885, 'BINANCE:BNBUSDT': 0.02166744360142944, 'BINANCE:ETHUSDT': 0.021586911629234345, 'NASDAQ:AVGO': 0.02157793279095461, 'NASDAQ:PEP': 0.021554495567944518, 'NASDAQ:AAPL': 0.02153691486196797, 'NASDAQ:MSFT': 0.021397513010590848, 'NASDAQ:META': 0.021397513010590848}
+2025-11-08 15:56:20,912 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-09 16:21:03,540 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-09 16:21:03,549 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-09 16:21:03,557 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Unable to determine SOCKS version from socks://127.0.0.1:1080/"
+}
+2025-11-09 16:21:03,557 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.09523809523809523, 'OANDA:XAUUSD': 0.09047619047619047, 'SP:SPX': 0.08571428571428572, 'TVC:IXIC': 0.08095238095238096, 'NASDAQ:AMZN': 0.0761904761904762, 'BINANCE:BNBUSDT': 0.07142857142857142, 'BINANCE:ETHUSDT': 0.06666666666666667, 'NASDAQ:AVGO': 0.06190476190476191, 'NASDAQ:PEP': 0.05714285714285714, 'NASDAQ:AAPL': 0.05238095238095238, 'NASDAQ:NVDA': 0.047619047619047616, 'NASDAQ:MSFT': 0.04285714285714286, 'NYSE:NOW': 0.0380952380952381, 'NYSE:CVX': 0.03333333333333333, 'NYSE:MS': 0.02857142857142857, 'NYSE:JPM': 0.023809523809523808, 'NASDAQ:META': 0.01904761904761905, 'NASDAQ:QCOM': 0.014285714285714285, 'NYSE:WFC': 0.009523809523809525, 'NYSE:KO': 0.004761904761904762}
+2025-11-09 16:21:03,557 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.5128205128207627, 'ETHUSDT': 0.17948717948708742, 'BTCUSDT': 0.08974358974354371, 'XETR:DAX': 0.03663003663001785, 'OANDA:XAUUSD': 0.03479853479851695, 'SP:SPX': 0.032967032967016065, 'TVC:IXIC': 0.03113553113551517, 'NASDAQ:AMZN': 0.02930402930401428, 'BINANCE:BNBUSDT': 0.02747252747251339, 'BINANCE:ETHUSDT': 0.025641025641012498}
+2025-11-09 16:21:03,566 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
