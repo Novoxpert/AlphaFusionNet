@@ -7,7 +7,7 @@ Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
 Date: 2025 Oct 4
 Version: 1.1.0 
 """
-rom tasks import app
+from tasks import app
 from celery.schedules import crontab
 
 # Set timezone to London
@@ -25,7 +25,7 @@ app.conf.beat_schedule = {
         'task': 'tasks.prediction_14PM',
         'schedule': crontab(hour=14, minute=0),
     },
-    # Live test task at 18:15 London time
+    # Live test task at 18:05 London time
     'live-test-18-15': {
         'task': 'tasks.live_test_18PM_pluse_10min',
         'schedule': crontab(hour=18, minute=5),
