@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-test_neuralfusioncore_data_ingest_service.py
+test_chronobridge_data_ingest_service.py
 ---------------------------
 Unit tests for data_ingest_service.py.
 Mocks ClickHouse, MongoDB, and Redis clients to test fetch & push functions.
@@ -13,7 +13,7 @@ import pytest
 import pandas as pd
 from datetime import datetime, timedelta, timezone
 import pickle
-from apps.NeuralFusionCore.scripts import data_ingest_service as DIS
+from apps.ChronoBridge.scripts import data_ingest_service as DIS
 
 # ---------------------------------------------------------------------
 # ✅ Test fetch_ohlcv_range

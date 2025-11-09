@@ -45,9 +45,23 @@ AlphaFusionNet
 │
 ├── apps/
 │    ├── ChronoBridge/
+│    │       ├── data/      
+│    │       │   └── processed/
+│    │       │       └── show_files.py  
+│    │       ├── models/
+│    │       ├── src/
+│    │       │     └── inference.py  
 │    │       ├── scripts/
 │    │       │     ├── chronobridge_api_service.py 
-│    │       │     └── chronobridge_service.py
+│    │       │     ├──  chronobridge_service.py
+│    │       │     ├──  data_ingest_service.py
+│    │       │     └── features_service.py
+│    │       ├── lib/
+│    │       │   ├── features.py         
+│    │       │   ├── market.py
+│    │       │   ├── news.py
+│    │       │   ├── redis_utils.py
+│    │       │   └── utils.py
 │    │       └──apps/
 │    │              └──NeuralFusionCore
 │    │
@@ -75,8 +89,6 @@ AlphaFusionNet
 │    │     ├── requirements.txt
 │    │     ├── config.py
 │    │     └── scripts/
-│    │           ├── data_ingest_service.py
-│    │           ├── features_service.py
 │    │           ├── train_service.py
 │    │           ├── finetune_service.py
 │    │           ├── prediction_service.py 
@@ -116,8 +128,9 @@ AlphaFusionNet
 │  
 ├── src/
 │     ├── contoller.py
+│     ├── TradingAgent.py
 │     ├── llm_alphafusionnet.py
-│     └──quant_alphafusionnet.py
+│     └── quant_alphafusionnet.py
 │
 ├── config/
 │     └──AFN_config.yml
@@ -233,7 +246,7 @@ pytest -v tests
 
 - **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, features, news embeddings,training loops, utilities, and backtesting specialized for direct weights.  
 - **`apps/NeuralFusionCore/config.py`** — central configuration / argument helpers used by the scripts.
-- **`apps/NeuralFusionCore/data_ingest_service.py`** — fetch OHLCV from ClickHouse and news from Mongo for the given interval, and push results (per-symbol ohlcv DataFrame pickles and news DataFrame) to Redis.
+- **`apps/ChronoBridge/data_ingest_service.py`** — fetch OHLCV from ClickHouse and news from Mongo for the given interval, and push results (per-symbol ohlcv DataFrame pickles and news DataFrame) to Redis.
 
 Modes:
   - latest:       fetch last hours data from DBs and save to redis
@@ -243,9 +256,9 @@ Modes:
 Usage examples:
 one-shot latest 4h (use scheduler to run every 4h)
 ```bash
-python -m apps.NeuralFusionCore.scripts.data_ingest_service --mode latest --hours 4
+python -m apps.ChronoBridge.scripts.data_ingest_service --mode latest --hours 4
 ```
-- **`apps/NeuralFusionCore/scripts/features_service.py`** — Builds features from Redis.
+- **`apps/ChronoBridge/scripts/features_service.py`** — Builds features from Redis.
 
 Modes:
   - train:          full rebuild (includes normalizer + meta)
@@ -259,7 +272,7 @@ Modes:
 
 Usage Examples:
 ```bash
-python -m apps.NeuralFusionCore.scripts.features_service --mode finetune --latest_hours 24
+python -m apps.ChronoBridge.scripts.features_service --mode finetune --latest_hours 24
 ```
 - **`apps/NeuralFusionCore/scripts/train_service.py`** — Train from scratch on processed/train.parquet and processed/val.parquet
 Usage Example:
@@ -304,7 +317,7 @@ Usage Example:
 ```bash
 python -m apps.ChronoBridge.scripts.chronobridge_api_service
 ```
-- **`src/*.py`** — internal modules for both quantitative and qualitative reasoning and controller.  
+- **`src/*.py`** — internal modules for quantitative, qualitative, reasoning agents and controller.  
 - **`scripts/alphafusionnet_service.py`** —Fuses outputs from two intelligent portfolio modules — NeuralFusionCore and NetWeaver — and combines both quantitative and qualitative reasoning to produce final portfolio weights.
 
 Usage Example:
@@ -348,10 +361,6 @@ Influential upstream repositories:
 ## Authors & Citation
 
 **Developed by the [Novoxpert Research Team](https://github.com/Novoxpert)**  
-Lead Contributors:
- - [Elham Esmaeilnia](https://github.com/Elham-Esmaeilnia)
- 
-
 If you use this repository or build upon our work, please cite:
 
 > Novoxpert Research (2025). *AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine.*  

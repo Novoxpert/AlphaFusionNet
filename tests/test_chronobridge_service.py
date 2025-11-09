@@ -39,7 +39,6 @@ import apps.ChronoBridge.scripts.chronobridge_service as cb
 
 @pytest.fixture
 def sample_df_te():
-    # Create a small sample dataframe
     data = {
         "date": pd.date_range("2025-10-19 10:00", periods=5, freq="min"),
         "feature1": [0.1, 0.2, 0.3, 0.4, 0.5],
@@ -48,43 +47,45 @@ def sample_df_te():
         "embedding": [np.random.rand(768) for _ in range(5)],
         "STOCK_A_close": [100, 101, 102, 103, 104],
     }
-    df = pd.DataFrame(data)
-    return df
+    return pd.DataFrame(data)
 
+@patch("apps.ChronoBridge.scripts.chronobridge_service.NeuralFusionCore_infer")
 @patch("apps.ChronoBridge.scripts.chronobridge_service.mongo_col")
-@patch("apps.ChronoBridge.scripts.chronobridge_service.redis_client")
-@patch("apps.ChronoBridge.scripts.chronobridge_service.load_model")
-def test_run_inference(mock_load_model, mock_redis, mock_mongo, sample_df_te):
-    # Mock model forward pass to return correct shape (num_stocks, d_model)
-    class MockModel:
-        def eval(self): pass
-        def __call__(self, ts_input, mask, count_input, news_input, return_embeddings=False):
-            num_stocks = ts_input.shape[2] if len(ts_input.shape) == 3 else 1
-            d_model = 64
-            # Always return batch of fused embeddings
-            return torch.rand(1, len(["STOCK_A"]), d_model)
+def test_main_pipeline(mock_mongo, mock_nfc, sample_df_te):
+    # Mock the NFC_infer instance
+    mock_instance = MagicMock()
+    mock_nfc.return_value = mock_instance
 
-    mock_load_model.return_value = MockModel()
+    # Mock FusedEmbedding to insert dummy embeddings into Mongo
+    def fake_FusedEmbedding(model_checkpoint, mongo_collection, device):
+        dummy_embeddings = [
+            {
+                "date": row["date"],
+                "symbol": "STOCK_A",
+                "fused_embedding": np.random.rand(64).tolist(),
+                "close": row["STOCK_A_close"]
+            }
+            for _, row in sample_df_te.iterrows()
+        ]
+        mongo_collection.insert_many(dummy_embeddings)
 
-    feat_cols = ["feature1", "feature2"]
-    data_stamp_cols = ["data_stamp1"]
-    stock_list = ["STOCK_A"]
-    cnt_cols = []
+    mock_instance.FusedEmbedding.side_effect = fake_FusedEmbedding
 
-    import apps.ChronoBridge.scripts.chronobridge_service as cb
+    # Call main() instead of run_inference
+    with patch("apps.ChronoBridge.scripts.chronobridge_service.run_data_ingest") as mock_ingest, \
+         patch("apps.ChronoBridge.scripts.chronobridge_service.run_feature_service") as mock_feature:
+        mock_ingest.return_value = None
+        mock_feature.return_value = None
 
-    # ✅ FIXED: pass sample_df_te twice (for df_not_norm_te and df_te)
-    cb.run_inference(sample_df_te, sample_df_te, feat_cols, data_stamp_cols, stock_list, cnt_cols, device='cpu')
+        # Call main with test args
+        import sys
+        sys.argv = ["chronobridge_service.py", "--hours", "1", "--mode", "bridge", "--device", "cpu"]
+        cb.main()
 
-    # Check Redis set was called multiple times
-    assert mock_redis.set.called
-    # Check Mongo insert_many was called multiple times
+    # Assertions
     assert mock_mongo.insert_many.called
-
-    # Verify number of insertions matches number of df_te rows
     total_records = sum(len(call[0][0]) for call in mock_mongo.insert_many.call_args_list)
     assert total_records == len(sample_df_te)
-
 
 @patch("apps.ChronoBridge.scripts.chronobridge_service.subprocess.run")
 def test_run_data_ingest(mock_subprocess):

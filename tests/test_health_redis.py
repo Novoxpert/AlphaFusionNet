@@ -38,7 +38,8 @@ import tempfile
 from datetime import datetime, timedelta
 import pandas as pd
 import pytest
-from apps.NeuralFusionCore.lib import redis_utils as RU
+from apps.ChronoBridge.lib import redis_utils as RU
+from apps.NeuralFusionCore.lib import utils as U
 
 
 class FakeRedis:
@@ -118,7 +119,7 @@ def test_atomic_model_swap(tmp_path):
     src.write_text("new model content")
     dest.write_text("old model content")
 
-    RU.atomic_model_swap(str(src), str(dest))
+    U.atomic_model_swap(str(src), str(dest))
 
     assert dest.exists()
     assert dest.read_text() == "new model content"

@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import patch, MagicMock
 import fakeredis
 
-from apps.NeuralFusionCore.scripts.data_ingest_service import fetch_ohlcv_range, push_ohlcv_to_redis
+from apps.ChronoBridge.scripts.data_ingest_service import fetch_ohlcv_range, push_ohlcv_to_redis
 
 # -----------------------------
 # Fixtures
@@ -48,7 +48,7 @@ def sample_ohlcv_data():
 # -----------------------------
 # Tests
 # -----------------------------
-@patch("apps.NeuralFusionCore.scripts.data_ingest_service.ch_client")
+@patch("apps.ChronoBridge.scripts.data_ingest_service.ch_client")
 def test_fetch_ohlcv_range(mock_ch_client, sample_ohlcv_data):
     # Mock ClickHouse execute
     mock_ch_client.execute.side_effect = [
