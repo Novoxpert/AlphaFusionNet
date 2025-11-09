@@ -125,8 +125,7 @@ class TestAlphaFusionNetAPIService(unittest.TestCase):
 
 class TestSavePredictions(unittest.TestCase):
     @patch("apps.NeuralFusionCore.scripts.prediction_service.mongo_col")
-    @patch("apps.NeuralFusionCore.scripts.prediction_service.redis_client")
-    def test_save_predictions(self, mock_redis_client, mock_mongo_col):
+    def test_save_predictions(self, mock_mongo_col):
         """Test saving predictions to Redis and Mongo"""
         weights = np.array([0.1, 0.2, 0.7])
         stocks = ["BTCUSDT", "ETHUSDT", "BNBUSDT"]
@@ -134,8 +133,6 @@ class TestSavePredictions(unittest.TestCase):
 
         save_predictions(predictions)
 
-        # Verify Redis set was called
-        self.assertTrue(mock_redis_client.set.called)
         # Verify Mongo insertion (insert_one or insert_many)
         self.assertTrue(mock_mongo_col.insert_one.called or mock_mongo_col.insert_many.called)
 

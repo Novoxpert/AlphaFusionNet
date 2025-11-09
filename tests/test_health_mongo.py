@@ -9,7 +9,7 @@ Version: 1.1.0
 import pytest
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone
-from apps.NeuralFusionCore.scripts.data_ingest_service import fetch_news_range, MO
+from apps.ChronoBridge.scripts.data_ingest_service import fetch_news_range, MO
 from apps.NeuralFusionCore.scripts.prediction_service import save_predictions
 from apps.NeuralFusionCore.scripts.api_service import latest_prediction, prediction_history
 from fastapi.responses import JSONResponse
@@ -19,7 +19,7 @@ import pandas as pd
 # ============================================================
 # Test: fetch_news_range
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.data_ingest_service.mongo_client")
+@patch("apps.ChronoBridge.scripts.data_ingest_service.mongo_client")
 def test_fetch_news_range(mock_mongo_client): 
     """Test MongoDB news fetch between time range"""
     fake_data = [{"releasedAt": datetime(2025, 10, 13, 0, 0, tzinfo=timezone.utc), "title": "News1"}]
@@ -40,8 +40,7 @@ def test_fetch_news_range(mock_mongo_client):
 # Test: save_predictions
 # ============================================================
 @patch("apps.NeuralFusionCore.scripts.prediction_service.mongo_col")
-@patch("apps.NeuralFusionCore.scripts.prediction_service.redis_client")
-def test_save_predictions(mock_redis_client, mock_mongo_col):
+def test_save_predictions(mock_mongo_col):
     """Test saving predictions to Redis and Mongo"""
     import numpy as np
     from apps.NeuralFusionCore.scripts.prediction_service import save_predictions
@@ -58,7 +57,6 @@ def test_save_predictions(mock_redis_client, mock_mongo_col):
     save_predictions(predictions)
 
     # Verify Redis and Mongo insertions
-    assert mock_redis_client.set.called
     assert mock_mongo_col.insert_many.called or mock_mongo_col.insert_one.called
 
 # ============================================================

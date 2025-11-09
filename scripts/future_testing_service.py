@@ -33,7 +33,7 @@ import logging
 import torch
 import pandas as pd
 from pymongo import MongoClient
-from apps.NeuralFusionCore.config import Paths, FeatureCfg
+from apps.ChronoBridge.config import Paths, FeatureCfg
 import time
 from pandas.tseries.frequencies import to_offset
 from dotenv import load_dotenv
@@ -63,14 +63,14 @@ alpha_col = mongo_db["AlphaFusionNet_predictions"]
 # --------------------------- Data ingest & feature service ---------------------------
 def run_data_ingest(start_time, end_time):
     logging.info(f"Running data_ingest_service to fetch data from {start_time} to {end_time}")
-    subprocess.run([sys.executable, '-m', 'apps.NeuralFusionCore.scripts.data_ingest_service',
+    subprocess.run([sys.executable, '-m', 'apps.ChronoBridge.scripts.data_ingest_service',
                     '--mode', 'custom',
                     '--start_time', str(start_time),
                     '--end_time', str(end_time)], check=True)
 
 def run_feature_service(start_time, end_time):
     logging.info(f"Running features_service in future_testing mode from {start_time} to {end_time}")
-    subprocess.run([sys.executable, '-m', 'apps.NeuralFusionCore.scripts.features_service',
+    subprocess.run([sys.executable, '-m', 'apps.ChronoBridge.scripts.features_service',
                     '--mode', 'future_testing',
                     '--start_time', str(start_time),
                     '--end_time', str(end_time)], check=True)

@@ -1,5 +1,5 @@
 """
-test_neuralfusioncore_features_service.py
+test_chronobridge_features_service.py
 ------------------------
 Unit tests for features_service.py.
 Focuses on logic, structure, and correct calls — mocks heavy I/O, Redis, and model ops.
@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone
-from apps.NeuralFusionCore.scripts import features_service as fs
+from apps.ChronoBridge.scripts import features_service as fs
 
 # ============================================================
 # Helper fixtures
@@ -58,13 +58,13 @@ def test_parse_time_args_none():
 # ============================================================
 # Test: make_features_from_redis
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.features_service.get_all_redis_data")
-@patch("apps.NeuralFusionCore.scripts.features_service.F")
-@patch("apps.NeuralFusionCore.scripts.features_service.N")
+@patch("apps.ChronoBridge.scripts.features_service.get_all_redis_data")
+@patch("apps.ChronoBridge.scripts.features_service.F")
+@patch("apps.ChronoBridge.scripts.features_service.N")
 def test_make_features_from_redis(mock_N, mock_F, mock_get, dummy_df):
     from datetime import datetime, timezone
     import pandas as pd
-    import apps.NeuralFusionCore.scripts.features_service as fs
+    import apps.ChronoBridge.scripts.features_service as fs
 
     # Create df_news with expected columns
     df_news = pd.DataFrame({
@@ -101,9 +101,9 @@ def test_make_features_from_redis(mock_N, mock_F, mock_get, dummy_df):
 # ============================================================
 # Test: time_split_and_save (train mode)
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.features_service.F.normalize_train_val_test_stream")
-@patch("apps.NeuralFusionCore.scripts.features_service.json.dump")
-@patch("apps.NeuralFusionCore.scripts.features_service.pd.DataFrame.to_parquet")
+@patch("apps.ChronoBridge.scripts.features_service.F.normalize_train_val_test_stream")
+@patch("apps.ChronoBridge.scripts.features_service.json.dump")
+@patch("apps.ChronoBridge.scripts.features_service.pd.DataFrame.to_parquet")
 def test_time_split_and_save_train(mock_to_parquet, mock_json_dump, mock_norm, dummy_df):
     mock_norm.return_value = (dummy_df.iloc[:3], dummy_df.iloc[3:], pd.DataFrame(), {"mean": 0})
     fs.time_split_and_save(dummy_df, val_frac=0.2, mode="train")
@@ -114,8 +114,8 @@ def test_time_split_and_save_train(mock_to_parquet, mock_json_dump, mock_norm, d
 # ============================================================
 # Test: time_split_and_save (finetune mode)
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.features_service.F.apply_existing_normalizer")
-@patch("apps.NeuralFusionCore.scripts.features_service.pd.DataFrame.to_parquet")
+@patch("apps.ChronoBridge.scripts.features_service.F.apply_existing_normalizer")
+@patch("apps.ChronoBridge.scripts.features_service.pd.DataFrame.to_parquet")
 def test_time_split_and_save_finetune(mock_to_parquet, mock_apply_norm, dummy_df):
     mock_apply_norm.return_value = dummy_df
     fs.time_split_and_save(dummy_df, val_frac=0.2, mode="finetune")
@@ -126,8 +126,8 @@ def test_time_split_and_save_finetune(mock_to_parquet, mock_apply_norm, dummy_df
 # ============================================================
 # Test: time_split_and_save (inference mode)
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.features_service.F.apply_existing_normalizer")
-@patch("apps.NeuralFusionCore.scripts.features_service.pd.DataFrame.to_parquet")
+@patch("apps.ChronoBridge.scripts.features_service.F.apply_existing_normalizer")
+@patch("apps.ChronoBridge.scripts.features_service.pd.DataFrame.to_parquet")
 def test_time_split_and_save_inference(mock_to_parquet, mock_apply_norm, dummy_df):
     mock_apply_norm.return_value = dummy_df
     fs.time_split_and_save(dummy_df, val_frac=0.2, mode="inference")
@@ -138,8 +138,8 @@ def test_time_split_and_save_inference(mock_to_parquet, mock_apply_norm, dummy_d
 # ============================================================
 # Test: main (mock CLI args)
 # ============================================================
-@patch("apps.NeuralFusionCore.scripts.features_service.make_features_from_redis")
-@patch("apps.NeuralFusionCore.scripts.features_service.time_split_and_save")
+@patch("apps.ChronoBridge.scripts.features_service.make_features_from_redis")
+@patch("apps.ChronoBridge.scripts.features_service.time_split_and_save")
 @patch("argparse.ArgumentParser.parse_args")
 def test_main(mock_parse_args, mock_time_split, mock_make_features, dummy_df):
     mock_parse_args.return_value = MagicMock(

@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import patch, MagicMock
 import fakeredis
 
-from apps.NeuralFusionCore.scripts.data_ingest_service import fetch_news_range, push_news_to_redis
+from apps.ChronoBridge.scripts.data_ingest_service import fetch_news_range, push_news_to_redis
 
 # -----------------------------
 # Fixtures
@@ -43,7 +43,7 @@ def sample_news_data():
 # -----------------------------
 # Tests
 # -----------------------------
-@patch("apps.NeuralFusionCore.scripts.data_ingest_service.mongo_client")
+@patch("apps.ChronoBridge.scripts.data_ingest_service.mongo_client")
 def test_fetch_news_range(mock_mongo_client, sample_news_data):
     # Mock MongoDB collection find
     mock_col = MagicMock()
@@ -60,7 +60,7 @@ def test_fetch_news_range(mock_mongo_client, sample_news_data):
 
 def test_push_news_to_redis(redis_client, sample_news_data):
     # Patch redis_client in the service
-    with patch("apps.NeuralFusionCore.scripts.data_ingest_service.redis_client", redis_client):
+    with patch("apps.ChronoBridge.scripts.data_ingest_service.redis_client", redis_client):
         push_news_to_redis(sample_news_data)
         key = "news"
         stored = pickle.loads(redis_client.get(key))
