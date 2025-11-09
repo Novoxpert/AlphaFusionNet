@@ -1,4 +1,5 @@
 """
+test_neuralfusioncore_model.py
 Unit tests for lib/model.py
 Covers TimesNet-based MarketNews fusion model.
 Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)

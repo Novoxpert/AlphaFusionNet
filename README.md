@@ -82,6 +82,7 @@ AlphaFusionNet
 │    │           ├── train_service.py
 │    │           ├── finetune_service.py
 │    │           ├── prediction_service.py 
+│    │           ├── backtesting_service.py
 │    │           └── api_service.py
 │    │
 │    └── NetWeaver/
@@ -111,8 +112,10 @@ AlphaFusionNet
 ├── scripts/
 │    ├──_init__.py
 │    ├──alphafusionnet_api_service.py
-│    └── alphafusionnet_service.py
-│
+│    ├── alphafusionnet_service.py
+│    ├── future_testing_service.py 
+│    └──furure_testing_api_service.py 
+│  
 ├── src/
 │     ├── contoller.py
 │     ├── llm_alphafusionnet.py
@@ -131,17 +134,24 @@ AlphaFusionNet
 │    ├── test_api_service.py
 │    ├── test_chronobridge_api_service.py
 │    ├── test_chronobridge_service.py
-│    ├── test_data_ingest_service.py
-│    ├── test_features_service.py
-│    ├── test_finetune_service.py
+│    ├── test_future_testing_api_service.py 
+│    ├── test_future_testing_service.py 
+│    ├── test_netweaver_finetune_service.py
+│    ├── test_netweaver_train_service.py
+│    ├── test_netweaver_prediction_service.py
+│    ├── test_neuralfusioncore_api_service.py
+│    ├── test_neuralfusioncore_backtesting_service.py
+│    ├── test_neuralfusioncore_data_ingest_service.py
+│    ├── test_neuralfusioncore_features_service.py
+│    ├── test_neuralfusioncore_finetune_service.py
 │    ├── test_health_clickhouse.py
 │    ├── test_health_mongo.py
 │    ├── test_health_redis.py
-│    ├── test_model.py
-│    ├── test_prediction_service.py
+│    ├── test_neuralfusioncore_model.py
+│    ├── test_neuralfusioncore_prediction_service.py
 │    ├── test_redis_clickhouse_integration.py
 │    ├── test_redis_mongo_integration.py
-│    └── test_train_service.py
+│    └── test_neuralfusioncore_train_service.py
 │
 ├── README.md
 ├── scheduler/
@@ -198,31 +208,27 @@ celery -A scheduler beat --loglevel=info
 Outputs:  a checkpoint such as `apps/NeuralFusionCore/data/outputs/model_weights.pt` and 
         `apps/NeuralFusionCore/data/processed/train.parquet`, `val.parquet` 
         ,`finetune_train.parquet`, `finetune_val.parquet`, `online_test.parquet`,
-        `online_bridge.parquet`, `online_bridge_not_norm.parquet`,
-        `meta.json`, `normalizer.pkl` and
-        `NeuralFusionCore_predictions` , `chrono_bridge` , `AlphaFusionNet_predictions`collections created in `portfolio_db` database of MongoDB
+        `online_bridge.parquet`, `online_bridge_not_norm.parquet`,`online_metric.parquet`, `online_metric_not_norm.parquet`,
+        `meta.json`, `normalizer.pkl` and `apps/NeuralFusionCore/data/processed/backtesting` and
+        `NeuralFusionCore_predictions` , `chrono_bridge` , `NetWeaver_predictions`, `AlphaFusionNet_predictions`, `AlphaFusionNet_future_testing` collections created in database of MongoDB
 
 
-### 2) run NeuralFusionCore API service
-Create API for Get weights from Mongodb.
-
-```bash
-python -m apps.NeuralFusionCore.scripts.api_service
-```
-
-### 4) ChronoBridge
-Extract trained fused embeddings per asset and store in MongoDB
-
-### 3) run ChronoBridge API service
+### 2) run ChronoBridge API service
 Create API for Get Fused embedding and ohlcv per asset from Mongodb.
 ```bash
 python -m apps.ChronoBridge.scripts.chronobridge_api_ervice 
+```
+### 3) run AlphaFusionNet API service
+Create API for Get weights from Mongodb.
+
+```bash
+python -m scripts.alphafusionnet_api_service
 ```
 ### 4) run tests
 run Full CI-quality testing and unit testing suite.
 ```bash
 pip install pytest
-ptest -v tests
+pytest -v tests
 ```
 ---
 ## Script Cheat‑Sheet
@@ -230,6 +236,11 @@ ptest -v tests
 - **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, features, news embeddings,training loops, utilities, and backtesting specialized for direct weights.  
 - **`apps/NeuralFusionCore/config.py`** — central configuration / argument helpers used by the scripts.
 - **`apps/NeuralFusionCore/data_ingest_service.py`** — fetch OHLCV from ClickHouse and news from Mongo for the given interval, and push results (per-symbol ohlcv DataFrame pickles and news DataFrame) to Redis.
+
+Modes:
+  - latest:       fetch last hours data from DBs and save to redis
+  - historical:   fetch historical days data from DBs and save  to redis
+  - custom:       fetch data from DBs in custom time period
 
 Usage examples:
 one-shot latest 4h (use scheduler to run every 4h)
@@ -239,11 +250,14 @@ python -m apps.NeuralFusionCore.scripts.data_ingest_service --mode latest --hour
 - **`apps/NeuralFusionCore/scripts/features_service.py`** — Builds features from Redis.
 
 Modes:
-  - train:     full rebuild (includes normalizer + meta)
-  - finetune:  incremental build (reuse existing normalizer/meta)
-  - inference: build features for inference only (produces online_test.parquet)
-  - bridge:    build features for ChronobBridge only
-  - time:      select data by start_time/end_time for any mode
+  - train:          full rebuild (includes normalizer + meta)
+  - finetune:       incremental build (reuse existing normalizer/meta)
+  - inference:      build features for inference only (produces online_test.parquet)
+  - bridge:         build features for ChronobBridge only
+  - synchronize:      build synchronize features for ChronobBridge and NeuralFusionCore 
+  - backtesting:    build features for back testing the model
+  - future_testing: build features for forward-looking in live tesing 
+  - time:           select data by start_time/end_time for any mode
 
 Usage Examples:
 ```bash
@@ -252,24 +266,66 @@ python -m apps.NeuralFusionCore.scripts.features_service --mode finetune --lates
 - **`apps/NeuralFusionCore/scripts/train_service.py`** — Train from scratch on processed/train.parquet and processed/val.parquet
 Usage Example:
 ```bash
-python -m apps.NeuralFusionCore.scripts.train_service --epocha 50 
+python -m apps.NeuralFusionCore.scripts.train_service --epochs 50 
 ```
 - **`apps/NeuralFusionCore/scripts/finetune_service.py`** —Fine-tune an existing saved model using the latest features. If validation loss improves, replace saved model and keep previous version with timestamp.
 
 Usage Example:
 ```bash
-python -m apps.NeuralFusionCore.scripts.finetune_service --epocha 10 --save_best
+python -m apps.NeuralFusionCore.scripts.finetune_service --epochs 10 --save_best
 ```
 - **`apps/NeuralFusionCore/scripts/prediction_service.py`** —Scheduled inference: fetch latest data, compute features, infer model, transform logits into portfolio weights, and save predictions to MongoDB and Redis.
+
+Modes:
+  - inference:    Fetch data, build features, infer, save outputs   
+  - synchronize:  Only run inference + saving (data assumed prepared)
 
 Usage Example:
 ```bash
 python -m apps.NeuralFusionCore.scripts.prediction_service --hours 4 
 ```
+- **`apps/NeuralFusionCore/scripts/backtesting_service.py`** —Backtesting & Model Evaluation Service for Market-News Fusion Model.
+
+Usage Example:
+```bash
+python -m apps.NeuralFusionCore.scripts.backtesting_service --epochs 50 --mode fetch --hours 12 
+```
 - **`apps/NeuralFusionCore/scripts/api_service.py`** — create API for Get NeuralFusion weights from Mongodb.
-- **`apps/ChronoBridge/scripts/chronobridge_service.py`** — extract trained fused embeddings per asset and store in MongoDB
+- **`apps/ChronoBridge/scripts/chronobridge_service.py`** — extract trained fused embeddings per asset and store in MongoDB.
+
+Modes:
+  - bridge:       Complete pipeline for NetWeaver usage  
+  - synchronize:  Full sync pipeline for latest window
+
+Usage Example:
+```bash
+python -m apps.ChronoBridge.scripts.chronobridge_service --mode synchronize --hours 4 
+```
 - **`apps/ChronoBridge/scripts/chronobridge_api_service.py`** — create API for Get Fused embeddings from Mongodb.
+Usage Example:
+```bash
+python -m apps.ChronoBridge.scripts.chronobridge_api_service
+```
+- **`src/*.py`** — internal modules for both quantitative and qualitative reasoning and controller.  
+- **`scripts/alphafusionnet_service.py`** —Fuses outputs from two intelligent portfolio modules — NeuralFusionCore and NetWeaver — and combines both quantitative and qualitative reasoning to produce final portfolio weights.
+
+Usage Example:
+```bash
+python -m scripts.alphafusionnet_service
+```
+- **`scripts/alphafusionnet_api_service.py`** —FastAPI service to serve latest AlphaFusionNet portfolio predictions from MongoDB.
+- **`scripts/future_testing_service.py`** —A service script for forward-looking (future) feature extraction and metric logging in live or near-real-time testing environments for the AlphaFusionNet pipeline
+
+Usage Example:
+```bash
+python -m scripts.future_testing_service --mode latest 
+```
+- **`scripts/future_testing_api_service.py`** —create API for Get AlphaFusionNet data for forward-looking from Mongodb.
 - **`tests/*.py`** —  Full CI-quality testing and unit testing suite that validates API, model, data pipelines.
+Usage Example:
+```bash
+pytest -v tests/test_neuralfusioncore_prediction_service.py
+```
 - **`scheduler/scheduler.py`** — Defines all Celery tasks for data ingestion, feature processing, model training, fine-tuning, and prediction 
 - **`scheduler/tasks.py`** — Configures the Celery beat scheduler to automatically trigger periodic workflows(daily updates and 4-hourly predictions) at defined times.
 - **`scheduler/trigger.py`** — Manually triggers the one-time initial workflow(historical or first-time pipeline run) by sending the initial_run task to Celery.
@@ -305,6 +361,45 @@ If you use this repository or build upon our work, please cite:
 
 ```bibtex
 @software{novoxpert_neuralfusioncore_2025,
+  author       = {Elham Esmaeilnia},
+  title        = {AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine},
+  organization = {Novoxpert Research},
+  year         = {2025},
+  url          = {https://github.com/Novoxpert/AlphaFusionNet}
+}
+```
+---
+## Support
+
+- **Issues & Bugs**: [Open on GitHub](https://github.com/Novoxpert/AlphaFusionNet/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Novoxpert/AlphaFusionNet/discussions)
+- **Feature Requests**: Open a feature request issue
+---
+## Appendix
+
+### Upstream Repositories
+
+Influential upstream repositories:
+
+* [**NeuralFusionCore**](https://github.com/Novoxpert/NeuralFusionCore): Direct Portfolio Weight Forecasting with Cross‑Gated Attention Fusion
+* [**ChronoBridge**](https://github.com/Novoxpert/ChronoBridge): Multi-Modal Embedding Fusion & Serving Pipeline
+* [**NetWeaver**](https://github.com/Novoxpert/NetWeaver): Financial Graph Attention Network for Stock Prediction
+
+---
+## Authors & Citation
+
+**Developed by the [Novoxpert Research Team](https://github.com/Novoxpert)**  
+Lead Contributors:
+ - [Elham Esmaeilnia](https://github.com/Elham-Esmaeilnia)
+ 
+
+If you use this repository or build upon our work, please cite:
+
+> Novoxpert Research (2025). *AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine.*  
+> GitHub: [https://github.com/Novoxpert/AlphaFusionNet](https://github.com/Novoxpert/AlphaFusionNet)
+
+```bibtex
+@software{novoxpert_alphafusionnet_2025,
   author       = {Elham Esmaeilnia},
   title        = {AlphaFusionNet: LLM-Driven Neural–Graph Portfolio Engine},
   organization = {Novoxpert Research},

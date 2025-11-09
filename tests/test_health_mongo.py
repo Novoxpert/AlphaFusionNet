@@ -43,15 +43,23 @@ def test_fetch_news_range(mock_mongo_client):
 @patch("apps.NeuralFusionCore.scripts.prediction_service.redis_client")
 def test_save_predictions(mock_redis_client, mock_mongo_col):
     """Test saving predictions to Redis and Mongo"""
+    import numpy as np
+    from apps.NeuralFusionCore.scripts.prediction_service import save_predictions
+    from datetime import datetime
+
     weights = np.array([0.1, 0.2, 0.7])
     stocks = ["BTCUSDT", "ETHUSDT", "BNBUSDT"]
 
-    save_predictions(weights, stocks)
+    # Correct: list of dicts with ts
+    predictions = [
+        {"ts": datetime.utcnow(), "weights": weights, "stocks": stocks}
+    ]
+
+    save_predictions(predictions)
 
     # Verify Redis and Mongo insertions
     assert mock_redis_client.set.called
-    assert mock_mongo_col.insert_one.called
-
+    assert mock_mongo_col.insert_many.called or mock_mongo_col.insert_one.called
 
 # ============================================================
 # Test: latest_prediction API

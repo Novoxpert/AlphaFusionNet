@@ -1,5 +1,5 @@
 """
-test_finetune_service.py
+test_neuralfusioncore_finetune_service.py
 
 Unit tests for the finetune_service module.
 

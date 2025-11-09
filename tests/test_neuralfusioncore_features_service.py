@@ -1,5 +1,5 @@
 """
-test_features_service.py
+test_neuralfusioncore_features_service.py
 ------------------------
 Unit tests for features_service.py.
 Focuses on logic, structure, and correct calls — mocks heavy I/O, Redis, and model ops.

@@ -17,3 +17,49 @@ topk:
 logging:
   level: INFO
   file: logs/portamind.log
+
+# -------------------------------
+# Master stock universe
+# -------------------------------
+market:
+  symbols_usdt:
+    - BINANCE:BTCUSDT
+    - BINANCE:ETHUSDT
+    - BINANCE:BNBUSDT
+    - BINANCE:SOLUSDT
+    - BINANCE:XRPUSDT
+    - NASDAQ:AAPL
+    - NASDAQ:MSFT
+    - NASDAQ:NVDA
+    - NASDAQ:GOOGL
+    - NASDAQ:META
+    - NASDAQ:AMZN
+    - NYSE:CRM
+    - NASDAQ:COST
+    - NYSE:NOW
+    - NYSE:ORCL
+    - NASDAQ:AVGO
+    - NYSE:TSM
+    - NASDAQ:ASML
+    - NASDAQ:QCOM
+    - NYSE:IBM
+    - NYSE:JPM
+    - NYSE:BAC
+    - NYSE:WFC
+    - NYSE:MS
+    - NYSE:BRK.A
+    - NYSE:XOM
+    - NYSE:CVX
+    - NYSE:KO
+    - NASDAQ:PEP
+    - NYSE:MCD
+    - SP:SPX
+    - TVC:IXIC
+    - XETR:DAX
+    - TVC:NI225
+    - TVC:UKX
+    - FX:EURUSD
+    - FX_IDC:USDJPY
+    - OANDA:XAUUSD
+    - BIST:XAGUSD1!
+    - CBOE:VIX

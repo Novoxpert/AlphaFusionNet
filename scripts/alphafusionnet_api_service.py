@@ -14,7 +14,8 @@ from fastapi.responses import JSONResponse
 from pymongo import MongoClient
 from bson import json_util
 from datetime import datetime, timezone
-import json
+from dotenv import load_dotenv
+import json, os
 import uvicorn
 
 # -------------------- App & CORS --------------------
@@ -34,8 +35,22 @@ app.add_middleware(
 )
 
 # -------------------- MongoDB --------------------
-client = MongoClient("mongodb://127.0.0.1:27017/")
-db = client["db_portfolio"]
+load_dotenv()
+mongo_user = os.getenv("NOVO_MONGO_USER")
+mongo_pass = os.getenv("NOVO_MONGO_PASS")
+mongo_host = os.getenv("NOVO_MONGO_HOST")
+mongo_port = os.getenv("NOVO_MONGO_PORT")
+mongo_auth_db = os.getenv("NOVO_MONGO_AUTH_DB")
+mongo_db_name = os.getenv("NOVO_MONGO_DB")
+
+mongo_uri = (
+    f"mongodb://{mongo_user}:{mongo_pass}@"
+    f"{mongo_host}:{mongo_port}/"
+    f"{mongo_db_name}?authSource={mongo_auth_db}"
+)
+
+client = MongoClient(mongo_uri)
+db = client[mongo_db_name]
 collection = db["AlphaFusionNet_predictions"]
 
 # -------------------- Helpers --------------------
