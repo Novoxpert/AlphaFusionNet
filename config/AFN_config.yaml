@@ -63,3 +63,19 @@ market:
     - OANDA:XAUUSD
     - BIST:XAGUSD1!
     - CBOE:VIX
+
+clickhouse:
+  host: ${CH_HOST}
+  port: ${CH_PORT}
+  database: ${CH_DB}
+  table: ${CH_TABLE}
+  user: ${CH_USER}
+  password: ${CH_PASS}
+
+mongo:
+  host: ${MONGO_HOST}
+  port: ${MONGO_PORT}
+  database: ${MONGO_DB}
+  user: ${MONGO_USER}
+  password: ${MONGO_PASS}
+  authSource: ${MONGO_AUTHSOURCE}
