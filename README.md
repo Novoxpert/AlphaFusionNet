@@ -244,7 +244,7 @@ pytest -v tests
 ---
 ## Script Cheat‑Sheet
 
-- **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, features, news embeddings,training loops, utilities, and backtesting specialized for direct weights.  
+- **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, training loops, utilities, and backtesting specialized for direct weights.  
 - **`apps/NeuralFusionCore/config.py`** — central configuration / argument helpers used by the scripts.
 - **`apps/ChronoBridge/data_ingest_service.py`** — fetch OHLCV from ClickHouse and news from Mongo for the given interval, and push results (per-symbol ohlcv DataFrame pickles and news DataFrame) to Redis.
 
@@ -316,6 +316,21 @@ python -m apps.ChronoBridge.scripts.chronobridge_service --mode synchronize --ho
 Usage Example:
 ```bash
 python -m apps.ChronoBridge.scripts.chronobridge_api_service
+```
+- **`apps/NetWeaver/src/services/netweaver_train_service.py`** — Train NetWeaver model from scratch with data from the past month(s).
+Usage Example:
+```bash
+python -m NetWeaver.src.services.netweaver_train_service --latest_month 4 --no_analysis 
+```
+- **`apps/NetWeaver/src/services/netweaver_finetune_service.py`** — Fine-tune NetWeaver model with data from the past few hours. 
+Usage Example:
+```bash
+python -m NetWeaver.src.services.netweaver_finetune_service --latest_hours 20 --no_analysis 
+```
+- **`apps/NetWeaver/src/services/netweaver_prediction_service.py`** — NetWeaver prediction service for generating portfolio weights with recent hours data. 
+Usage Example:
+```bash
+python -m NetWeaver.src.netweaver_prediction_service --latest_hours 6 --future_steps 80 --no_timestamp
 ```
 - **`src/*.py`** — internal modules for quantitative, qualitative, reasoning agents and controller.  
 - **`scripts/alphafusionnet_service.py`** —Fuses outputs from two intelligent portfolio modules — NeuralFusionCore and NetWeaver — and combines both quantitative and qualitative reasoning to produce final portfolio weights.
