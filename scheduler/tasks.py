@@ -62,34 +62,42 @@ def run_background(script, *args):
         script (str): Either '-m' (for module execution) or a Python script path.
         *args: Additional CLI args.
     """
+    # Detect module vs script mode
     if script == "-m":
-        # Run a module: e.g. python -m NeuralFusion.api_service
-        cmd = [sys.executable, script, *args]
+        if not args:
+            raise ValueError("When using '-m', you must specify a module name, e.g. run_background('-m', 'NeuralFusionCore.scripts.api_service')")
+        cmd = [sys.executable, script, args[0], *args[1:]]
     else:
-        # Run a file: e.g. python BASE_DIR/NeuralFusion/api_service.py
-        cmd = [sys.executable, str(BASE_DIR / script), *args]
+        script_path = BASE_DIR / script
+        if not script_path.exists():
+            raise FileNotFoundError(f"Script not found: {script_path}")
+        cmd = [sys.executable, str(script_path), *args]
 
     print(f"[TASK] Starting background process: {' '.join(cmd)}")
 
-    subprocess.Popen(
+    # Start process in background
+    process = subprocess.Popen(
         cmd,
         cwd=BASE_DIR,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stdout=subprocess.DEVNULL,  # suppress console output
+        stderr=subprocess.DEVNULL,  # or redirect to log file if preferred
+        stdin=subprocess.DEVNULL,
+        close_fds=True
     )
+
+    return process  # optionally return handle so you can track or kill it later
 # --------- One-time startup workflow ----------
 @app.task
 def initial_run():
    
-    run_script('-m','apps.NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest', '--hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'train', '--latest_hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.train_service', '--epochs', '5')
-    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode','inference', '--hours', '1')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--hours', '6')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_train_service ','--latest_month', '1','--no_analysis')
+    run_script('-m','apps.ChronoBridge.scripts.data_ingest_service', '--mode', 'historical', '--days', '150')
+    run_script('-m','apps.ChronoBridge.scripts.features_service', '--mode', 'train', '--history_days', '150')
+    run_script('-m','apps.NeuralFusionCore.scripts.train_service', '--epochs', '50')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--history_days', '150')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_train_service ','--latest_month', '4','--no_analysis')
     run_background('-m', 'apps.ChronoBridge.scripts.chronobridge_api_service')
     run_background('-m', 'scripts.alphafusionnet_api_service')
-    run_background('-m', 'scripts.future_testing_api_service')
+    #run_background('-m', 'scripts.future_testing_api_service')
 
     print("[TASK] API service started in background")
 
@@ -97,22 +105,23 @@ def initial_run():
 @app.task
 def daily_update():
 
-    run_script('-m','apps.NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest', '--hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'finetune', '--latest_hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.finetune_service', '--epochs', '2')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--hours', '6')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_finetune_service ','--latest_month', '1','--no_analysis')
+    run_script('-m','apps.NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest', '--hours', '20')
+    run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'finetune', '--latest_hours', '20')
+    run_script('-m','apps.NeuralFusionCore.scripts.finetune_service', '--epochs', '30')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--hours', '20')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_finetune_service ','--latest_hours', '20','--no_analysis')
 
 # --------- 4-hourly prediction workflow ----------
 @app.task
 def prediction_14PM():
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchronize','--hours', '6')
-    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchronize', '--hours', '6')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '6','--future_steps','10','--no_timestamp')
+    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchronize','--hours', '7')
+    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchronize', '--hours', '7')
+    run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '7','--future_steps','80','--no_timestamp')
     run_script('-m','scripts.alphafusionnet_service')
     
 
 #--------- 4-hour and 15 min (forward-looking) live testing  workflow ----------
 @app.task
 def live_test_18PM_pluse_10min():
-    run_script('-m','scripts.future_testing_service')    
+    #run_script('-m','scripts.future_testing_service') 
+    return   
