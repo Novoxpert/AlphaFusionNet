@@ -313,7 +313,7 @@ if __name__ == "__main__":
         password=ch_cfg["password"],
     )
 
-    mongo_cfg = cfg["mongo"]
+    mongo_cfg = cfg["novo_mongo"]
     mongo_client, db = init_mongo_client(mongo_cfg)
 
     # Default window start: current hour in UTC (e.g. 14:00 UTC for trading window)

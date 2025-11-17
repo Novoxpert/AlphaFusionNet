@@ -33,8 +33,10 @@ Simulation Model
 ----------------
 For each calendar day in the backtest range:
 
-    1. Create a dummy AlphaFusionNet_predictions document at t0-5min.
-    2. Define a 4-hour window [t0, t1] (e.g., 14:00–18:00 UTC).
+    1. Define a 4-hour window [t0, t1] (e.g., 14:00–18:00 UTC).
+    2. Create a dummy AlphaFusionNet_predictions document with timestamp = t1
+       (to mimic the real system, where the prediction timestamp is the
+       effective time of the portfolio).
     3. Initialize a window document with entry prices at t0.
     4. For each minute in [t0, t1]:
            - Fetch or reconstruct prices via get_minute_close_price()
@@ -326,7 +328,7 @@ if __name__ == "__main__":
     )
 
     # Mongo
-    mongo_cfg = cfg["mongo"]
+    mongo_cfg = cfg["novo_mongo"]
     mongo_client, db = init_mongo_client(mongo_cfg)
 
     # Market config
@@ -356,20 +358,22 @@ if __name__ == "__main__":
     touched_months = set()
 
     for d in all_dates:
-        # Optionally skip weekends: uncomment if you want Mon-Fri only
-        # if d.weekday() >= 5:
-        #     continue
+        # Optionally skip weekends:
+        if d.weekday() >= 5:
+            continue
 
         touched_months.add((d.year, d.month))
 
         # Define t0 window start at 14:00 UTC
         t0 = datetime(d.year, d.month, d.day, WINDOW_START_HOUR_UTC, 0, 0)
+        t1 = t0 + timedelta(hours=WINDOW_HOURS)
 
         # Equal-weight dummy portfolio over all trading symbols
         final_weights = generate_equal_weights(trading_symbols)
 
-        # Insert dummy AlphaFusionNet_prediction at t0 - 5 minutes
-        pred_ts = t0 - timedelta(minutes=5)
+        # Insert dummy AlphaFusionNet_prediction at t1
+        # (to mimic the real system: timestamp = effective time of weights)
+        pred_ts = t1
         insert_dummy_prediction(db, pred_ts, final_weights)
 
         # window_id consistent with live service (YYYYMMDD_HHMM)
