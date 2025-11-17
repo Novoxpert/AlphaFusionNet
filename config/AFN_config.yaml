@@ -22,6 +22,8 @@ logging:
 # Master stock universe
 # -------------------------------
 market:
+  benchmark_symbol:
+    - SP:SPX
   symbols_usdt:
     - BINANCE:BTCUSDT
     - BINANCE:ETHUSDT
