@@ -116,13 +116,22 @@ AlphaFusionNet
 │              ├── saved_models/            
 │              ├── train/                   
 │              └── analysis/                
-│ 
+│
+├── data/
+│    └──trading_days_cache.json
+├── lib/
+│    ├──db_utils.py
+│    ├──trading_calender_utils.py
+│    └──metric_utils.py 
 │ 
 │
 ├── scripts/
 │    ├──_init__.py
 │    ├──alphafusionnet_api_service.py
 │    ├── alphafusionnet_service.py
+│    ├── compute_trading_days_service.py
+│    ├── metric_live_service.py
+│    ├── metric_monthly_service.py 
 │    ├── future_testing_service.py 
 │    └──furure_testing_api_service.py 
 │  
@@ -208,7 +217,18 @@ pip install -r requirements.txt
 ---
 ## Pipeline 
 
-### 1) run scheduler    
+### 1) run ChronoBridge API service
+Create API for Get Fused embedding and ohlcv per asset from Mongodb.
+```bash
+python -m apps.ChronoBridge.scripts.chronobridge_api_ervice 
+```
+### 2) run AlphaFusionNet API service
+Create API for Get weights from Mongodb.
+
+```bash
+python -m scripts.alphafusionnet_api_service
+```
+### 3) run scheduler    
 
 ```bash
 
@@ -221,20 +241,8 @@ Outputs:  a checkpoint such as `apps/NeuralFusionCore/data/outputs/model_weights
         ,`finetune_train.parquet`, `finetune_val.parquet`, `online_test.parquet`,
         `online_bridge.parquet`, `online_bridge_not_norm.parquet`,`online_metric.parquet`, `online_metric_not_norm.parquet`,
         `meta.json`, `normalizer.pkl` and `apps/NeuralFusionCore/data/processed/backtesting` and
-        `NeuralFusionCore_predictions` , `chrono_bridge` , `NetWeaver_predictions`, `AlphaFusionNet_predictions`, `AlphaFusionNet_future_testing` collections created in database of MongoDB
+        `NeuralFusionCore_predictions` , `chrono_bridge` , `NetWeaver_predictions`, `AlphaFusionNet_predictions`, `AlphaFusionNet_future_testing` , `windows`, `live_metrics`, `monthly` collections created in database of MongoDB
 
-
-### 2) run ChronoBridge API service
-Create API for Get Fused embedding and ohlcv per asset from Mongodb.
-```bash
-python -m apps.ChronoBridge.scripts.chronobridge_api_ervice 
-```
-### 3) run AlphaFusionNet API service
-Create API for Get weights from Mongodb.
-
-```bash
-python -m scripts.alphafusionnet_api_service
-```
 ### 4) run tests
 run Full CI-quality testing and unit testing suite.
 ```bash
