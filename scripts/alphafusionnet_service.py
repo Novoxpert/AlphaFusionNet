@@ -370,8 +370,8 @@ for ticker, weight in out["final_weights"].items():
     position_size = weight * total_portfolio_value
 
     # Default SL/TP percentages (can be adjusted or made dynamic)
-    sl_pct = -0.05  # -5% loss
-    tp_pct = 0.10   # +10% gain
+    sl_pct = -0.01  # -5% loss
+    tp_pct = 0.15   # +10% gain
 
     # Only add if not already present from LLM
     if ticker not in risk_controls:
@@ -421,6 +421,7 @@ try:
         "policy": out["policy"],
         "final_weights": final_weights.to_dict(),
         "risk_controls": out["policy"].get("risk_controls", {}),
+        "reasoning": reasoning
     }
 
     collection.insert_one(doc)
