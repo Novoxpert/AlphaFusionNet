@@ -25,6 +25,7 @@ app.conf.beat_schedule = {
         'task': 'tasks.prediction_14PM',
         'schedule': crontab(hour=14, minute=0),
     },
+    
     # Live test task at 18:05 London time
     'live-test-18-15': {
         'task': 'tasks.live_test_18PM_pluse_10min',
