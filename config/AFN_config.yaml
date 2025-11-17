@@ -81,3 +81,11 @@ mongo:
   user: ${MONGO_USER}
   password: ${MONGO_PASS}
   authSource: ${MONGO_AUTHSOURCE}
+
+novo_mongo:
+  host: ${NOVO_MONGO_HOST}
+  port: ${NOVO_MONGO_PORT}
+  database: ${NOVO_MONGO_DB}
+  user: ${NOVO_MONGO_USER}
+  password: ${NOVO_MONGO_PASS}
+  authSource: ${NOVO_MONGO_AUTH_DB}
