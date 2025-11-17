@@ -150,7 +150,7 @@ if __name__ == "__main__":
     )
 
     # Mongo
-    mongo_cfg = cfg["mongo"]
+    mongo_cfg = cfg["novo_mongo"]
     mongo_client, db = init_mongo_client(mongo_cfg)
 
     # Decide which month to compute:
