@@ -157,7 +157,7 @@ def get_sessions_for_exchange(prefix, start_date, end_date):
 
 
 def compute_common_trading_days(months_ahead=13):
-    now = date.today()
+    now = datetime.utcnow().date()
     end = (now + relativedelta(months=months_ahead)).replace(day=31)  # ensure full-month coverage
     symbols = load_symbols()
 
