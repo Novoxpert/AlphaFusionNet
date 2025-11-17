@@ -1,71 +1,83 @@
 
 """
 tasks.py
-Description: Configures the Celery beat scheduler to automatically trigger periodic workflows
-             (daily updates and 4-hourly predictions) at defined times.
+Description: Celery tasks for daily updates, predictions, metric computation,
+             and startup workflows. Now includes global trading-day filtering.
 Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
 Date: 2025 Oct 4
 updated: 2025 Oct 19
 Version: 1.0.0 
 """
-import subprocess, sys
-from celery import Celery
-from pathlib import Path
-
-# Celery setup
-app = Celery('tasks', broker='redis://localhost:6379/1',backend='redis://localhost:6379/1')
-
-# Automatically detect project directory (where tasks.py is located)
-BASE_DIR = Path(__file__).resolve().parent
-
-from pathlib import Path
-import subprocess
 import sys
+import subprocess
+from pathlib import Path
+from datetime import datetime, timedelta
+
+from celery import Celery
+from celery.signals import before_task_publish
+
+# Import your trading-day utilities
+from lib.trading_calender_utils import (
+    is_today_common_trading_day,
+    next_common_trading_day
+)
+
+# --------------------------------------------------------------------
+# CELERY SETUP
+# --------------------------------------------------------------------
+app = Celery(
+    'tasks',
+    broker='redis://localhost:6379/1',
+    backend='redis://localhost:6379/1'
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 
-def run_script(script, *args):
-    """
-    Helper to run Python scripts or modules from the project folder.
-    
-    Supports both:
-        - Running modules (e.g. run_script('-m', 'NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest'))
-        - Running scripts (e.g. run_script('NeuralFusionCore/scripts/data_ingest_service.py', '--mode', 'latest'))
 
-    Args:
-        script (str): Either '-m' (to run a module) or the path to a Python script.
-        *args: Additional arguments passed to the script or module.
+# --------------------------------------------------------------------
+# TRADING-DAY FILTER: SKIP SCHEDULED TASKS ON NON-TRADING DAYS
+# --------------------------------------------------------------------
+SCHEDULED_TASKS = {
+    "tasks.daily_update",
+    "tasks.prediction_14PM",
+    "tasks.live_test_18PM_pluse_10min"
+}
+
+@before_task_publish.connect
+def skip_if_not_trading_day(headers=None, **kwargs):
     """
+    Prevent Celery beat from publishing a scheduled task if today is NOT
+    a common trading day across all symbols.
+    """
+    if not headers:
+        return
+
+    task_name = headers.get("task", "")
+
+    if task_name in SCHEDULED_TASKS:
+        if not is_today_common_trading_day():
+            print(f"[SKIP] {task_name} blocked — today is NOT a trading day.")
+            raise Exception("Skip on non-trading day")
+
+
+# --------------------------------------------------------------------
+# UTILITY FUNCTIONS
+# --------------------------------------------------------------------
+def run_script(script, *args):
+    """Runs a Python script or module."""
     if script == "-m":
-        # Running as module
         cmd = [sys.executable, script, *args]
     else:
-        # Running as local script file
         cmd = [sys.executable, str(BASE_DIR / script), *args]
 
-    print(f"[TASK] Running {' '.join(cmd)}")
-
+    print(f"[TASK] Running: {' '.join(cmd)}")
     subprocess.run(cmd, check=True, cwd=BASE_DIR)
-
     print(f"[TASK] Finished {script}")
 
 
 def run_background(script, *args):
-    """
-    Launch a Python module or script in the background using subprocess.Popen.
-
-    Supports both:
-        - Modules: run_background('-m', 'NeuralFusionCore.scripts.api_service')
-        - Scripts: run_background('NeuralFusionCore/scripts/api_service.py')
-
-    Args:
-        script (str): Either '-m' (for module execution) or a Python script path.
-        *args: Additional CLI args.
-    """
-    # Detect module vs script mode
+    """Runs a script/module in background."""
     if script == "-m":
-        if not args:
-            raise ValueError("When using '-m', you must specify a module name, e.g. run_background('-m', 'NeuralFusionCore.scripts.api_service')")
         cmd = [sys.executable, script, args[0], *args[1:]]
     else:
         script_path = BASE_DIR / script
@@ -75,53 +87,103 @@ def run_background(script, *args):
 
     print(f"[TASK] Starting background process: {' '.join(cmd)}")
 
-    # Start process in background
-    process = subprocess.Popen(
+    subprocess.Popen(
         cmd,
         cwd=BASE_DIR,
-        stdout=subprocess.DEVNULL,  # suppress console output
-        stderr=subprocess.DEVNULL,  # or redirect to log file if preferred
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
         stdin=subprocess.DEVNULL,
         close_fds=True
     )
 
-    return process  # optionally return handle so you can track or kill it later
-# --------- One-time startup workflow ----------
+
+# --------------------------------------------------------------------
+# TASK DEFINITIONS
+# --------------------------------------------------------------------
+
+# --------- INITIAL STARTUP ----------
 @app.task
 def initial_run():
-   
-    run_script('-m','apps.ChronoBridge.scripts.data_ingest_service', '--mode', 'historical', '--days', '150')
-    run_script('-m','apps.ChronoBridge.scripts.features_service', '--mode', 'train', '--history_days', '150')
-    run_script('-m','apps.NeuralFusionCore.scripts.train_service', '--epochs', '50')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--history_days', '150')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_train_service ','--latest_month', '4','--no_analysis')
+
+    run_script('-m', 'scripts.compute_trading_days_service')
+
+    run_script('-m', 'apps.ChronoBridge.scripts.data_ingest_service',
+               '--mode', 'historical', '--days', '150')
+
+    run_script('-m', 'apps.ChronoBridge.scripts.features_service',
+               '--mode', 'train', '--history_days', '150')
+
+    run_script('-m', 'apps.NeuralFusionCore.scripts.train_service', '--epochs', '50')
+
+    run_script('-m', 'apps.ChronoBridge.scripts.chronobridge_service.py',
+               '--mode', 'bridge', '--history_days', '150')
+
+    run_script('-m', 'apps.NetWeaver.src.services.netweaver_train_service',
+               '--latest_month', '4', '--no_analysis')
+
     run_background('-m', 'apps.ChronoBridge.scripts.chronobridge_api_service')
     run_background('-m', 'scripts.alphafusionnet_api_service')
-    #run_background('-m', 'scripts.future_testing_api_service')
 
     print("[TASK] API service started in background")
 
-# --------- Daily workflow ----------
+
+# --------- DAILY WORKFLOW ----------
 @app.task
 def daily_update():
 
-    run_script('-m','apps.NeuralFusionCore.scripts.data_ingest_service', '--mode', 'latest', '--hours', '20')
-    run_script('-m','apps.NeuralFusionCore.scripts.features_service', '--mode', 'finetune', '--latest_hours', '20')
-    run_script('-m','apps.NeuralFusionCore.scripts.finetune_service', '--epochs', '30')
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service.py', '--mode', 'bridge', '--hours', '20')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_finetune_service ','--latest_hours', '20','--no_analysis')
+    run_script('-m', 'apps.NeuralFusionCore.scripts.data_ingest_service',
+               '--mode', 'latest', '--hours', '20')
 
-# --------- 4-hourly prediction workflow ----------
+    run_script('-m', 'apps.NeuralFusionCore.scripts.features_service',
+               '--mode', 'finetune', '--latest_hours', '20')
+
+    run_script('-m', 'apps.NeuralFusionCore.scripts.finetune_service',
+               '--epochs', '30')
+
+    run_script('-m', 'apps.ChronoBridge.scripts.chronobridge_service.py',
+               '--mode', 'bridge', '--hours', '20')
+
+    run_script('-m', 'apps.NetWeaver.src.services.netweaver_finetune_service',
+               '--latest_hours', '20', '--no_analysis')
+
+
+# --------- METRIC LIVE ----------
+@app.task
+def calculate_metric_live():
+    run_script('-m', 'scripts.metric_live_service')
+
+
+# --------- PREDICTION AT 14:00 ----------
 @app.task
 def prediction_14PM():
-    run_script('-m','apps.ChronoBridge.scripts.chronobridge_service', '--mode','synchronize','--hours', '7')
-    run_script('-m','apps.NeuralFusionCore.scripts.prediction_service', '--mode', 'synchronize', '--hours', '7')
-    run_script('-m','apps.NetWeaver.src.services.netweaver_prediction_service ','--latest_hours', '7','--future_steps','80','--no_timestamp')
-    run_script('-m','scripts.alphafusionnet_service')
-    
 
-#--------- 4-hour and 15 min (forward-looking) live testing  workflow ----------
+    # 1) Prediction workflow
+    run_script('-m', 'apps.ChronoBridge.scripts.chronobridge_service',
+               '--mode', 'synchronize', '--hours', '7')
+
+    run_script('-m', 'apps.NeuralFusionCore.scripts.prediction_service',
+               '--mode', 'synchronize', '--hours', '7')
+
+    run_script('-m', 'apps.NetWeaver.src.services.netweaver_prediction_service',
+               '--latest_hours', '7', '--future_steps', '80', '--no_timestamp')
+
+    run_script('-m', 'scripts.alphafusionnet_service')
+    run_script('-m', 'scripts.metric_monthly_service')
+
+    # 2) Schedule live-metric runs every min until 18:00
+    now = datetime.now()
+    end_time = now.replace(hour=18, minute=0, second=0, microsecond=0)
+
+    t = now
+    while t <= end_time:
+        delta = (t - now).total_seconds()
+        calculate_metric_live.apply_async(countdown=delta)
+        t += timedelta(minutes=1)
+
+    return "Prediction finished. Metrics scheduled."
+
+
+# --------- LIVE TEST AT 18:05 ----------
 @app.task
 def live_test_18PM_pluse_10min():
-    #run_script('-m','scripts.future_testing_service') 
-    return   
+    return
