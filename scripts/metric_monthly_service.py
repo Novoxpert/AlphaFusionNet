@@ -3,8 +3,8 @@ Metric Monthly Service
 =======================
 
 This script computes **current month-to-date (MTD)** portfolio performance
-metrics using the stored 4-hour trading windows and minute-level OHLCV data
-from ClickHouse. It is intended to run **once per day**, immediately after
+metrics using the stored 4-hour trading windows and minute-level OHLCV data.
+It is intended to run **once per day**, immediately after
 the daily trading window ends, so the dashboard remains updated with
 fresh month-to-date analytics.
 
@@ -32,8 +32,7 @@ Daily Execution Flow
    this month. Each window contributes:
        • daily portfolio weights
        • a boundary for daily symbol pricing
-3. Fetch minute-level OHLCV prices from ClickHouse for the full month
-   and all trading symbols.
+3. Fetch minute-level OHLCV prices for the full month and all trading symbols.
 4. Convert minute-level prices into **daily open/close**, producing
    per-symbol daily returns.
 5. Compute **daily portfolio returns**, combining daily symbol returns
@@ -71,7 +70,7 @@ Inputs
 • MongoDB config from `AFN_config.yaml`  
 • Trading symbols & benchmark symbol from config  
 • Window documents from MongoDB `windows` collection  
-• OHLCV data from ClickHouse candle table  
+
 
 Outputs
 -------
