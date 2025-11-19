@@ -1,3 +1,29 @@
+"""
+db_utils.py
+
+Database client initialization utilities for ClickHouse and MongoDB.
+
+This module provides helper functions for creating database client
+instances based on configuration parameters:
+
+- `init_clickhouse_client(...)`  
+  Safely initializes and returns a ClickHouse client using
+  `clickhouse_driver`. Raises a `RuntimeError` if the driver is not
+  installed.
+
+- `init_mongo_client(cfg)`  
+  Builds a MongoDB connection URI from a configuration mapping and
+  returns both the `MongoClient` instance and the selected database.
+
+These helpers are intended to centralize client construction logic,
+reduce duplication, and ensure consistent initialization across the
+application.
+
+Author: Elham Esmaeilnia (elham.e.shirvani@gmail.com)
+Date: 2025-11-17
+Version: 1.0.0
+"""
+
 from typing import Tuple
 from pymongo import MongoClient
 try:

@@ -7,21 +7,19 @@ Description:
     precomputed trading days and provides helpers to determine whether today is
     a trading day and to get the next available trading day.
 
-File Structure:
-    - CACHE: Path to the cached JSON file storing trading days.
-    - load_common_days(): Load the set of all common trading days from the cache.
-    - is_today_common_trading_day(): Returns True if today is a trading day.
-    - next_common_trading_day(after_date=None): Returns the next trading day
-      after the given date (defaults to today).
+All dates are UTC-based:
+    - The cache is generated using datetime.utcnow().date().
+    - "Today" in this module means the current UTC date, not the local system
+      timezone date.
 
 Usage Examples:
     from lib.trading_calendar_utils import is_today_common_trading_day, next_common_trading_day
 
     if is_today_common_trading_day():
-        print("We can run scheduled trading tasks today.")
-    
+        print("We can run scheduled trading tasks today (UTC-based).")
+
     next_day = next_common_trading_day()
-    print(f"The next trading day is: {next_day}")
+    print(f"The next trading day (UTC) is: {next_day}")
 
 Notes:
     - The cache file should be generated and updated by a separate script
@@ -29,33 +27,71 @@ Notes:
     - All dates are handled as `datetime.date` objects.
     - If the cache is empty or missing, functions return an empty set or None.
 
--------
-Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
+Author: Elham Esmaeilnia (elham.e.shirvani@gmail.com)
 Date: 2025 Nov 17
-Version: 1.0.0 
+Version: 1.0.1 (UTC date handling)
 """
 from pathlib import Path
 import json
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, time, timedelta, timezone
 
 CACHE = Path("data/trading_days_cache.json")
 
+
+def utc_today() -> date:
+    """
+    Returns today's date in UTC.
+
+    Important:
+        Do NOT use date.today() (which depends on local system timezone)
+        in a trading system where everything is defined in UTC.
+    """
+    return datetime.now(timezone.utc).date()
+
+
 def load_common_days():
+    """
+    Load the set of all common trading days from the cache.
+
+    Returns:
+        Set[date]: set of UTC dates that are common trading days
+                   (one ISO string per date in the cache).
+    """
     if not CACHE.exists():
         return set()
     j = json.loads(CACHE.read_text())
     days = j.get("common_trading_days", [])
-    return set(datetime.fromisoformat(d).date() for d in days)
+    # These are saved as "YYYY-MM-DD", so parse as pure date objects.
+    return set(date.fromisoformat(d) for d in days)
 
-def is_today_common_trading_day():
-    return date.today() in load_common_days()
 
-def next_common_trading_day(after_date=None):
+def is_today_common_trading_day() -> bool:
+    """
+    Returns True if the current UTC date is a common trading day.
+    """
+    today_utc = utc_today()
+    return today_utc in load_common_days()
+
+
+def next_common_trading_day(after_date: date = None):
+    """
+    Returns the next common trading day strictly after `after_date`.
+
+    Args:
+        after_date (date, optional): Base date (UTC). If None, uses today's
+            UTC date.
+
+    Returns:
+        date or None: Next common trading day after `after_date`, or None
+                      if there is no future day in the cache.
+    """
     s = sorted(load_common_days())
     if not s:
         return None
+
     if after_date is None:
-        after_date = date.today()
+        after_date = utc_today()
+
     for d in s:
         if d > after_date:
             return d
