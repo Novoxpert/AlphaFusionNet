@@ -130,10 +130,12 @@ AlphaFusionNet
 │    ├──alphafusionnet_api_service.py
 │    ├── alphafusionnet_service.py
 │    ├── compute_trading_days_service.py
+│    ├── metric_backtesting.py
+│    ├── show_backtest_metrics.py
 │    ├── metric_live_service.py
 │    ├── metric_monthly_service.py 
 │    ├── future_testing_service.py 
-│    └──furure_testing_api_service.py 
+│    └── furure_testing_api_service.py 
 │  
 ├── src/
 │     ├── contoller.py
