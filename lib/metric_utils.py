@@ -205,7 +205,7 @@ def get_minute_close_price(
     ch_table: str,
     symbol: str,
     as_of: datetime,
-    lookback_minutes: int = 5,
+    lookback_minutes: int = 2,
 ) -> Tuple[Optional[float], bool]:
     """
     Return the close price at 'as_of' minute.
@@ -655,7 +655,7 @@ def compute_monthly_performance_metrics(
     """
     High-level monthly metrics calculator (month-to-date).
 
-    NOW BASED ON LIVE SNAPSHOTS (windows.live_history), NOT DIRECTLY ON CLICKHOUSE.
+    BASED ON LIVE SNAPSHOTS (windows.live_history), NOT DIRECTLY ON CLICKHOUSE.
 
     - Uses the *actual minute prices* that were used in live computation
       (including fallback logic for missing prices).
@@ -677,9 +677,6 @@ def compute_monthly_performance_metrics(
           * portfolio_daily_returns : mapping date -> return
           * metrics_history         : array of all past snapshots for the month
 
-    NOTE:
-      `ch_client`, `ch_table`, and `benchmark_symbol` are currently unused here.
-      They are kept in the function signature for backward compatibility.
     """
     windows_col = db["windows"]
     monthly_col = db["monthly"]
@@ -882,10 +879,13 @@ def compute_monthly_performance_metrics(
         "last_trading_day": last_trading_day.isoformat(),
     }
 
-    # ------------------------
+        # ------------------------
     # Upsert monthly doc with history
     # ------------------------
     month_id = f"{year:04d}-{month:02d}"
+
+    # convert index to ISO strings for Mongo (string keys only)
+    pdr_dict = {d.isoformat(): float(v) for d, v in portfolio_daily_returns.items()}
 
     monthly_col.update_one(
         {"month_id": month_id},
@@ -896,7 +896,7 @@ def compute_monthly_performance_metrics(
                 "month": month,
                 "last_snapshot_date": snapshot_date,
                 "last_metrics": metrics,
-                "portfolio_daily_returns": portfolio_daily_returns.to_dict(),
+                "portfolio_daily_returns": pdr_dict,
                 "updated_at": datetime.utcnow(),
             },
             "$setOnInsert": {"created_at": datetime.utcnow()},
@@ -910,6 +910,7 @@ def compute_monthly_performance_metrics(
         },
         upsert=True,
     )
+    
 
     logger.info(
         "Stored monthly metrics snapshot for %s (as_of=%s)",
@@ -917,3 +918,56 @@ def compute_monthly_performance_metrics(
         snapshot_date,
     )
     return metrics
+
+def persist_window_snapshots_bulk(
+    db,
+    window_id: str,
+    snapshots: List[Dict],
+    stale_symbols_per_snapshot: List[List[str]],
+):
+    """
+    Bulk version of persist_window_snapshot, optimized for backtesting.
+
+    - Takes a list of snapshot dicts (as returned by compute_metrics_snapshot).
+    - Takes a parallel list of stale symbol lists (same length).
+    - Appends all snapshots to windows.live_history with a single $push + $each.
+    - Inserts all snapshots into live_metrics with a single insert_many.
+
+    This is intended for offline / backtesting workloads where you already
+    have all snapshots computed in memory and want to minimize Mongo round-trips.
+    """
+    if not snapshots:
+        return
+
+    if len(snapshots) != len(stale_symbols_per_snapshot):
+        raise ValueError("snapshots and stale_symbols_per_snapshot must have same length")
+
+    windows_col = db["windows"]
+    live_col = db["live_metrics"]
+
+    now = datetime.utcnow()
+    snapshot_docs = []
+    for snap, stale_syms in zip(snapshots, stale_symbols_per_snapshot):
+        doc = {
+            **snap,
+            "stale_symbols": stale_syms,
+            "stale_count": len(stale_syms),
+            "created_at": now,
+        }
+        snapshot_docs.append(doc)
+
+    # Append all snapshots to the window's live_history in one operation
+    windows_col.update_one(
+        {"window_id": window_id},
+        {
+            "$push": {"live_history": {"$each": snapshot_docs}},
+            "$set": {
+                # last snapshot's stale_count as aggregate
+                "stale_count": snapshot_docs[-1]["stale_count"],
+                "updated_at": now,
+            },
+        },
+    )
+
+    # Insert all snapshots into live_metrics in one operation
+    live_col.insert_many(snapshot_docs)
