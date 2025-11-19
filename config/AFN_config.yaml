@@ -30,41 +30,41 @@ market:
     - BINANCE:BNBUSDT
     - BINANCE:SOLUSDT
     - BINANCE:XRPUSDT
+    - BINANCE:DOGEUSDT
+    - BINANCE:DOTUSDT
+    - BINANCE:ADAUSDT
+    - BINANCE:TONUSDT
+    - BINANCE:XLMUSDT
     - NASDAQ:AAPL
     - NASDAQ:MSFT
     - NASDAQ:NVDA
     - NASDAQ:GOOGL
     - NASDAQ:META
     - NASDAQ:AMZN
-    - NYSE:CRM
     - NASDAQ:COST
-    - NYSE:NOW
-    - NYSE:ORCL
     - NASDAQ:AVGO
-    - NYSE:TSM
     - NASDAQ:ASML
     - NASDAQ:QCOM
+    - NYSE:CRM
+    - NYSE:NOW
+    - NYSE:ORCL
+    - NYSE:TSM
     - NYSE:IBM
     - NYSE:JPM
     - NYSE:BAC
     - NYSE:WFC
     - NYSE:MS
-    - NYSE:BRK.A
     - NYSE:XOM
-    - NYSE:CVX
-    - NYSE:KO
-    - NASDAQ:PEP
-    - NYSE:MCD
-    - SP:SPX
-    - TVC:IXIC
-    - XETR:DAX
-    - TVC:NI225
-    - TVC:UKX
-    - FX:EURUSD
-    - FX_IDC:USDJPY
+    - IG:USDCAD
+    - IG:GBPUSD
+    - IG:EURUSD
+    - IG:USDJPY
+    - IG:AUDUSD
+    - IG:AUDEUR
+    - IG:EURCAD
+    - IG:NZDUSD
     - OANDA:XAUUSD
-    - BIST:XAGUSD1!
-    - CBOE:VIX
+    - OANDA:XAGUSD
 
 clickhouse:
   host: ${CH_HOST}
