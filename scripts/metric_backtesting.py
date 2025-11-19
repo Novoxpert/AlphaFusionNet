@@ -6,35 +6,29 @@ This script back-fills MongoDB with **synthetic AlphaFusionNet predictions**
 and simulated **live windows** over a short historical period, using **real prices**
 from ClickHouse.
 
-Current Behavior (simplified)
------------------------------
-- Only uses the **last N calendar days before today (UTC)** (default: 5 days).
+Behavior
+--------
+- Uses the last N **calendar days before today (UTC)** (default: 5 days).
 - Within that range:
     • If a day is a **common trading day** across all symbols (from the
       trading calendar), we simulate a window for it.
     • If it is NOT a trading day, we simply skip it.
 
-- Window definition:
+- Window definition (ALL IN UTC):
     • t0 = 14:30 UTC
     • t1 = t0 + 4 hours (18:30 UTC)
-
-- For each trading day:
-    1. Create a dummy AlphaFusionNet_predictions document at t1.
-    2. Initialize a window with entry prices at t0.
-    3. Simulate minute-by-minute from t0 to t1 using:
-         - get_minute_close_price
-         - compute_metrics_snapshot
-         - persist_window_snapshot
-    4. Mark the window as ENDED.
-    5. After all windows, compute monthly metrics for months touched.
+    • We compute a snapshot for **every minute**, but:
+        - OHLCV is loaded ONCE from ClickHouse for the whole window,
+          then used in memory.
+        - All snapshots for the window are persisted in MongoDB with
+          a single bulk write per collection.
 
 Important Notes
 ---------------
-- We do NOT do extra "lookback window" pre-validation here. If ClickHouse
-  has gaps, the internal metric utils will handle fallbacks (or log warnings).
+- No extra "lookback window" pre-validation; we forward-fill within the window.
 - We reduce noisy logs from lib.metric_utils / c_utils to avoid console spam.
-- We handle Ctrl+C gracefully, without doing weird things in the signal handler.
-- Mongo is empty initially? Totally fine. We only depend on ClickHouse for prices.
+- We handle Ctrl+C gracefully.
+- Mongo can start empty; prices come from ClickHouse only.
 
 Configuration
 -------------
@@ -54,9 +48,10 @@ You can adjust:
     WINDOW_START_HOUR_UTC      : start hour (default 14 for 14:00 UTC)
     WINDOW_START_MINUTE_UTC    : start minute (default 30 for 14:30 UTC)
     WINDOW_HOURS               : window length (default 4 hours)
+
 ------
-Author: Elham Esmaeilnia
-Version: 2.1.0 (5-day backtest, 14:30–18:30 UTC window, calendar-only trading day filter)
+Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
+Version: 2.5.0 (UTC-aware datetimes, 5-day backtest, 14:30–18:30 UTC)
 """
 
 import logging
@@ -69,9 +64,8 @@ from dotenv import load_dotenv
 from lib.db_utils import init_clickhouse_client, init_mongo_client
 from lib.metric_utils import (
     init_window_state,
-    get_minute_close_price,
     compute_metrics_snapshot,
-    persist_window_snapshot,
+    persist_window_snapshots_bulk,
     mark_window_ended,
     compute_monthly_performance_metrics,
     NAV0_DEFAULT,
@@ -140,7 +134,11 @@ def generate_equal_weights(symbols):
 def insert_dummy_prediction(db, ts: datetime, final_weights: dict):
     """
     Insert a dummy AlphaFusionNet_predictions document for testing.
+    `ts` MUST be a timezone-aware datetime in UTC.
     """
+    if ts.tzinfo is None:
+        ts = ts.replace(tzinfo=timezone.utc)
+
     col = db["AlphaFusionNet_predictions"]
     doc = {
         "timestamp": ts,
@@ -151,6 +149,103 @@ def insert_dummy_prediction(db, ts: datetime, final_weights: dict):
     }
     col.insert_one(doc)
     logger.info("Inserted dummy prediction at %s", ts.isoformat())
+
+
+def preload_window_prices(
+    ch_client,
+    ch_table: str,
+    symbols,
+    benchmark_symbol: str,
+    t0: datetime,
+    t1: datetime,
+):
+    """
+    Bulk-load OHLCV close prices from ClickHouse for all symbols + benchmark
+    between [t0, t1], and build a per-minute, forward-filled price grid.
+
+    IMPORTANT: t0 and t1 are assumed to be UTC datetimes (tz-aware).
+    If they are naive, they will be treated as UTC.
+    """
+    # Normalize to tz-aware UTC
+    if t0.tzinfo is None:
+        t0 = t0.replace(tzinfo=timezone.utc)
+    if t1.tzinfo is None:
+        t1 = t1.replace(tzinfo=timezone.utc)
+
+    all_syms = sorted(set(symbols) | {benchmark_symbol})
+
+    logger.info(
+        "Preloading prices from ClickHouse for %d symbols from %s to %s (table=%s)",
+        len(all_syms),
+        t0.isoformat(),
+        t1.isoformat(),
+        ch_table,
+    )
+
+    # Build list of per-minute timestamps in window (keep UTC tzinfo)
+    minutes = []
+    cur = t0
+    while cur <= t1:
+        minutes.append(cur)
+        cur += timedelta(minutes=1)
+
+    # Single ClickHouse query for all symbols and the full window
+    # Assumes schema: (symbol, candle_time, close) with candle_time in UTC
+    query = f"""
+        SELECT symbol, candle_time, close
+        FROM {ch_table}
+        WHERE symbol IN %(symbols)s
+          AND candle_time >= %(start_ts)s
+          AND candle_time <= %(end_ts)s
+        ORDER BY symbol, candle_time
+    """
+
+    logger.info("DEBUG CH: querying %s for %d symbols", ch_table, len(all_syms))
+
+    rows = ch_client.execute(
+        query,
+        {
+            "symbols": tuple(all_syms),
+            "start_ts": t0,
+            "end_ts": t1,
+        },
+    )
+
+    logger.info(
+        "DEBUG CH: got %d raw rows from %s between %s and %s",
+        len(rows),
+        ch_table,
+        t0.isoformat(),
+        t1.isoformat(),
+    )
+
+    # Raw prices: symbol -> {timestamp -> price}
+    raw = {sym: {} for sym in all_syms}
+    for sym, ts, close in rows:
+        raw.setdefault(sym, {})[ts] = close
+
+    prices_by_symbol = {}
+
+    for sym in all_syms:
+        sym_raw = raw.get(sym, {})
+        sym_grid = {}
+        last = None
+        for ts in minutes:
+            if ts in sym_raw:
+                last = sym_raw[ts]
+            if last is not None:
+                sym_grid[ts] = float(last)
+        prices_by_symbol[sym] = sym_grid
+
+        if not sym_grid:
+            logger.warning(
+                "No prices at all for %s in [%s, %s]. This symbol will be skipped in snapshots.",
+                sym,
+                t0.isoformat(),
+                t1.isoformat(),
+            )
+
+    return prices_by_symbol, minutes
 
 
 def run_backtest_window(
@@ -166,21 +261,24 @@ def run_backtest_window(
     window_hours: int = WINDOW_HOURS,
 ):
     """
-    Offline simulation of a full live window [t0, t1].
+    Offline simulation of a full live window [t0, t1], with per-minute snapshots,
+    but using preloaded OHLCV prices from ClickHouse and bulk Mongo writes.
 
     - Initializes window state at t0.
-    - Loops minute by minute from t0 to t1.
-    - At each minute:
-        * fetches prices via get_minute_close_price (with fallbacks),
-        * computes metrics snapshot,
-        * persists to Mongo.
+    - Preloads all OHLCV for [t0, t1] for symbols + benchmark.
+    - Loops minute by minute using the in-memory price grid.
+    - Collects all snapshots in memory.
+    - Persists all snapshots in one bulk update to `windows` and `live_metrics`.
 
-    start_time_utc is a naive datetime interpreted as UTC.
+    start_time_utc MUST be a UTC datetime (tz-aware).
     """
+    if start_time_utc.tzinfo is None:
+        start_time_utc = start_time_utc.replace(tzinfo=timezone.utc)
+
     logger.info(
         "Simulating backtest window %s from %s (hours=%d)",
         window_id,
-        start_time_utc,
+        start_time_utc.isoformat(),
         window_hours,
     )
 
@@ -200,16 +298,32 @@ def run_backtest_window(
     t0 = window_doc["t0"]
     t1 = window_doc["t1"]
 
-    total_minutes = int((t1 - t0).total_seconds() // 60) + 1
+    # Ensure UTC tzinfo for safety
+    if t0.tzinfo is None:
+        t0 = t0.replace(tzinfo=timezone.utc)
+    if t1.tzinfo is None:
+        t1 = t1.replace(tzinfo=timezone.utc)
+
+    # Preload all prices for the window from ClickHouse
+    prices_by_symbol, minutes = preload_window_prices(
+        ch_client=ch_client,
+        ch_table=ch_table,
+        symbols=symbols,
+        benchmark_symbol=benchmark_symbol,
+        t0=t0,
+        t1=t1,
+    )
+
+    total_minutes = len(minutes)
     logger.info(
-        "Window %s runs from %s to %s (%d minutes)",
+        "Window %s runs from %s to %s (%d minutes, preloaded prices)",
         window_id,
         t0.isoformat(),
         t1.isoformat(),
         total_minutes,
     )
 
-    # last known prices for fallback logic
+    # last known prices within this window (extra safety)
     last_prices = dict(window_doc.get("entry_prices", {}))
     last_benchmark_price = window_doc.get("benchmark_entry")
 
@@ -218,45 +332,40 @@ def run_backtest_window(
         max(1, int(total_minutes * frac)) for frac in (0.25, 0.5, 0.75, 1.0)
     )
 
-    as_of = t0
-    minute_idx = 0
+    snapshots = []
+    stale_batches = []
 
-    while as_of <= t1:
-        minute_idx += 1
+    for idx, as_of in enumerate(minutes, start=1):
         prices_t = {}
         stale_symbols = []
 
-        # per-symbol prices
+        # per-symbol prices from preloaded grid
         for sym in symbols:
-            price, is_stale = get_minute_close_price(
-                ch_client=ch_client,
-                ch_table=ch_table,
-                symbol=sym,
-                as_of=as_of,
-            )
+            sym_grid = prices_by_symbol.get(sym, {})
+            price = sym_grid.get(as_of)
+
             if price is None:
-                # Fallback: last known price in this window
+                # extra fallback: last seen in this window
                 fallback = last_prices.get(sym)
                 if fallback is not None:
                     price = fallback
-                    is_stale = True
+                    stale_symbols.append(sym)
                 else:
-                    # rare: absolutely no price seen yet for this symbol in this window
-                    logger.warning("No price available at all for %s at %s", sym, as_of)
+                    logger.warning(
+                        "No price available for %s at %s (even after preload)",
+                        sym,
+                        as_of.isoformat(),
+                    )
                     continue
 
             prices_t[sym] = price
             last_prices[sym] = price
-            if is_stale:
-                stale_symbols.append(sym)
 
         # benchmark price
-        bench_price, bench_is_stale = get_minute_close_price(
-            ch_client=ch_client,
-            ch_table=ch_table,
-            symbol=benchmark_symbol,
-            as_of=as_of,
-        )
+        bench_grid = prices_by_symbol.get(benchmark_symbol, {})
+        bench_price = bench_grid.get(as_of)
+
+        bench_is_stale = False
         if bench_price is None:
             bench_price = last_benchmark_price
             bench_is_stale = True
@@ -274,24 +383,25 @@ def run_backtest_window(
             as_of=as_of,
         )
 
-        # persist snapshot
-        persist_window_snapshot(
-            db=db,
-            window_id=window_id,
-            snapshot=snapshot,
-            stale_symbols=stale_symbols,
-        )
+        snapshots.append(snapshot)
+        stale_batches.append(stale_symbols)
 
-        if minute_idx in checkpoints:
+        if idx in checkpoints:
             logger.info(
                 "Window %s progress: %d/%d minutes (%.1f%%)",
                 window_id,
-                minute_idx,
+                idx,
                 total_minutes,
-                100.0 * minute_idx / total_minutes,
+                100.0 * idx / total_minutes,
             )
 
-        as_of += timedelta(minutes=1)
+    # Bulk persist all snapshots for this window
+    persist_window_snapshots_bulk(
+        db=db,
+        window_id=window_id,
+        snapshots=snapshots,
+        stale_symbols_per_snapshot=stale_batches,
+    )
 
     # mark window ended
     mark_window_ended(db, window_id)
@@ -314,6 +424,12 @@ if __name__ == "__main__":
         password=ch_cfg["password"],
     )
 
+    logger.info(
+        "Using ClickHouse database=%s table=%s",
+        ch_cfg["database"],
+        ch_cfg["table"],
+    )
+
     # Mongo
     mongo_cfg = cfg["novo_mongo"]
     mongo_client, db = init_mongo_client(mongo_cfg)
@@ -331,14 +447,14 @@ if __name__ == "__main__":
         logger.info("Backtesting on %d symbols", len(trading_symbols))
 
         # ------------------------
-        # Determine backtest date range (last BACKTEST_DAYS calendar days)
+        # Determine backtest date range (last BACKTEST_DAYS calendar days, UTC)
         # ------------------------
         today_utc = datetime.now(timezone.utc).date()
-        end_date = today_utc - timedelta(days=1)        # yesterday
+        end_date = today_utc - timedelta(days=1)  # yesterday (UTC)
         start_date = today_utc - timedelta(days=BACKTEST_DAYS)
 
         logger.info(
-            "Calendar backtest range (calendar days): %s to %s",
+            "Calendar backtest range (UTC calendar days): %s to %s",
             start_date.isoformat(),
             end_date.isoformat(),
         )
@@ -378,6 +494,7 @@ if __name__ == "__main__":
             for idx, d in enumerate(all_dates, start=1):
                 touched_months.add((d.year, d.month))
 
+                # Build t0 as UTC-aware datetime
                 t0 = datetime(
                     d.year,
                     d.month,
@@ -385,11 +502,12 @@ if __name__ == "__main__":
                     WINDOW_START_HOUR_UTC,
                     WINDOW_START_MINUTE_UTC,
                     0,
+                    tzinfo=timezone.utc,
                 )
                 t1 = t0 + timedelta(hours=WINDOW_HOURS)
 
                 logger.info(
-                    "[%d/%d] Preparing window for trading date %s (t0=%s, t1=%s)",
+                    "[%d/%d] Preparing window for trading date %s (t0=%s, t1=%s, UTC)",
                     idx,
                     total_windows,
                     d.isoformat(),
@@ -446,8 +564,6 @@ if __name__ == "__main__":
                 logger.info("Computing monthly metrics for %04d-%02d", year, month)
                 metrics = compute_monthly_performance_metrics(
                     db=db,
-                    ch_client=ch_client,
-                    ch_table=ch_cfg["table"],
                     year=year,
                     month=month,
                     benchmark_symbol=benchmark_symbol,
