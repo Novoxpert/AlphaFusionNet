@@ -2,17 +2,24 @@
 Backtesting / Bulk Simulation Service
 =====================================
 
-This script back-fills MongoDB with **synthetic AlphaFusionNet predictions**
-and simulated **live windows** over a short historical period, using **real prices**
-from ClickHouse.
+This script back-fills MongoDB with **AlphaFusionNet metrics and windows**
+over a short historical period, using:
+
+  • **real prices** from ClickHouse
+  • **real AlphaFusionNet predictions** already stored in MongoDB
+    (collection: AlphaFusionNet_predictions)
 
 Behavior
 --------
-- Uses the last N **calendar days before today (UTC)** (default: 5 days).
+- Uses the last N **calendar days before today (UTC)** (default: 90 days).
 - Within that range:
     • If a day is a **common trading day** across all symbols (from the
       trading calendar), we simulate a window for it.
-    • If it is NOT a trading day, we simply skip it.
+    • For each trading day, we fetch the **latest prediction** in
+      AlphaFusionNet_predictions whose timestamp is **strictly before**
+      that UTC calendar day (timestamp < day 00:00:00).
+      The document's `final_weights` are used as the portfolio weights.
+    • If no earlier prediction is found, we skip that day.
 
 - Window definition (ALL IN UTC):
     • t0 = 14:30 UTC
@@ -25,10 +32,8 @@ Behavior
 
 Important Notes
 ---------------
-- No extra "lookback window" pre-validation; we forward-fill within the window.
-- We reduce noisy logs from lib.metric_utils / c_utils to avoid console spam.
-- We handle Ctrl+C gracefully.
-- Mongo can start empty; prices come from ClickHouse only.
+- No extra "lookback window" pre-validation; we forward-fill within the window
+- Prices come from ClickHouse only; predictions must already exist in Mongo.
 
 Configuration
 -------------
@@ -51,7 +56,8 @@ You can adjust:
 
 ------
 Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
-Version: 2.5.0 (UTC-aware datetimes, 5-day backtest, 14:30–18:30 UTC)
+Date: 2025 Nov 23
+Version: 3.1.0 
 """
 
 import logging
@@ -92,7 +98,7 @@ logging.getLogger("c_utils").setLevel(logging.ERROR)
 CONFIG_FILE = os.environ.get("ALPHAFUSIONNET_CONFIG", "config/AFN_config.yaml")
 
 # How many calendar days back from today (UTC) to consider
-BACKTEST_DAYS = 5
+BACKTEST_DAYS = 60
 
 # Window definition: [14:30, 18:30] UTC
 WINDOW_START_HOUR_UTC = 14
@@ -117,40 +123,78 @@ def load_config(config_path: str = CONFIG_FILE):
 
 
 # ------------------------
-# Helpers
+# Prediction helper
 # ------------------------
-def generate_equal_weights(symbols):
+def get_prediction_weights_for_day(db, day):
     """
-    Simple dummy weights:
-      - equal allocation across all provided symbols
-      - sum of weights = 1.0
-    """
-    if not symbols:
-        return {}
-    w = 1.0 / len(symbols)
-    return {sym: w for sym in symbols}
+    Fetch the latest AlphaFusionNet prediction whose timestamp is
+    strictly BEFORE the given UTC calendar day, and return its
+    `final_weights` dict.
 
+    Example:
+        day = 2025-01-14
+        -> search for timestamp < 2025-01-14 00:00:00 UTC
+        -> take the latest one (sort by timestamp desc)
 
-def insert_dummy_prediction(db, ts: datetime, final_weights: dict):
-    """
-    Insert a dummy AlphaFusionNet_predictions document for testing.
-    `ts` MUST be a timezone-aware datetime in UTC.
-    """
-    if ts.tzinfo is None:
-        ts = ts.replace(tzinfo=timezone.utc)
+    Parameters
+    ----------
+    db  : MongoDB database handle
+    day : datetime.date (assumed UTC calendar day)
 
+    Returns
+    -------
+    dict or None
+        final_weights dict if found, otherwise None.
+    """
     col = db["AlphaFusionNet_predictions"]
-    doc = {
-        "timestamp": ts,
-        "policy": {"source": "backtest_dummy", "risk_controls": {"dummy": True}},
-        "final_weights": final_weights,
-        "risk_controls": {"dummy": True},
-        "reasoning": "Backtest dummy prediction from metric_backtesting.py",
-    }
-    col.insert_one(doc)
-    logger.info("Inserted dummy prediction at %s", ts.isoformat())
+
+    # Start of this trading day in UTC
+    day_start = datetime(day.year, day.month, day.day, tzinfo=timezone.utc)
+
+    # Find the latest prediction strictly before this day_start
+    doc = col.find_one(
+        {
+            "timestamp": {
+                "$lt": day_start,
+            }
+        },
+        sort=[("timestamp", -1)],  # latest overall before that day
+    )
+
+    if not doc:
+        logger.warning(
+            "No AlphaFusionNet prediction found BEFORE trading day %s "
+            "(searched for timestamp < %s). Skipping this day.",
+            day.isoformat(),
+            day_start.isoformat(),
+        )
+        return None
+
+    final_weights = doc.get("final_weights") or {}
+    if not final_weights:
+        logger.warning(
+            "Prediction document used for %s (timestamp=%s) has empty final_weights. "
+            "Skipping this day.",
+            day.isoformat(),
+            doc.get("timestamp"),
+        )
+        return None
+
+    logger.info(
+        "Using AlphaFusionNet prediction from %s for trading day %s "
+        "(latest prediction before %s, weights for %d symbols).",
+        doc.get("timestamp"),
+        day.isoformat(),
+        day_start.isoformat(),
+        len(final_weights),
+    )
+
+    return final_weights
 
 
+# ------------------------
+# Price preload + window simulation
+# ------------------------
 def preload_window_prices(
     ch_client,
     ch_table: str,
@@ -485,16 +529,44 @@ if __name__ == "__main__":
 
         touched_months = set()
         total_windows = len(all_dates)
-        logger.info("Total windows (days) to simulate: %d", total_windows)
+        logger.info("Total trading days (potential windows): %d", total_windows)
 
         # ------------------------
         # Run windows
         # ------------------------
+        windows_run = 0
+
         try:
             for idx, d in enumerate(all_dates, start=1):
-                touched_months.add((d.year, d.month))
+                logger.info(
+                    "[%d/%d] Preparing window for trading date %s",
+                    idx,
+                    total_windows,
+                    d.isoformat(),
+                )
 
-                # Build t0 as UTC-aware datetime
+                # 1) Get portfolio weights from latest AlphaFusionNet_predictions BEFORE this day
+                final_weights = get_prediction_weights_for_day(db, d)
+                if not final_weights:
+                    # already logged inside helper
+                    continue
+
+                # If you want to restrict to configured trading_symbols, uncomment:
+                # portfolio_weights = {
+                #     sym: float(w)
+                #     for sym, w in final_weights.items()
+                #     if sym in trading_symbols
+                # }
+                # if not portfolio_weights:
+                #     logger.warning(
+                #         "Prediction used for %s has no overlap with configured trading_symbols; skipping.",
+                #         d.isoformat(),
+                #     )
+                #     continue
+
+                portfolio_weights = final_weights
+
+                # 2) Build t0 as UTC-aware datetime
                 t0 = datetime(
                     d.year,
                     d.month,
@@ -507,7 +579,8 @@ if __name__ == "__main__":
                 t1 = t0 + timedelta(hours=WINDOW_HOURS)
 
                 logger.info(
-                    "[%d/%d] Preparing window for trading date %s (t0=%s, t1=%s, UTC)",
+                    "[%d/%d] Using portfolio weights from AlphaFusionNet_predictions. "
+                    "Simulating window for trading date %s (t0=%s, t1=%s, UTC)",
                     idx,
                     total_windows,
                     d.isoformat(),
@@ -515,36 +588,24 @@ if __name__ == "__main__":
                     t1.isoformat(),
                 )
 
-                # Equal-weight dummy portfolio over all trading symbols
-                final_weights = generate_equal_weights(trading_symbols)
-
-                # Insert dummy AlphaFusionNet_prediction at t1
-                pred_ts = t1
-                insert_dummy_prediction(db, pred_ts, final_weights)
-
                 # window_id consistent with live service (YYYYMMDD_%H%M)
                 window_id = f"{t0:%Y%m%d_%H%M}"
-
-                logger.info(
-                    "[%d/%d] Simulating window %s for trading date %s",
-                    idx,
-                    total_windows,
-                    window_id,
-                    d.isoformat(),
-                )
 
                 run_backtest_window(
                     db=db,
                     ch_client=ch_client,
                     ch_table=ch_cfg["table"],
                     symbols=trading_symbols,
-                    portfolio_weights=final_weights,
+                    portfolio_weights=portfolio_weights,
                     window_id=window_id,
                     start_time_utc=t0,
                     benchmark_symbol=benchmark_symbol,
                     nav0=NAV0_DEFAULT,
                     window_hours=WINDOW_HOURS,
                 )
+
+                touched_months.add((d.year, d.month))
+                windows_run += 1
 
         except KeyboardInterrupt:
             logger.warning(
@@ -555,9 +616,10 @@ if __name__ == "__main__":
         # ------------------------
         # Compute monthly metrics for each touched month
         # ------------------------
-        if touched_months:
+        if touched_months and windows_run > 0:
             logger.info(
-                "Computing monthly metrics for touched months: %s", touched_months
+                "Computing monthly metrics for months touched by at least one window: %s",
+                touched_months,
             )
 
             for (year, month) in sorted(touched_months):
@@ -571,7 +633,9 @@ if __name__ == "__main__":
                 )
                 logger.info("Monthly metrics for %04d-%02d: %s", year, month, metrics)
         else:
-            logger.info("No months touched (no windows run); skipping monthly metrics.")
+            logger.info(
+                "No windows run (no predictions or no trading days); skipping monthly metrics."
+            )
 
         logger.info("Backtesting / bulk simulation completed.")
 
