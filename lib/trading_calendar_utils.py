@@ -96,3 +96,31 @@ def next_common_trading_day(after_date: date = None):
         if d > after_date:
             return d
     return None
+
+def previous_common_trading_day(before_date: date = None):
+    """
+    Returns the previous common trading day strictly before `before_date`.
+
+    Args:
+        before_date (date, optional):
+            The reference date (UTC). If None, uses today's UTC date.
+
+    Returns:
+        date or None:
+            The most recent trading day before `before_date`.
+            Returns None if no earlier day is available.
+    """
+    s = sorted(load_common_days())
+    if not s:
+        return None
+
+    if before_date is None:
+        before_date = utc_today()
+
+    prev = None
+    for d in s:
+        if d < before_date:
+            prev = d
+        else:
+            break
+    return prev
