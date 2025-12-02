@@ -7,28 +7,28 @@ The NeuralFusionCore ingests the latest OHLCV data and financial news, construct
 It supports:
 1) Data ingesting from databases using redis
 2) Dataset preparation  
-3) Training a direct‑weights model  
-4) Real‑time weight generation 
-5) save predictions to MongoDB as NeuralFusionCore output
-6) FastAPI service to serve latest portfolio predictions for dashboard
-7) Generating realtime Fused Embedding of (ohlcv + news) as ChronoBridge output
-8) FastAPI service to serve latest ChronoBridge outputs for Netweaver
-9) Combining sequential encoding with graph-based learning and predicting profitable stock movements and recommending top-K stocks as NetWeaver output.
-10) Fusing outputs from NeuralFusionCore and NetWeaver 
-11) Combining both quantitative and qualitative reasoning and producing final portfolio weights
-12) Full CI-quality testing and unit testing suite that validates API, model, data pipeline, and persistence.
+3) for NeuralFusionCore Training a direct‑weights MarketNews-Fusion model  
+4) save Real-time predictions to MongoDB as NeuralFusionCore output
+5) Generating realtime Fused Embedding of (ohlcv + news) as ChronoBridge output
+6) FastAPI service to serve latest ChronoBridge outputs for Netweaver
+7) Combining sequential encoding with graph-based learning, training and predicting profitable stock movements and recommending top-K stocks with their predicted return ratio as NetWeaver output.
+8) Fusing outputs from NeuralFusionCore and NetWeaver 
+9) Combining both quantitative and qualitative reasoning and producing final portfolio weights
+10) performing a **single-minute computation** of live portfolio performance metrics for the current 4-hour trading window and computes **current month-to-date (MTD)** portfolio performance.
+11) Full CI-quality testing and unit testing suite that validates API, model, data pipeline, and persistence.
+
+[For more details about this engine, please refer to the documents here.](./docs)
 
 ## Table of Contents
- 
-1. [Repository Layout](#repository-layout)  
+
+1. [Architecture Diagram](#architecture-diagram) 
 2. [Required Downloads](#required-downloads)  
 3. [Setup](#setup)  
 4. [Pipeline](#pipeline)  
-   - [Run Scheduler](#1-run-scheduler)  
-   - [Run NeuralFusionCore API Service](#2-run-neuralfusioncore-api-service)  
-   - [Run ChronoBridge](#3-run-chronobridge)  
-   - [Run ChronoBridge API Service](#4-run-chronobridge-api-service)  
-   - [Run Tests](#5-run-tests)  
+   - [Run ChronoBridge API Service](#1-run-chronobridge-api-service)
+   - [run AlphaFusionNet API service](#2-run-alphafusionnet-api-service)
+   - [Run Scheduler](#3-run-scheduler)   
+   - [Run Tests](#4-run-tests)  
 5. [Script Cheat-Sheet](#script-cheat-sheet)  
 6. [Dependencies](#dependencies)  
 7. [Appendix](#appendix)  
@@ -36,156 +36,85 @@ It supports:
 8. [Authors & Citation](#authors--citation)  
 9. [Support](#support)
 ---
+## Architecture Diagram
+AlphaFusionNet is a hybrid portfolio decision-making engine that fuses deep quantitative modeling with qualitative LLM-guided policy reasoning. It integrates real-time multimodal data ingestion, feature engineering, TimesNet-based MarketNews MSGCA-fusion modeling, graph modeling, fusion logic, and full metric monitoring, all orchestrated in UTC via Celery.
+[For more details about this architecture, please refer to this.](./docs/architecture.md)
+```mermaid
+flowchart LR
+    subgraph S1[Data Sources]
+        CH[(ClickHouse<br>OHLCV 1m)]
+        MN[(MongoDB<br>News 1m)]
+    end
 
-## Repository Layout
+    subgraph S2[ChronoBridge Pipeline]
+        DI[Data Ingest<br>Resample OHLCV→3m<br>Fetch News]
+        FE[Feature Service<br>OHLCV Features<br>BigBird News Embedding<br>3m Merge]
+        BR[Bridge/Synchronized mode<br> save/Inputs API]
+    end
+
+    subgraph S3[Models]
+        NFC[NeuralFusionCore<br>TimesNet + LSTM + GatedCrossAttentionFusion->PORTFOLIO]
+        NW[NetWeaver<br>Graph Model->TopK + Predicted Return]
+    end
+
+    subgraph S4[AlphaFusionNet Fusion]
+        AFN[LLM-Guided Fusion<br>α Weighting<br>Top-K<br>SL/TP<br>Reasoning]
+    end
+
+    subgraph S5[Metrics]
+        ML[Live Metrics]
+        MM[Monthly Metrics]
+        MB[Backtest Metrics]
+    end
+
+    subgraph S6[Storage]
+        REDIS[(Redis)]
+        MCHRO[(MongoDB<br>ChronoBridge data)]
+        MPRED[(MongoDB<br>NFC & NW Predictions)]
+        MAFN[(MongoDB<br>AFN Policies + Metrics)]
+        FS[(Filesystem<br>Parquets / Models / CSV/ Json)]
+    end
+
+    subgraph S7[Orchestration & UI]
+        CEL[Celery Scheduler]
+        UI[React Dashboard]
+    end
+
+    CH --> DI
+    MN --> DI
+    DI --> REDIS
+    REDIS --> FE
+    FE --> FS
+    FS --> NFC
+    NFC --> MPRED
+
+    NFC --> BR
+    BR --> MCHRO
+    MCHRO --> BR
+    BR --> NFC 
+    BR --> NW
+
+    NFC --> AFN
+    NW --> AFN
+    AFN --> MAFN
+
+    MAFN --> ML
+    MAFN --> MM
+    MAFN --> MB
+
+    ML --> UI
+    MM --> UI
+
+    CEL --> DI
+    CEL --> FE
+    CEL --> BR
+    CEL --> NFC
+    CEL --> NW
+    CEL --> AFN
+    CEL --> ML
+    CEL --> MM
 
 ```
-AlphaFusionNet
-│
-│
-├── apps/
-│    ├── ChronoBridge/
-│    │       ├── data/      
-│    │       │   └── processed/
-│    │       │       └── show_files.py  
-│    │       ├── models/
-│    │       ├── src/
-│    │       │     └── inference.py  
-│    │       ├── scripts/
-│    │       │     ├── chronobridge_api_service.py 
-│    │       │     ├──  chronobridge_service.py
-│    │       │     ├──  data_ingest_service.py
-│    │       │     └── features_service.py
-│    │       ├── lib/
-│    │       │   ├── features.py         
-│    │       │   ├── market.py
-│    │       │   ├── news.py
-│    │       │   ├── redis_utils.py
-│    │       │   └── utils.py
-│    │       └──apps/
-│    │              └──NeuralFusionCore
-│    │
-│    ├── NeuralFusionCore/
-│    │     ├── data/
-│    │     │   ├── outputs/
-│    │     │   │   └── model_weights.pt        
-│    │     │   └── processed/
-│    │     │       └── show_files.py                   
-│    │     │   
-│    │     ├── lib/
-│    │     │   ├── backtest.py
-│    │     │   ├── backtest_weights.py        
-│    │     │   ├── dataset.py
-│    │     │   ├── features.py
-│    │     │   ├── loss_weights.py            
-│    │     │   ├── market.py
-│    │     │   ├── model.py
-│    │     │   ├── news.py
-│    │     │   ├── redis_utils.py
-│    │     │   ├── train.py
-│    │     │   └── utils.py
-│    │     ├──_init__.py
-│    │     ├── README.md
-│    │     ├── requirements.txt
-│    │     ├── config.py
-│    │     └── scripts/
-│    │           ├── train_service.py
-│    │           ├── finetune_service.py
-│    │           ├── prediction_service.py 
-│    │           ├── backtesting_service.py
-│    │           └── api_service.py
-│    │
-│    └── NetWeaver/
-│          ├── src/
-│          │   ├── data_pipeline.py        
-│          │   ├── train.py                 
-│          │   ├── run_analysis.py          
-│          │   ├── parse_arg.py            
-│          │   └── utils/
-│          │       ├── data_utils.py        
-│          │       ├── metrics_utils.py     
-│          │       ├── analysis_utils.py    
-│          │       └── training_logger.py   
-│          ├── data/
-│          │   ├── raw/
-│          │   │   ├── SP500_dataset/
-│          │   │   └── *.npy (graph files)
-│          │   └── processed/
-│          │       └── model_data.pickle
-│          └── results/
-│              ├── saved_models/            
-│              ├── train/                   
-│              └── analysis/                
-│
-├── data/
-│    └──trading_days_cache.json
-├── lib/
-│    ├──db_utils.py
-│    ├──trading_calender_utils.py
-│    └──metric_utils.py 
-│ 
-│
-├── scripts/
-│    ├──_init__.py
-│    ├──alphafusionnet_api_service.py
-│    ├── alphafusionnet_service.py
-│    ├── compute_trading_days_service.py
-│    ├── metric_backtesting.py
-│    ├── show_backtest_metrics.py
-│    ├── metric_live_service.py
-│    ├── metric_monthly_service.py 
-│    ├── future_testing_service.py 
-│    └── furure_testing_api_service.py 
-│  
-├── src/
-│     ├── contoller.py
-│     ├── TradingAgent.py
-│     ├── llm_alphafusionnet.py
-│     └── quant_alphafusionnet.py
-│
-├── config/
-│     └──AFN_config.yml
-│
-├── logs/
-│     └──alphafusionnet_service.log
-│
-├── tests/
-│    ├──_init__.py
-│    ├── test_alphafusionnet_api_service.py
-│    ├── test_alphafusionnet_service.py
-│    ├── test_api_service.py
-│    ├── test_chronobridge_api_service.py
-│    ├── test_chronobridge_service.py
-│    ├── test_future_testing_api_service.py 
-│    ├── test_future_testing_service.py 
-│    ├── test_netweaver_finetune_service.py
-│    ├── test_netweaver_train_service.py
-│    ├── test_netweaver_prediction_service.py
-│    ├── test_neuralfusioncore_api_service.py
-│    ├── test_neuralfusioncore_backtesting_service.py
-│    ├── test_neuralfusioncore_data_ingest_service.py
-│    ├── test_neuralfusioncore_features_service.py
-│    ├── test_neuralfusioncore_finetune_service.py
-│    ├── test_health_clickhouse.py
-│    ├── test_health_mongo.py
-│    ├── test_health_redis.py
-│    ├── test_neuralfusioncore_model.py
-│    ├── test_neuralfusioncore_prediction_service.py
-│    ├── test_redis_clickhouse_integration.py
-│    ├── test_redis_mongo_integration.py
-│    └── test_neuralfusioncore_train_service.py
-│
-├── README.md
-├── scheduler/
-│     ├── schaduler.py
-│     ├── tasks.py
-│     ├── test_celery_func.py
-│     └──trigger.py
-├── requirements.txt
-└── pytest.ini
-```
-> Any folders missing on your machine will be created by the scripts if needed.
-
 ---
 ## Required Downloads
 
@@ -218,6 +147,7 @@ pip install -r requirements.txt
 ```
 ---
 ## Pipeline 
+This pipeline coordinates ChronoBridge data services, model APIs, and scheduled tasks to produce synchronized features, predictions, and portfolio decisions. Follow the steps below to run the complete AlphaFusionNet workflow from data ingestion to deployment. [For having full usage pipeline, please refer to this.](./docs/usage.md)
 
 ### 1) run ChronoBridge API service
 Create API for Get Fused embedding and ohlcv per asset from Mongodb.
@@ -253,7 +183,7 @@ pytest -v tests
 ```
 ---
 ## Script Cheat‑Sheet
-
+This section provides a quick-access reference to all major scripts in the AlphaFusionNet ecosystem, outlining what each component does and how to invoke it during development, training, backtesting, and production workflows. [For having the complete engine layout, please refer to this.](./docs/layout.md)
 - **`apps/NeuralFusionCore/lib/*.py`** — internal modules for datasets, models, training loops, utilities, and backtesting specialized for direct weights.  
 - **`apps/NeuralFusionCore/config.py`** — central configuration / argument helpers used by the scripts.
 - **`apps/ChronoBridge/data_ingest_service.py`** — fetch OHLCV from ClickHouse and news from Mongo for the given interval, and push results (per-symbol ohlcv DataFrame pickles and news DataFrame) to Redis.
@@ -350,6 +280,39 @@ Usage Example:
 python -m scripts.alphafusionnet_service
 ```
 - **`scripts/alphafusionnet_api_service.py`** —FastAPI service to serve latest AlphaFusionNet portfolio predictions from MongoDB.
+- **`scripts/metric_live_service.py`** —Performs a **single-minute computation** of live portfolio performance metrics for the current 4-hour trading window..
+
+Usage Example:
+```bash
+python -m scripts.metric_live_service
+```
+- **`scripts/metric_monthly_service.py`** —Computes **current month-to-date (MTD)** portfolio performance metrics using the stored 4-hour trading windows and minute-level OHLCV data.
+
+Usage Example:
+```bash
+python -m scripts.metric_monthly_service
+```
+- **`scripts/metric_backtesting.py`** —Back-fills MongoDB with **synthetic AlphaFusionNet predictions** and simulated **live windows** over a short historical period, using **real prices**.
+
+Usage Example:
+```bash
+python -m scripts.metric_backtesting
+```
+- **`scripts/show_backtest_metrics.py`** —Connects to MongoDB using the SAME config + client and can:
+
+    • list             : show latest windows
+    • window           : show snapshots for one window
+    • export           : export a window's NAV/benchmark time series to CSV
+    • plot             : plot NAV (and benchmark if present) for a window
+    • export_monthly   : export monthly metrics collection to CSV
+    • export_live      : export live_metrics collection to CSV
+    • export_windows   : export windows collection to CSV
+    • export_predictions: export AlphaFusionNet_predictions collection to CSV
+
+Usage Example:
+```bash
+python -m scripts.show_backtest_metrics --action export_windows --out windows_all.csv
+```
 - **`scripts/future_testing_service.py`** —A service script for forward-looking (future) feature extraction and metric logging in live or near-real-time testing environments for the AlphaFusionNet pipeline
 
 Usage Example:
