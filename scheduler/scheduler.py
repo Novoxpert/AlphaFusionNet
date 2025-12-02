@@ -16,20 +16,16 @@ app.conf.enable_utc = True
 
 # Beat schedule
 app.conf.beat_schedule = {
-    # Daily workflow at 00:00 London time
+    # Daily workflow at 00:00 UTC time
     'daily-update': {
         'task': 'tasks.daily_update',
         'schedule': crontab(hour=0, minute=0),
     },
-    # Prediction task at 14:00 London time
-    'prediction-14pm': {
-        'task': 'tasks.prediction_14PM',
-        'schedule': crontab(hour=14, minute=0),
+    # Prediction task at 14:30 UTC time
+    'prediction-14-30pm': {
+        'task': 'tasks.prediction_14_30PM',
+        'schedule': crontab(hour=14, minute=30),
     },
     
-    # Live test task at 18:05 UTC time
-    'live-test-18-15': {
-        'task': 'tasks.live_test_18PM_pluse_10min',
-        'schedule': crontab(hour=18, minute=5),
-    },
+  
 }

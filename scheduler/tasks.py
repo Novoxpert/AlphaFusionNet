@@ -8,6 +8,7 @@ updated: 2025 Nov 19 (UTC alignment, calendar utils integration)
 Version: 1.0.1
 """
 import sys
+import logging
 import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
@@ -18,7 +19,7 @@ from celery.signals import before_task_publish
 # Import your trading-day utilities (UTC-based)
 from lib.trading_calendar_utils import (
     is_today_common_trading_day,
-    next_common_trading_day,
+    previous_common_trading_day,
 )
 
 # --------------------------------------------------------------------
@@ -41,8 +42,8 @@ BASE_DIR = Path(__file__).resolve().parent
 # --------------------------------------------------------------------
 SCHEDULED_TASKS = {
     "tasks.daily_update",
-    "tasks.prediction_14PM",
-    "tasks.live_test_18PM_pluse_10min",
+    "tasks.prediction_14_30PM",
+    "tasks.calculate_metric_live"
 }
 
 
@@ -74,7 +75,6 @@ def skip_if_not_trading_day(headers=None, **kwargs):
 def run_script(script, *args):
     """Runs a Python script or module."""
     if script == "-m":
-        # Example: run_script('-m', 'scripts.compute_trading_days_service')
         cmd = [sys.executable, script, *args]
     else:
         cmd = [sys.executable, str(BASE_DIR / script), *args]
@@ -84,10 +84,29 @@ def run_script(script, *args):
     print(f"[TASK] Finished {script}")
 
 
+def run_script_safe(script, *args):
+    """Runs a Python script or module safely, logging errors."""
+    if script == "-m":
+        cmd = [sys.executable, script, *args]
+    else:
+        cmd = [sys.executable, str(BASE_DIR / script), *args]
+
+    print(f"[TASK] Running: {' '.join(cmd)}")
+    try:
+        subprocess.run(cmd, check=True, cwd=BASE_DIR)
+        print(f"[TASK] Finished {script}")
+    except subprocess.CalledProcessError as e:
+        logging.error(
+            "Service step failed: %s (exit code %s). Continuing...",
+            e, e.returncode
+        )
+    except Exception as e:
+        logging.error("Unexpected error in this service step: %s. Continuing...", e)
+
+
 def run_background(script, *args):
     """Runs a script/module in background (detached)."""
     if script == "-m":
-        # Example: run_background('-m', 'scripts.alphafusionnet_api_service')
         cmd = [sys.executable, script, args[0], *args[1:]]
     else:
         script_path = BASE_DIR / script
@@ -96,7 +115,6 @@ def run_background(script, *args):
         cmd = [sys.executable, str(script_path), *args]
 
     print(f"[TASK] Starting background process: {' '.join(cmd)}")
-
     subprocess.Popen(
         cmd,
         cwd=BASE_DIR,
@@ -118,52 +136,16 @@ def initial_run():
     run_script("-m", "scripts.compute_trading_days_service")
 
     # 2) Historical ingest / feature / train pipeline
-    run_script(
-        "-m",
-        "apps.ChronoBridge.scripts.data_ingest_service",
-        "--mode",
-        "historical",
-        "--days",
-        "150",
-    )
-
-    run_script(
-        "-m",
-        "apps.ChronoBridge.scripts.features_service",
-        "--mode",
-        "train",
-        "--history_days",
-        "150",
-    )
-
-    run_script(
-        "-m",
-        "apps.NeuralFusionCore.scripts.train_service",
-        "--epochs",
-        "50",
-    )
-
-    # FIX: module name without .py when using -m
-    run_script(
-        "-m",
-        "apps.ChronoBridge.scripts.chronobridge_service",
-        "--mode",
-        "bridge",
-        "--history_days",
-        "150",
-    )
-
-    run_script(
-        "-m",
-        "apps.NetWeaver.src.services.netweaver_train_service",
-        "--latest_month",
-        "4",
-        "--no_analysis",
-    )
+    run_script("-m", "apps.ChronoBridge.scripts.data_ingest_service", "--mode", "historical", "--days", "150")
+    run_script("-m", "apps.ChronoBridge.scripts.features_service", "--mode", "train", "--history_days", "150")
+    run_script("-m", "apps.NeuralFusionCore.scripts.train_service", "--epochs", "50")
+    run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service", "--mode", "bridge", "--history_days", "150")
 
     # 3) Start APIs in background
     run_background("-m", "apps.ChronoBridge.scripts.chronobridge_api_service")
-    run_background("-m", "scripts.alphafusionnet_api_service")
+
+    # 4) NetWeaver train pipeline
+    run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_train_service", "--latest_month", "4", "--no_analysis")
 
     print("[TASK] API services started in background")
 
@@ -171,48 +153,11 @@ def initial_run():
 # --------- DAILY WORKFLOW ----------
 @app.task
 def daily_update():
-    # All these scripts should themselves treat time in UTC internally.
-    run_script(
-        "-m",
-        "apps.NeuralFusionCore.scripts.data_ingest_service",
-        "--mode",
-        "latest",
-        "--hours",
-        "20",
-    )
-
-    run_script(
-        "-m",
-        "apps.NeuralFusionCore.scripts.features_service",
-        "--mode",
-        "finetune",
-        "--latest_hours",
-        "20",
-    )
-
-    run_script(
-        "-m",
-        "apps.NeuralFusionCore.scripts.finetune_service",
-        "--epochs",
-        "30",
-    )
-
-    run_script(
-        "-m",
-        "apps.ChronoBridge.scripts.chronobridge_service",
-        "--mode",
-        "bridge",
-        "--hours",
-        "20",
-    )
-
-    run_script(
-        "-m",
-        "apps.NetWeaver.src.services.netweaver_finetune_service",
-        "--latest_hours",
-        "20",
-        "--no_analysis",
-    )
+    run_script("-m", "apps.NeuralFusionCore.scripts.data_ingest_service", "--mode", "latest", "--hours", "20")
+    run_script("-m", "apps.NeuralFusionCore.scripts.features_service", "--mode", "finetune", "--latest_hours", "20")
+    run_script("-m", "apps.NeuralFusionCore.scripts.finetune_service", "--epochs", "30")
+    run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service", "--mode", "bridge", "--hours", "20")
+    run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_finetune_service", "--latest_hours", "20", "--no_analysis")
 
 
 # --------- METRIC LIVE ----------
@@ -221,70 +166,53 @@ def calculate_metric_live():
     run_script("-m", "scripts.metric_live_service")
 
 
-# --------- PREDICTION AT 14:00 UTC ----------
+# --------- PREDICTION AT 14:30 UTC ----------
 @app.task
-def prediction_14PM():
+def prediction_14_30PM():
     """
-    Prediction task intended to run at 14:00 UTC.
+    Prediction task intended to run at 14:30 UTC.
 
-    After finishing the prediction workflow, it schedules metric calculations
-    every minute until 18:00 UTC (same day).
+    After finishing the prediction workflow, it schedules live-metric
+    calculations every minute for the full 14:30–18:30 window of
+    the **last trading day before today**.
     """
 
-    # 1) Prediction workflow (all internal scripts should use UTC)
-    run_script(
-        "-m",
-        "apps.ChronoBridge.scripts.chronobridge_service",
-        "--mode",
-        "synchronize",
-        "--hours",
-        "7",
-    )
+    today = datetime.now(timezone.utc).date()
+    last_trading_day = previous_common_trading_day(today)
+    if last_trading_day is None:
+        raise RuntimeError("No previous trading day found in cache!")
 
-    run_script(
-        "-m",
-        "apps.NeuralFusionCore.scripts.prediction_service",
-        "--mode",
-        "synchronize",
-        "--hours",
-        "7",
-    )
+    # 1) Prediction workflow (UTC-based)
+    run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service",
+               "--mode", "synchronize",
+               "--start_date", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc).timestamp())),
+               "--end_date", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc).timestamp())))
 
-    run_script(
-        "-m",
-        "apps.NetWeaver.src.services.netweaver_prediction_service",
-        "--latest_hours",
-        "7",
-        "--future_steps",
-        "80",
-        "--no_timestamp",
-    )
+    run_script("-m", "apps.NeuralFusionCore.scripts.prediction_service",
+               "--mode", "synchronize")
+
+    run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_prediction_service",
+                    "--start_str", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc).timestamp())),
+                    "--end_str", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc).timestamp())),
+                    "--future_steps", "60",
+                    "--no_timestamp")
 
     run_script("-m", "scripts.alphafusionnet_service")
-    run_script("-m", "scripts.metric_monthly_service")
 
-    # 2) Schedule live-metric runs every minute until 18:00 UTC
+    # 2) Schedule live-metric runs every minute for the full trading window
+    start_dt = datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc)
+    end_dt   = datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc)
+
     now_utc = datetime.now(timezone.utc)
-    end_time_utc = now_utc.replace(hour=18, minute=0, second=0, microsecond=0)
+    if now_utc > end_dt:
+        print("[TASK] prediction_14_30PM: current time is past 18:30 UTC; no metrics scheduled.")
+        return "Prediction finished. No metrics scheduled (past 18:30 UTC)."
 
-    # If for some reason this runs after 18:00 UTC, don't schedule anything
-    if end_time_utc <= now_utc:
-        print("[TASK] prediction_14PM: current time is past 18:00 UTC; no metrics scheduled.")
-        return "Prediction finished. No metrics scheduled (past 18:00 UTC)."
-
-    t = now_utc
-    while t <= end_time_utc:
-        delta = (t - now_utc).total_seconds()
-        # countdown is relative, so UTC/offset is preserved by definition
+    t = start_dt
+    while t <= end_dt:
+        delta = (t - start_dt).total_seconds()
         calculate_metric_live.apply_async(countdown=delta)
         t += timedelta(minutes=1)
 
-    return "Prediction finished. Metrics scheduled every minute until 18:00 UTC."
-
-
-# --------- LIVE TEST AT 18:05 UTC ----------
-@app.task
-def live_test_18PM_pluse_10min():
-    # You can implement whatever validation / smoke test you want here,
-    # but the scheduler (Celery beat) should trigger this at 18:10 UTC.
-    return "Live test at 18:10 UTC placeholder."
+    run_script("-m", "scripts.metric_monthly_service")
+    return "Prediction finished. Metrics scheduled every minute for full trading window."
