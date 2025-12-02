@@ -230,3 +230,1160 @@
 2025-11-09 16:21:03,557 - INFO - NetWeaver converted weights: {'XETR:DAX': 0.09523809523809523, 'OANDA:XAUUSD': 0.09047619047619047, 'SP:SPX': 0.08571428571428572, 'TVC:IXIC': 0.08095238095238096, 'NASDAQ:AMZN': 0.0761904761904762, 'BINANCE:BNBUSDT': 0.07142857142857142, 'BINANCE:ETHUSDT': 0.06666666666666667, 'NASDAQ:AVGO': 0.06190476190476191, 'NASDAQ:PEP': 0.05714285714285714, 'NASDAQ:AAPL': 0.05238095238095238, 'NASDAQ:NVDA': 0.047619047619047616, 'NASDAQ:MSFT': 0.04285714285714286, 'NYSE:NOW': 0.0380952380952381, 'NYSE:CVX': 0.03333333333333333, 'NYSE:MS': 0.02857142857142857, 'NYSE:JPM': 0.023809523809523808, 'NASDAQ:META': 0.01904761904761905, 'NASDAQ:QCOM': 0.014285714285714285, 'NYSE:WFC': 0.009523809523809525, 'NYSE:KO': 0.004761904761904762}
 2025-11-09 16:21:03,557 - INFO - Final AlphaFusionNet weights: {'BNBUSDT': 0.5128205128207627, 'ETHUSDT': 0.17948717948708742, 'BTCUSDT': 0.08974358974354371, 'XETR:DAX': 0.03663003663001785, 'OANDA:XAUUSD': 0.03479853479851695, 'SP:SPX': 0.032967032967016065, 'TVC:IXIC': 0.03113553113551517, 'NASDAQ:AMZN': 0.02930402930401428, 'BINANCE:BNBUSDT': 0.02747252747251339, 'BINANCE:ETHUSDT': 0.025641025641012498}
 2025-11-09 16:21:03,566 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 11:32:11,394 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 11:32:11,407 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 11:32:25,883 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 11:32:25,884 - INFO - NetWeaver converted weights: {'IG:USDJPY': 0.05030905894395483, 'OANDA:XAUUSD': 0.050246311922894894, 'NYSE:IBM': 0.05023566463593389, 'IG:AUDUSD': 0.050230091469129025, 'IG:NZDUSD': 0.05022744638681396, 'IG:EURUSD': 0.050223314753572765, 'IG:AUDEUR': 0.050220658802921675, 'IG:GBPUSD': 0.05021937128990578, 'IG:USDCAD': 0.05019680981198868, 'NASDAQ:ASML': 0.050192761849252074, 'IG:EURCAD': 0.04976985101336325, 'NYSE:CRM': 0.04976985101336325, 'NYSE:MS': 0.04976985101336325, 'OANDA:XAGUSD': 0.04976985101336325, 'NYSE:BAC': 0.04976985101336325, 'NYSE:WFC': 0.04976985101336325, 'NYSE:XOM': 0.04976985101336325, 'NYSE:ORCL': 0.04976985101336325, 'NYSE:JPM': 0.04976985101336325, 'BINANCE:ETHUSDT': 0.04976985101336325}
+2025-11-30 11:32:25,884 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.12751893933734593, 'IG:GBPUSD': 0.12406441378161519, 'IG:AUDUSD': 0.12301949701828734, 'NYSE:BAC': 0.09930217800440737, 'NYSE:CRM': 0.08588584076233721, 'NYSE:ORCL': 0.06249611873553536, 'NASDAQ:COST': -0.049911891854426634, 'NYSE:IBM': 0.04806263643688901, 'OANDA:XAUUSD': 0.04710265240978782, 'OANDA:XAGUSD': 0.04666947025220207, 'IG:USDJPY': -0.04247528372562763, 'IG:EURCAD': 0.04025450393974579, 'NASDAQ:MSFT': 0.03640466049235277, 'NASDAQ:AMZN': -0.033923878014679394, 'NASDAQ:GOOGL': -0.0329080352347604}
+2025-11-30 11:32:44,875 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:02:19,522 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:02:19,535 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:02:30,366 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:02:30,366 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:02:30,366 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.13287365677537974, 'IG:GBPUSD': 0.12925498335932195, 'IG:AUDUSD': 0.12825339045369857, 'NYSE:CRM': 0.08969765270519241, 'IG:USDJPY': -0.07566128918278145, 'NYSE:BAC': 0.07261205487911379, 'NYSE:ORCL': 0.06529168905125722, 'NASDAQ:AAPL': 0.05745589059665454, 'NASDAQ:COST': -0.05208047436828988, 'NASDAQ:MSFT': 0.037986377939511456, 'IG:AUDEUR': -0.03423784972912498, 'NASDAQ:ASML': 0.03124563969420548, 'NYSE:NOW': 0.031179349369954132, 'NYSE:MS': 0.031084850947757228, 'NYSE:JPM': 0.031084850947757228}
+2025-11-30 12:02:47,249 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:05:07,280 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:05:07,287 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:05:35,258 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Consumer Discretionary": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest performers in this environment, ensuring a robust portfolio."
+}
+2025-11-30 12:05:35,258 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:05:35,258 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.1392981448385684, 'IG:USDJPY': -0.10884953674512861, 'NASDAQ:GOOGL': 0.09814980483514509, 'NYSE:JPM': 0.08958069598902775, 'IG:AUDUSD': 0.08158145627777724, 'IG:GBPUSD': -0.07231976772753887, 'IG:USDCAD': -0.06504169507524957, 'NASDAQ:AVGO': 0.06257356746595634, 'NASDAQ:NVDA': 0.056508885788796495, 'IG:AUDEUR': 0.04981222390229459, 'NASDAQ:MSFT': -0.03940829976925106, 'NASDAQ:ASML': 0.03801020288818674, 'NYSE:WFC': -0.034468123525968584, 'NYSE:BAC': 0.034219421956615655, 'NASDAQ:AMZN': 0.030178173214494966}
+2025-11-30 12:05:44,805 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:08:59,342 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:08:59,350 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:09:26,895 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest relational signals while maintaining a diversified exposure. This approach aligns with the macro backdrop of cooling inflation and elevated interest rates, ensuring a cautious yet opportunistic stance in the portfolio."
+}
+2025-11-30 12:09:26,895 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:09:26,895 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.16619929303028827, 'IG:EURUSD': 0.09920164029260334, 'NASDAQ:AAPL': 0.08135834259536924, 'NYSE:MS': 0.07461610697551621, 'NASDAQ:COST': -0.07137506450771348, 'NASDAQ:GOOGL': 0.06868450823231295, 'NYSE:CRM': 0.06455241632462512, 'NASDAQ:MSFT': -0.06100890406680573, 'NYSE:XOM': -0.05414822112316857, 'IG:USDCAD': 0.0494327089759958, 'NASDAQ:QCOM': 0.04842054525657694, 'NYSE:WFC': -0.04457421795772644, 'BINANCE:BTCUSDT': 0.0419593562820097, 'NASDAQ:META': 0.039784176261944235, 'NYSE:TSM': -0.034684498117344045}
+2025-11-30 12:09:37,846 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:13:07,428 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:13:07,436 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:13:11,765 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:13:11,766 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:13:11,766 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.15992802054308622, 'IG:EURUSD': 0.09732076580968992, 'NASDAQ:AAPL': 0.09532168417776316, 'NASDAQ:COST': -0.07666207912555113, 'NASDAQ:GOOGL': 0.07405723477108843, 'NYSE:MS': 0.07332016328337215, 'IG:USDCAD': 0.0694765051695045, 'NYSE:CRM': 0.05765183215899614, 'NASDAQ:MSFT': -0.05741705227381121, 'NYSE:XOM': -0.0478973884581616, 'NASDAQ:QCOM': 0.04717604221665764, 'BINANCE:BTCUSDT': 0.040817097209320995, 'NYSE:WFC': -0.04022474900771906, 'NYSE:TSM': -0.033405372998725424, 'NASDAQ:ASML': 0.029324012796552397}
+2025-11-30 12:13:24,894 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:17:00,056 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:17:00,064 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:17:30,304 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 12:17:30,304 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NASDAQ:AAPL': 0.09047619047619047, 'NASDAQ:GOOGL': 0.08571428571428572, 'NASDAQ:NVDA': 0.08095238095238096, 'NASDAQ:AVGO': 0.0761904761904762, 'NASDAQ:AMZN': 0.07142857142857142, 'NASDAQ:QCOM': 0.06666666666666667, 'NASDAQ:META': 0.06190476190476191, 'IG:AUDUSD': 0.05714285714285714, 'NYSE:NOW': 0.05238095238095238, 'IG:AUDEUR': 0.047619047619047616, 'IG:NZDUSD': 0.04285714285714286, 'IG:GBPUSD': 0.0380952380952381, 'IG:EURUSD': 0.03333333333333333, 'IG:USDCAD': 0.02857142857142857, 'NYSE:CRM': 0.023809523809523808, 'NYSE:MS': 0.01904761904761905, 'NYSE:JPM': 0.014285714285714285, 'NYSE:XOM': 0.009523809523809525, 'NYSE:ORCL': 0.004761904761904762}
+2025-11-30 12:17:30,304 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.18814237866952047, 'IG:USDJPY': -0.14116379820039363, 'NASDAQ:GOOGL': 0.11912946310667129, 'NASDAQ:AVGO': 0.08935643607406323, 'IG:USDCAD': -0.08763209394050828, 'IG:AUDUSD': 0.08744417453594738, 'IG:GBPUSD': -0.07865134355721644, 'NASDAQ:NVDA': 0.0760435085069481, 'NYSE:JPM': 0.06926403114329135, 'NYSE:CRM': -0.0631727722654397}
+2025-11-30 12:17:39,541 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:20:47,096 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:20:47,104 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:20:50,631 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted weights from NeuralFusion and the relational scores from NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to ensure full utilization of the model's insights. Top-k filtering is applied to both NetWeaver and final fusion to focus on the most promising assets, enhancing the portfolio's potential performance while managing risk effectively."
+}
+2025-11-30 12:20:50,631 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:20:50,631 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.14966241236002878, 'IG:USDJPY': -0.11039871013252461, 'NASDAQ:GOOGL': 0.09049032877638084, 'NYSE:JPM': 0.08671483415314302, 'IG:AUDUSD': 0.07512334818840899, 'NASDAQ:AVGO': 0.07278340390904886, 'IG:GBPUSD': -0.05979148596672644, 'NASDAQ:NVDA': 0.05773856903766021, 'IG:USDCAD': -0.05255270969244849, 'IG:EURCAD': 0.04584560771608012, 'IG:AUDEUR': 0.045233171716818586, 'NYSE:BAC': 0.04363716727566144, 'NYSE:WFC': -0.04261950331425272, 'NYSE:CRM': -0.03587783769203024, 'NASDAQ:ASML': 0.031530910068786555}
+2025-11-30 12:20:58,564 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:24:24,658 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:24:24,666 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:24:37,376 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational alpha scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:24:37,377 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05015673682514598, 'NASDAQ:AAPL': 0.05011301878819786, 'NASDAQ:GOOGL': 0.05011301878819786, 'NASDAQ:NVDA': 0.050113018041455695, 'NASDAQ:AVGO': 0.05011301617460033, 'NASDAQ:AMZN': 0.050113015427858204, 'NASDAQ:QCOM': 0.05009900850355152, 'NASDAQ:META': 0.05009074356754832, 'IG:AUDUSD': 0.050051775218991616, 'NYSE:NOW': 0.05005032497440237, 'IG:AUDEUR': 0.049898632369005, 'IG:NZDUSD': 0.049898632369005, 'IG:GBPUSD': 0.049898632369005, 'IG:EURUSD': 0.049898632369005, 'IG:USDCAD': 0.049898632369005, 'NYSE:CRM': 0.049898632369005, 'NYSE:MS': 0.049898632369005, 'NYSE:JPM': 0.049898632369005, 'NYSE:XOM': 0.049898632369005, 'NYSE:ORCL': 0.049898632369005}
+2025-11-30 12:24:37,377 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.15250867372031257, 'IG:USDCAD': 0.13366518147971307, 'NASDAQ:COST': -0.10599176499333919, 'NYSE:CRM': 0.09883212505650042, 'NASDAQ:AAPL': 0.08953801606727108, 'NYSE:MS': 0.0761975170538963, 'NASDAQ:ASML': 0.059867409964633515, 'NYSE:BAC': -0.042625698074679925, 'NASDAQ:GOOGL': 0.040066139707717045, 'NYSE:WFC': -0.03799823144190945, 'IG:USDJPY': -0.03510667921561579, 'OANDA:XAGUSD': 0.033268208910981804, 'NASDAQ:NVDA': 0.03145237573530975, 'NASDAQ:QCOM': 0.031443582945187315, 'NASDAQ:META': 0.03143839563293272}
+2025-11-30 12:24:47,546 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:28:17,111 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:28:17,119 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:28:47,367 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 12:28:47,368 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NASDAQ:AAPL': 0.09047619047619047, 'NASDAQ:GOOGL': 0.08571428571428572, 'NASDAQ:NVDA': 0.08095238095238096, 'NASDAQ:AVGO': 0.0761904761904762, 'NASDAQ:AMZN': 0.07142857142857142, 'NASDAQ:QCOM': 0.06666666666666667, 'NASDAQ:META': 0.06190476190476191, 'IG:AUDUSD': 0.05714285714285714, 'NYSE:NOW': 0.05238095238095238, 'IG:AUDEUR': 0.047619047619047616, 'IG:NZDUSD': 0.04285714285714286, 'IG:GBPUSD': 0.0380952380952381, 'IG:EURUSD': 0.03333333333333333, 'IG:USDCAD': 0.02857142857142857, 'NYSE:CRM': 0.023809523809523808, 'NYSE:MS': 0.01904761904761905, 'NYSE:JPM': 0.014285714285714285, 'NYSE:XOM': 0.009523809523809525, 'NYSE:ORCL': 0.004761904761904762}
+2025-11-30 12:28:47,368 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.19899209550963415, 'IG:USDCAD': 0.15372186609520372, 'NASDAQ:AAPL': 0.14671263822203354, 'NASDAQ:COST': -0.10659032299396393, 'NYSE:CRM': 0.0707653545224005, 'NASDAQ:ASML': 0.06732397952382804, 'NASDAQ:MSFT': 0.06508026711213558, 'NASDAQ:GOOGL': 0.0646446110788141, 'NYSE:MS': 0.0642393948457554, 'IG:GBPUSD': -0.0619294700962312}
+2025-11-30 12:28:58,744 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:32:26,232 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:32:26,239 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:32:56,521 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 12:32:56,521 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NASDAQ:AAPL': 0.09047619047619047, 'NASDAQ:GOOGL': 0.08571428571428572, 'NASDAQ:NVDA': 0.08095238095238096, 'NASDAQ:AVGO': 0.0761904761904762, 'NASDAQ:AMZN': 0.07142857142857142, 'NASDAQ:QCOM': 0.06666666666666667, 'NASDAQ:META': 0.06190476190476191, 'IG:AUDUSD': 0.05714285714285714, 'NYSE:NOW': 0.05238095238095238, 'IG:AUDEUR': 0.047619047619047616, 'IG:NZDUSD': 0.04285714285714286, 'IG:GBPUSD': 0.0380952380952381, 'IG:EURUSD': 0.03333333333333333, 'IG:USDCAD': 0.02857142857142857, 'NYSE:CRM': 0.023809523809523808, 'NYSE:MS': 0.01904761904761905, 'NYSE:JPM': 0.014285714285714285, 'NYSE:XOM': 0.009523809523809525, 'NYSE:ORCL': 0.004761904761904762}
+2025-11-30 12:32:56,521 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.20669510683167946, 'IG:USDCAD': 0.16008661182330522, 'NASDAQ:AAPL': 0.14201595587992005, 'NASDAQ:COST': -0.10535803106741412, 'NASDAQ:MSFT': 0.07910819159414645, 'NYSE:CRM': 0.07482690950476666, 'NYSE:MS': 0.06341053940642753, 'NASDAQ:ASML': 0.060339950408387924, 'NASDAQ:GOOGL': 0.05430595536754914, 'IG:EURUSD': -0.053852748116403386}
+2025-11-30 12:37:39,134 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:37:39,146 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:37:56,552 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation dynamics, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like energy that are facing headwinds."
+}
+2025-11-30 12:37:56,552 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.05012468747330114, 'IG:NZDUSD': 0.05011774873006702, 'IG:AUDUSD': 0.050117561280441786, 'OANDA:XAUUSD': 0.05011664457972331, 'IG:AUDEUR': 0.05011174247583506, 'IG:GBPUSD': 0.05010024201897739, 'IG:EURCAD': 0.050098144252388906, 'IG:EURUSD': 0.05009776091556693, 'OANDA:XAGUSD': 0.050097356679427746, 'NYSE:WFC': 0.0500729950648639, 'NYSE:BAC': 0.04989451165294067, 'NYSE:XOM': 0.04989451165294067, 'NYSE:CRM': 0.04989451165294067, 'NYSE:ORCL': 0.04989451165294067, 'NYSE:TSM': 0.04989451165294067, 'NASDAQ:AMZN': 0.04989451165294067, 'NASDAQ:AAPL': 0.04989451165294067, 'NASDAQ:GOOGL': 0.04989451165294067, 'NASDAQ:NVDA': 0.04989451165294067, 'NASDAQ:AVGO': 0.04989451165294067}
+2025-11-30 12:37:56,552 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.1332350056236209, 'IG:AUDUSD': 0.13227229300748486, 'NYSE:BAC': 0.10146176875708778, 'NYSE:CRM': 0.08885854628167099, 'IG:GBPUSD': 0.08340820457816371, 'NYSE:ORCL': 0.0666035526224036, 'OANDA:XAUUSD': 0.05331829322479611, 'NASDAQ:AAPL': 0.050583530009602515, 'IG:EURCAD': 0.050180256809041576, 'NASDAQ:COST': -0.049862384504415345, 'OANDA:XAGUSD': 0.04475140684876455, 'IG:AUDEUR': -0.04231368337273319, 'NASDAQ:QCOM': -0.0382426538140504, 'NASDAQ:MSFT': 0.0331388560967801, 'NYSE:IBM': 0.03176956444938426}
+2025-11-30 12:38:18,404 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:41:47,991 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:41:47,999 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:41:51,623 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to align with the risk-adjusted weights from NeuralFusion. The top-k selections focus on the strongest relational signals from NetWeaver, ensuring that the portfolio captures the best opportunities while managing risk effectively."
+}
+2025-11-30 12:41:51,623 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.050161982169873144, 'NASDAQ:COST': 0.0501582322441146, 'IG:AUDUSD': 0.050154802096117126, 'IG:NZDUSD': 0.050150867748497814, 'IG:AUDEUR': 0.050149703832653325, 'IG:EURCAD': 0.05014396573010005, 'IG:GBPUSD': 0.05014389026262189, 'IG:EURUSD': 0.0501437546456075, 'OANDA:XAGUSD': 0.050143637335317896, 'NYSE:NOW': 0.05009362316326114, 'NASDAQ:GOOGL': 0.04985555407718359, 'NASDAQ:NVDA': 0.04985555407718359, 'NASDAQ:AAPL': 0.04985555407718359, 'NASDAQ:AVGO': 0.04985555407718359, 'NASDAQ:AMZN': 0.04985555407718359, 'NASDAQ:META': 0.04985555407718359, 'NASDAQ:QCOM': 0.04985555407718359, 'NASDAQ:MSFT': 0.04985555407718359, 'IG:USDJPY': 0.04985555407718359, 'NYSE:BAC': 0.04985555407718359}
+2025-11-30 12:41:51,624 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.18105123485905583, 'NASDAQ:AAPL': 0.09583366036710252, 'NYSE:XOM': -0.09405123280599098, 'IG:EURUSD': 0.09043775512957114, 'IG:USDCAD': 0.07030451842711558, 'NASDAQ:GOOGL': 0.06518997738904454, 'NASDAQ:COST': -0.05235096994379674, 'NASDAQ:QCOM': 0.05149289684930034, 'NYSE:TSM': -0.0483986786678456, 'NYSE:MS': 0.047441749749082766, 'NYSE:WFC': -0.04358030281586348, 'BINANCE:BTCUSDT': 0.042483041280038304, 'IG:GBPUSD': -0.04083909551464811, 'NYSE:IBM': 0.038327384622349726, 'NYSE:CRM': 0.03821750157919433}
+2025-11-30 12:42:02,303 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:44:54,912 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:44:54,920 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:45:22,257 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:45:22,258 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.05014309660764009, 'IG:AUDUSD': 0.05013705929937312, 'IG:NZDUSD': 0.050125455931730574, 'IG:AUDEUR': 0.050122413041464454, 'IG:USDJPY': 0.050120024569239544, 'IG:GBPUSD': 0.05011467780647078, 'IG:EURUSD': 0.05011115207061889, 'IG:EURCAD': 0.05010970570578772, 'OANDA:XAGUSD': 0.05010861143943439, 'NASDAQ:AAPL': 0.05009849723383118, 'NASDAQ:AMZN': 0.04988093062944096, 'NASDAQ:NVDA': 0.04988093062944096, 'NASDAQ:GOOGL': 0.04988093062944096, 'NASDAQ:MSFT': 0.04988093062944096, 'NASDAQ:AVGO': 0.04988093062944096, 'NYSE:CRM': 0.04988093062944096, 'NYSE:ORCL': 0.04988093062944096, 'NYSE:TSM': 0.04988093062944096, 'NYSE:WFC': 0.04988093062944096, 'NYSE:XOM': 0.04988093062944096}
+2025-11-30 12:45:22,258 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.14763512862453063, 'NASDAQ:GOOGL': 0.08861960624242946, 'IG:USDJPY': -0.07962606143965874, 'IG:AUDUSD': 0.07931056470889448, 'IG:EURCAD': 0.07774749737448744, 'NASDAQ:AVGO': 0.07240882305209094, 'IG:GBPUSD': -0.06339419282574885, 'NYSE:JPM': 0.05864679467240661, 'NASDAQ:NVDA': 0.058168343796728784, 'NYSE:TSM': 0.055946333442580654, 'IG:AUDEUR': 0.05112850881758671, 'IG:USDCAD': -0.050646295776264665, 'NYSE:BAC': 0.04579086248323808, 'NYSE:MS': -0.038600068394749776, 'IG:NZDUSD': 0.03233091834860397}
+2025-11-30 12:45:32,769 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:48:32,637 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:48:32,645 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:48:59,730 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aligns with the macro backdrop of cooling inflation and elevated interest rates, ensuring a cautious yet opportunistic stance in the portfolio."
+}
+2025-11-30 12:48:59,730 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05020910042333136, 'IG:AUDUSD': 0.050205237750080525, 'IG:USDJPY': 0.0502030241226316, 'IG:NZDUSD': 0.05018880507207347, 'IG:USDCAD': 0.05018193372545076, 'NASDAQ:ASML': 0.05017965233383747, 'IG:AUDEUR': 0.0501767448501827, 'IG:EURUSD': 0.05015934309955944, 'IG:GBPUSD': 0.05015784601469014, 'IG:EURCAD': 0.050150298487515364, 'OANDA:XAGUSD': 0.0498188014120647, 'BINANCE:BTCUSDT': 0.0498188014120647, 'BINANCE:ETHUSDT': 0.0498188014120647, 'BINANCE:XLMUSDT': 0.0498188014120647, 'BINANCE:XRPUSDT': 0.0498188014120647, 'BINANCE:DOGEUSDT': 0.0498188014120647, 'BINANCE:DOTUSDT': 0.0498188014120647, 'BINANCE:ADAUSDT': 0.0498188014120647, 'BINANCE:TONUSDT': 0.0498188014120647, 'BINANCE:SOLUSDT': 0.0498188014120647}
+2025-11-30 12:48:59,730 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.15879102852204188, 'NASDAQ:AAPL': 0.09668125807837959, 'IG:USDCAD': 0.09171432402155398, 'NYSE:XOM': -0.08043736561048974, 'NASDAQ:COST': -0.07689336796143423, 'BINANCE:BTCUSDT': 0.06865843791288949, 'IG:GBPUSD': -0.06845659692552342, 'IG:EURUSD': 0.05873419571664767, 'NASDAQ:MSFT': -0.05411296332675234, 'NASDAQ:GOOGL': 0.048464511128921764, 'NYSE:MS': 0.04704916180641808, 'NYSE:TSM': -0.04170718633136751, 'OANDA:XAUUSD': 0.03845245265129934, 'NASDAQ:AMZN': -0.03724630090343175, 'NYSE:IBM': 0.03260084910284937}
+2025-11-30 12:49:09,921 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:52:27,573 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:52:27,581 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:52:31,459 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted signals from NeuralFusion and the relational insights from NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:52:31,459 - INFO - NetWeaver converted weights: {'NASDAQ:AMZN': 0.050183311219038414, 'NASDAQ:AAPL': 0.05018330897566964, 'NASDAQ:NVDA': 0.05018330897566964, 'NASDAQ:GOOGL': 0.050183308227880065, 'NASDAQ:META': 0.050167207163120564, 'NASDAQ:QCOM': 0.05016451680410576, 'NASDAQ:AVGO': 0.0501301177489677, 'NASDAQ:MSFT': 0.050120404741529616, 'NYSE:NOW': 0.05007246035624987, 'NYSE:JPM': 0.05005605547385309, 'NYSE:XOM': 0.04985560003139157, 'NYSE:TSM': 0.04985560003139157, 'NYSE:BAC': 0.04985560003139157, 'NYSE:WFC': 0.04985560003139157, 'NYSE:IBM': 0.04985560003139157, 'NYSE:CRM': 0.04985560003139157, 'IG:USDJPY': 0.04985560003139157, 'NYSE:ORCL': 0.04985560003139157, 'IG:USDCAD': 0.04985560003139157, 'NYSE:MS': 0.04985560003139157}
+2025-11-30 12:52:31,459 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.14458612488353148, 'IG:GBPUSD': -0.08826787345401824, 'IG:USDJPY': -0.08764227275156601, 'NASDAQ:GOOGL': 0.08666650554835718, 'NYSE:JPM': 0.07456629868656413, 'IG:USDCAD': -0.07246388753532375, 'NASDAQ:AVGO': 0.06868904869599358, 'NYSE:BAC': 0.06755664051710963, 'NASDAQ:NVDA': 0.05607717896268938, 'IG:AUDUSD': 0.05448793710387129, 'NYSE:TSM': 0.04943227261109745, 'NYSE:IBM': 0.044270291443706616, 'IG:EURCAD': 0.04344472050513971, 'NYSE:CRM': -0.03174286115006457, 'NASDAQ:QCOM': 0.030106086150967108}
+2025-11-30 12:52:41,702 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:56:03,471 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:56:03,478 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:56:28,835 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the moderate-to-high volatility and the current market context, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The sector multipliers are set to overweight technology, which is showing resilience, while underweighting sectors like consumer discretionary that are slowing down. This approach aligns with the macro backdrop of cooling inflation and elevated interest rates, aiming for a robust risk-adjusted return."
+}
+2025-11-30 12:56:28,835 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.04997344868973849, 'NASDAQ:ASML': -0.04997344868973849, 'IG:USDCAD': -0.04997344868973849, 'BINANCE:BTCUSDT': -0.04997344868973849, 'BINANCE:BNBUSDT': -0.04997344868973849, 'NYSE:CRM': -0.04997344868973849, 'NYSE:WFC': -0.04997344868973849, 'NYSE:BAC': -0.04997344868973849, 'NYSE:XOM': -0.04997344868973849, 'NYSE:TSM': -0.04997344868973849, 'NYSE:ORCL': -0.05001668721878982, 'NYSE:MS': -0.05001788978563694, 'NASDAQ:GOOGL': -0.050027677973743065, 'NASDAQ:AVGO': -0.050027677973743065, 'NASDAQ:AMZN': -0.05002767834647831, 'NASDAQ:NVDA': -0.05002767871921356, 'NASDAQ:QCOM': -0.05002767871921356, 'NASDAQ:AAPL': -0.050027679091948815, 'IG:AUDUSD': -0.05003130034600855, 'IG:NZDUSD': -0.050033564927839475}
+2025-11-30 12:56:28,835 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': -0.12365737717567174, 'IG:USDJPY': -0.11221444765866405, 'IG:GBPUSD': -0.09587436464072971, 'NYSE:CRM': -0.09429034525973476, 'NASDAQ:AAPL': 0.08087654417116863, 'NYSE:MS': -0.07680420904147578, 'NYSE:WFC': -0.07046934909800615, 'IG:EURCAD': 0.055719638237639715, 'NYSE:JPM': 0.0540401919111073, 'NYSE:ORCL': -0.054010840394981836, 'NASDAQ:AMZN': -0.04341966117716473, 'NYSE:XOM': -0.04288399619469878, 'IG:NZDUSD': -0.03192705067836964, 'NASDAQ:QCOM': -0.031923294614188046, 'BINANCE:BTCUSDT': -0.031888689746399045}
+2025-11-30 12:56:37,011 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 12:59:55,037 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 12:59:55,045 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 12:59:58,027 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 12:59:58,027 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05011462199710505, 'OANDA:XAUUSD': 0.05011398351619056, 'IG:USDJPY': 0.050071261872243464, 'IG:AUDUSD': 0.05005980203538816, 'IG:NZDUSD': 0.050052566105409944, 'IG:USDCAD': 0.05005110092151218, 'IG:AUDEUR': 0.05003118441864152, 'NASDAQ:COST': 0.05002481955035277, 'IG:GBPUSD': 0.05000791833760463, 'NASDAQ:NVDA': 0.050006729795925804, 'NASDAQ:AAPL': 0.049946601144962556, 'NASDAQ:AMZN': 0.049946601144962556, 'NASDAQ:QCOM': 0.049946601144962556, 'IG:EURUSD': 0.049946601144962556, 'NASDAQ:GOOGL': 0.049946601144962556, 'IG:EURCAD': 0.049946601144962556, 'OANDA:XAGUSD': 0.049946601144962556, 'NASDAQ:AVGO': 0.049946601144962556, 'NYSE:BAC': 0.049946601144962556, 'NYSE:WFC': 0.049946601144962556}
+2025-11-30 12:59:58,028 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.15534227338512274, 'IG:USDCAD': 0.13438320257668546, 'NASDAQ:AAPL': 0.10621751747236498, 'IG:GBPUSD': -0.10331193128210756, 'NYSE:XOM': -0.06707716683607926, 'OANDA:XAUUSD': 0.06485762505651502, 'NASDAQ:GOOGL': 0.053935591131490795, 'OANDA:XAGUSD': 0.047789561702604864, 'NASDAQ:COST': -0.044246965705065824, 'NYSE:MS': 0.04245612589748308, 'NASDAQ:NVDA': 0.04055020383088963, 'NYSE:BAC': 0.03967038266875724, 'NYSE:CRM': 0.03594146259699565, 'NYSE:TSM': -0.03476034278807962, 'IG:USDJPY': 0.0294596470697585}
+2025-11-30 13:00:12,885 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:03:20,593 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:03:20,600 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:03:33,701 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 13:03:33,701 - INFO - NetWeaver converted weights: {'NASDAQ:META': 0.04996998021472336, 'NYSE:NOW': 0.04996998021472336, 'NASDAQ:QCOM': -0.04996998021472336, 'NASDAQ:AAPL': -0.04996998021472336, 'NASDAQ:NVDA': -0.04996998021472336, 'NASDAQ:AMZN': -0.04996998021472336, 'NASDAQ:GOOGL': -0.04996998021472336, 'NASDAQ:AVGO': -0.04996998021472336, 'OANDA:XAGUSD': -0.04996998021472336, 'NASDAQ:MSFT': -0.04996998021472336, 'NASDAQ:COST': -0.05000923288605195, 'IG:USDJPY': -0.050011607135720726, 'NASDAQ:ASML': -0.050013587626368324, 'OANDA:XAUUSD': -0.05001970770764112, 'IG:USDCAD': -0.05002779319125091, 'NYSE:CRM': -0.05003200379547935, 'IG:NZDUSD': -0.05003417633150115, 'IG:AUDUSD': -0.05003834907303423, 'IG:AUDEUR': -0.05005511736143593, 'IG:GBPUSD': -0.05005862274428249}
+2025-11-30 13:03:33,702 - INFO - Final AlphaFusionNet weights: {'NASDAQ:COST': -0.12145460501771885, 'IG:AUDUSD': 0.11026253922099942, 'IG:GBPUSD': -0.10871650791489794, 'IG:USDCAD': 0.07845993600154548, 'NASDAQ:AMZN': -0.0699249688726199, 'IG:USDJPY': -0.06746787483304408, 'NYSE:XOM': -0.06516966260620798, 'IG:NZDUSD': -0.05554057391788781, 'NASDAQ:AVGO': -0.050602377201996424, 'IG:AUDEUR': -0.04943568431525541, 'NASDAQ:AAPL': 0.048927824397608205, 'NYSE:MS': 0.044546977811403037, 'NYSE:WFC': -0.044276829113511836, 'BINANCE:BTCUSDT': 0.04283217063645974, 'NYSE:TSM': -0.042381468138843977}
+2025-11-30 13:03:48,590 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:07:16,414 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:07:16,422 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:07:30,339 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to ensure full utilization of the model's insights. The top-k selections are set to 10 for NetWeaver to focus on the most promising relational opportunities, while 15 for the final fusion allows for broader diversification. This approach aligns with the current market context of sector rotation and mixed macro signals, emphasizing technology while managing risks effectively."
+}
+2025-11-30 13:07:30,339 - INFO - NetWeaver converted weights: {'NYSE:NOW': -0.04988749152636193, 'OANDA:XAUUSD': -0.04988749152636193, 'IG:USDCAD': -0.04988749152636193, 'IG:NZDUSD': -0.04988749152636193, 'IG:AUDEUR': -0.04988749152636193, 'IG:AUDUSD': -0.04988749152636193, 'IG:EURCAD': -0.04988749152636193, 'IG:GBPUSD': -0.04988749152636193, 'IG:EURUSD': -0.04988749152636193, 'OANDA:XAGUSD': -0.04988749152636193, 'NYSE:BAC': -0.05011104852131746, 'NYSE:ORCL': -0.05011104889467386, 'NYSE:TSM': -0.05011104889467386, 'NYSE:JPM': -0.05011104889467386, 'NYSE:WFC': -0.05011104926803027, 'NYSE:XOM': -0.050111049641386685, 'NYSE:CRM': -0.05011384877259837, 'NASDAQ:AAPL': -0.05011498049188023, 'NASDAQ:GOOGL': -0.05011498049188023, 'NASDAQ:MSFT': -0.05011498086526593}
+2025-11-30 13:07:30,339 - INFO - Final AlphaFusionNet weights: {'IG:AUDEUR': -0.10395747070378404, 'IG:GBPUSD': -0.10303324331563624, 'NYSE:XOM': -0.08240863638630781, 'NASDAQ:COST': -0.07402005798693866, 'IG:AUDUSD': 0.07255721264051934, 'IG:USDJPY': -0.07223603236384402, 'NYSE:WFC': -0.06894293066954794, 'IG:EURUSD': -0.06779449631112622, 'IG:EURCAD': -0.06550248406886304, 'IG:USDCAD': 0.06307841857260667, 'NYSE:TSM': -0.06085841052764507, 'IG:NZDUSD': -0.05934552300960532, 'NYSE:NOW': -0.038036472954606604, 'NASDAQ:MSFT': 0.035484904894246654, 'BINANCE:BTCUSDT': 0.03274370559472252}
+2025-11-30 13:07:44,864 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:10:36,953 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:10:36,961 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:11:07,197 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 13:11:07,197 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NASDAQ:COST': 0.09047619047619047, 'NASDAQ:AVGO': 0.08571428571428572, 'NASDAQ:QCOM': 0.08095238095238096, 'NASDAQ:AAPL': 0.0761904761904762, 'NASDAQ:GOOGL': 0.07142857142857142, 'NASDAQ:NVDA': 0.06666666666666667, 'NASDAQ:AMZN': 0.06190476190476191, 'NASDAQ:MSFT': 0.05714285714285714, 'NASDAQ:META': 0.05238095238095238, 'OANDA:XAUUSD': 0.047619047619047616, 'NYSE:CRM': 0.04285714285714286, 'IG:AUDUSD': 0.0380952380952381, 'IG:USDCAD': 0.03333333333333333, 'IG:NZDUSD': 0.02857142857142857, 'NYSE:MS': 0.023809523809523808, 'NYSE:BAC': 0.01904761904761905, 'NYSE:WFC': 0.014285714285714285, 'NYSE:ORCL': 0.009523809523809525, 'NYSE:TSM': 0.004761904761904762}
+2025-11-30 13:11:07,197 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14904659356376723, 'IG:GBPUSD': -0.14694929117765881, 'IG:USDCAD': 0.13679668972000622, 'NASDAQ:MSFT': 0.12151414591750961, 'NASDAQ:AAPL': 0.11353376440546967, 'NYSE:CRM': 0.07752036352830774, 'OANDA:XAUUSD': 0.07110065579505029, 'NYSE:XOM': -0.06741808851214669, 'IG:AUDEUR': -0.05895789477693602, 'NYSE:MS': 0.057162512603147725}
+2025-11-30 13:11:23,823 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:14:36,497 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:14:36,505 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:15:06,110 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation dynamics, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure."
+}
+2025-11-30 13:15:06,111 - INFO - NetWeaver converted weights: {'NYSE:MS': 0.05017486840164824, 'NYSE:ORCL': 0.050112974997957555, 'NYSE:BAC': 0.050112974997957555, 'NYSE:WFC': 0.05011297387784529, 'NYSE:XOM': 0.050111935171181426, 'NYSE:TSM': 0.050111769398278355, 'NYSE:JPM': 0.05010927540367304, 'NYSE:CRM': 0.05008868826331285, 'NYSE:NOW': 0.050060283887248376, 'NYSE:IBM': 0.05002531261973321, 'BINANCE:ETHUSDT': 0.04989789429811642, 'IG:USDCAD': 0.04989789429811642, 'IG:USDJPY': 0.04989789429811642, 'IG:NZDUSD': 0.04989789429811642, 'IG:AUDUSD': 0.04989789429811642, 'IG:AUDEUR': 0.04989789429811642, 'OANDA:XAUUSD': 0.04989789429811642, 'IG:EURUSD': 0.04989789429811642, 'IG:GBPUSD': 0.04989789429811642, 'IG:EURCAD': 0.04989789429811642}
+2025-11-30 13:15:06,111 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.13443997704396535, 'IG:USDCAD': 0.1292135554545103, 'NASDAQ:MSFT': 0.0810444058563866, 'NYSE:CRM': 0.07342157827572915, 'OANDA:XAUUSD': 0.06874407526361143, 'IG:GBPUSD': -0.06852576438869946, 'NASDAQ:AAPL': 0.0665425963048336, 'NYSE:MS': 0.06235443357200276, 'NASDAQ:COST': -0.05954879022977035, 'NYSE:IBM': 0.052036616264937996, 'NYSE:ORCL': 0.051776820267630176, 'IG:AUDEUR': -0.04988074305800198, 'IG:EURCAD': 0.041710913912034006, 'NYSE:BAC': 0.030380986493291254, 'NYSE:JPM': 0.0303787436145958}
+2025-11-30 13:15:19,921 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:18:34,783 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:18:34,791 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:19:04,737 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Consumer Discretionary": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising relational opportunities while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like consumer discretionary that are slowing down."
+}
+2025-11-30 13:19:04,737 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.0502035168666832, 'IG:NZDUSD': 0.05013717965325785, 'IG:AUDUSD': 0.05012418773544007, 'NYSE:ORCL': 0.050123072239856896, 'NYSE:MS': 0.050123072239856896, 'NYSE:BAC': 0.05012307186641091, 'NYSE:WFC': 0.05012307186641091, 'NYSE:TSM': 0.050123071492964924, 'NYSE:JPM': 0.050123062156816195, 'NYSE:XOM': 0.05011689470356659, 'IG:USDCAD': 0.04986797991787353, 'IG:USDJPY': 0.04986797991787353, 'NASDAQ:COST': 0.04986797991787353, 'NYSE:IBM': 0.04986797991787353, 'IG:AUDEUR': 0.04986797991787353, 'IG:EURUSD': 0.04986797991787353, 'IG:GBPUSD': 0.04986797991787353, 'IG:EURCAD': 0.04986797991787353, 'NASDAQ:ASML': 0.04986797991787353, 'OANDA:XAGUSD': 0.04986797991787353}
+2025-11-30 13:19:04,737 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14500646304698078, 'IG:USDCAD': 0.13851129988195673, 'NASDAQ:MSFT': 0.0815845155308476, 'IG:GBPUSD': -0.06826725128681463, 'NYSE:MS': 0.06624446403307684, 'NASDAQ:AAPL': 0.06607900590928455, 'OANDA:XAGUSD': 0.06320758180724755, 'NYSE:IBM': 0.060783726377449145, 'NYSE:ORCL': 0.05960107089074655, 'NYSE:BAC': 0.05564785535708582, 'NYSE:CRM': 0.047227464699940484, 'IG:AUDEUR': -0.04430166329220543, 'OANDA:XAUUSD': 0.03848106474133707, 'NYSE:JPM': 0.0326112678875965, 'IG:EURCAD': 0.03244530525743034}
+2025-11-30 13:19:18,567 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:22:37,728 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:22:37,739 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:22:47,896 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like energy that are facing headwinds."
+}
+2025-11-30 13:22:47,896 - INFO - NetWeaver converted weights: {'NYSE:TSM': 0.05006683227961866, 'NYSE:CRM': 0.050066831533564726, 'NYSE:BAC': 0.050066831533564726, 'NYSE:WFC': 0.050066831533564726, 'NYSE:MS': 0.050066831533564726, 'NYSE:ORCL': 0.050064039131589314, 'NYSE:XOM': 0.05006403689355241, 'NYSE:JPM': 0.050050244280690714, 'NASDAQ:COST': 0.05003360101457555, 'NYSE:IBM': 0.05003178933960417, 'NYSE:NOW': 0.04994221309261106, 'IG:USDCAD': 0.04994221309261106, 'IG:USDJPY': 0.04994221309261106, 'IG:NZDUSD': 0.04994221309261106, 'IG:AUDUSD': 0.04994221309261106, 'NASDAQ:ASML': 0.04994221309261106, 'IG:AUDEUR': 0.04994221309261106, 'IG:EURUSD': 0.04994221309261106, 'IG:GBPUSD': 0.04994221309261106, 'IG:EURCAD': 0.04994221309261106}
+2025-11-30 13:22:47,896 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.1397654945314612, 'IG:USDCAD': 0.1391194585731744, 'NASDAQ:MSFT': 0.08261049437278563, 'NYSE:CRM': 0.08044750285212202, 'IG:AUDEUR': -0.07484933814125287, 'NASDAQ:AAPL': 0.06597938839065158, 'NYSE:MS': 0.06156690076523671, 'NYSE:IBM': 0.06074920711236575, 'NYSE:ORCL': 0.060531012488732286, 'NYSE:BAC': 0.0581121380956146, 'IG:GBPUSD': -0.04807679724437692, 'OANDA:XAUUSD': 0.03337207357613963, 'NYSE:JPM': 0.03267336658763975, 'IG:EURCAD': 0.03260284260395589, 'OANDA:XAGUSD': 0.029543984664490798}
+2025-11-30 13:23:03,378 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:25:58,659 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:25:58,667 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:26:02,598 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational alpha scores. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is appropriate to maintain full market participation while managing risk. The top-k selections focus on the most promising assets from NetWeaver, ensuring that we capitalize on the strongest relational signals while adhering to the risk discipline from NeuralFusion."
+}
+2025-11-30 13:26:02,598 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.05007933921398133, 'IG:AUDUSD': 0.05007135097556062, 'IG:NZDUSD': 0.050071250622350086, 'NYSE:TSM': 0.05006481463376189, 'NYSE:ORCL': 0.05006481164966649, 'NYSE:WFC': 0.050064811276654575, 'NYSE:BAC': 0.050064810530630756, 'NYSE:MS': 0.050064810530630756, 'NYSE:XOM': 0.0500596091498147, 'NYSE:CRM': 0.05005691299950271, 'NYSE:JPM': 0.04993374784174464, 'NYSE:IBM': 0.04993374784174464, 'IG:EURUSD': 0.04993374784174464, 'IG:AUDEUR': 0.04993374784174464, 'IG:GBPUSD': 0.04993374784174464, 'IG:EURCAD': 0.04993374784174464, 'OANDA:XAGUSD': 0.04993374784174464, 'NASDAQ:COST': 0.04993374784174464, 'IG:USDJPY': 0.04993374784174464, 'NYSE:NOW': 0.04993374784174464}
+2025-11-30 13:26:02,598 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.13885237751532895, 'IG:USDCAD': 0.13496792140916314, 'NASDAQ:MSFT': 0.093633064122348, 'NYSE:CRM': 0.07691340805494502, 'NYSE:ORCL': 0.06397428538539904, 'OANDA:XAGUSD': 0.06391047339957508, 'NASDAQ:AAPL': 0.06168989336367204, 'NYSE:MS': 0.05905180101046835, 'NYSE:IBM': 0.05396689899073378, 'NYSE:BAC': 0.05296936107718557, 'IG:AUDEUR': -0.05259219939802932, 'IG:USDJPY': -0.047842491496395245, 'OANDA:XAUUSD': 0.03409673298911921, 'NASDAQ:AMZN': -0.0333535871568587, 'NASDAQ:COST': -0.03218550463077868}
+2025-11-30 13:26:16,836 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:29:24,495 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:29:24,503 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:29:54,764 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 13:29:54,764 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.09523809523809523, 'NYSE:WFC': 0.09047619047619047, 'NYSE:BAC': 0.08571428571428572, 'NYSE:CRM': 0.08095238095238096, 'NYSE:ORCL': 0.0761904761904762, 'NYSE:TSM': 0.07142857142857142, 'NYSE:MS': 0.06666666666666667, 'NYSE:XOM': 0.06190476190476191, 'IG:USDJPY': 0.03333333333333333, 'NYSE:IBM': 0.02857142857142857, 'IG:AUDUSD': 0.004761904761904762, 'IG:USDCAD': -0.009523809523809525, 'IG:AUDEUR': -0.014285714285714285, 'NYSE:JPM': -0.01904761904761905, 'IG:NZDUSD': -0.023809523809523808, 'OANDA:XAUUSD': -0.0380952380952381, 'NASDAQ:AAPL': -0.04285714285714286, 'NASDAQ:NVDA': -0.047619047619047616, 'NASDAQ:AMZN': -0.05238095238095238, 'NASDAQ:GOOGL': -0.05714285714285714}
+2025-11-30 13:29:54,765 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.1447465445297568, 'IG:USDCAD': 0.12659792072176523, 'NASDAQ:MSFT': 0.12384105322856688, 'NYSE:CRM': 0.11651201913155973, 'IG:AUDEUR': -0.09368751784052928, 'NASDAQ:COST': -0.08913833218085819, 'NYSE:ORCL': 0.0851072050719639, 'NASDAQ:AMZN': -0.08430562573294305, 'NYSE:MS': 0.07541062642082133, 'IG:GBPUSD': -0.06065315514123569}
+2025-11-30 13:30:04,355 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:33:17,352 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:33:17,361 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:33:35,151 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted signals from NeuralFusion and the relational insights from NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 13:33:35,151 - INFO - NetWeaver converted weights: {'NYSE:CRM': 0.050099013869149917, 'NYSE:BAC': 0.050099012376082976, 'NYSE:WFC': 0.050099012376082976, 'NYSE:ORCL': 0.050099009763215935, 'NYSE:TSM': 0.0500953126928726, 'NYSE:XOM': 0.05009371898699033, 'NYSE:JPM': 0.05009289789368017, 'NYSE:MS': 0.050075223764726826, 'NYSE:IBM': 0.05005367651441038, 'OANDA:XAUUSD': 0.05004983884970149, 'IG:USDCAD': 0.04991432829130864, 'IG:USDJPY': 0.04991432829130864, 'IG:AUDUSD': 0.04991432829130864, 'IG:NZDUSD': 0.04991432829130864, 'IG:AUDEUR': 0.04991432829130864, 'BINANCE:ETHUSDT': 0.04991432829130864, 'IG:EURUSD': 0.04991432829130864, 'IG:GBPUSD': 0.04991432829130864, 'IG:EURCAD': 0.04991432829130864, 'OANDA:XAGUSD': 0.04991432829130864}
+2025-11-30 13:33:35,152 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.13588338947752665, 'IG:USDCAD': 0.13177252325324276, 'NASDAQ:MSFT': 0.09115609113123273, 'NYSE:CRM': 0.08162011268590873, 'NASDAQ:COST': -0.0667322428337536, 'NYSE:ORCL': 0.062354740479515405, 'IG:AUDEUR': -0.05972569266123922, 'OANDA:XAGUSD': 0.05815732302748939, 'OANDA:XAUUSD': 0.05512590738946312, 'NYSE:MS': 0.05349792008668532, 'IG:EURCAD': 0.04975080066122352, 'NASDAQ:AAPL': 0.04760076691284091, 'NYSE:IBM': 0.04539269645338179, 'NASDAQ:AMZN': -0.0309653716801765, 'NYSE:BAC': 0.030264421266320368}
+2025-11-30 13:33:50,911 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:37:01,110 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:37:01,119 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:37:12,577 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing both risk management from NeuralFusion and alpha generation from NetWeaver. The softmax method allows for a smooth distribution of weights, accommodating the moderate-to-high volatility in the current market. The top-k selections focus on the most promising assets based on relational alpha signals, while the overall gross exposure is set to 1.0 to maintain a fully invested position. This strategy aligns with the current market context of sector rotation and mixed macro signals, emphasizing technology and avoiding underperforming sectors."
+}
+2025-11-30 13:37:12,578 - INFO - NetWeaver converted weights: {'NASDAQ:META': 0.05007743188043518, 'NASDAQ:NVDA': 0.050059882560227954, 'NASDAQ:AMZN': 0.050059882560227954, 'NASDAQ:AAPL': 0.050059881814277576, 'NASDAQ:GOOGL': 0.050059881814277576, 'NASDAQ:QCOM': 0.05005988144130239, 'NYSE:XOM': 0.050057132316729876, 'NYSE:BAC': 0.050057131943775174, 'NYSE:WFC': 0.050057131943775174, 'NASDAQ:AVGO': 0.05005709054582104, 'NYSE:CRM': 0.049939467117915, 'NYSE:ORCL': 0.049939467117915, 'NYSE:MS': 0.049939467117915, 'NASDAQ:MSFT': 0.049939467117915, 'NYSE:TSM': 0.049939467117915, 'NYSE:IBM': 0.049939467117915, 'NYSE:NOW': 0.049939467117915, 'NYSE:JPM': 0.049939467117915, 'OANDA:XAUUSD': 0.049939467117915, 'NASDAQ:COST': 0.049939467117915}
+2025-11-30 13:37:12,578 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.10531136266545998, 'IG:AUDUSD': 0.10308107260063197, 'NASDAQ:MSFT': 0.09857537962600108, 'IG:AUDEUR': -0.08909188936232024, 'NYSE:CRM': 0.08376536266850576, 'NYSE:BAC': 0.07484811763895631, 'NASDAQ:AAPL': 0.06676054614552647, 'NYSE:ORCL': 0.06307946405398171, 'OANDA:XAUUSD': 0.05939595920014909, 'NYSE:IBM': 0.05908239604490434, 'NYSE:MS': 0.05212342929160789, 'IG:EURUSD': -0.044245073571507296, 'IG:USDJPY': -0.041703313297034236, 'NASDAQ:META': 0.029473481314538193, 'NASDAQ:NVDA': 0.029463152518875397}
+2025-11-30 13:37:28,479 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:40:37,587 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:40:37,595 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:41:07,993 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 13:41:07,994 - INFO - NetWeaver converted weights: {'NYSE:BAC': 0.09523809523809523, 'NYSE:ORCL': 0.09047619047619047, 'NYSE:XOM': 0.08571428571428572, 'NYSE:IBM': 0.08095238095238096, 'NYSE:WFC': 0.0761904761904762, 'IG:USDCAD': 0.07142857142857142, 'NYSE:MS': 0.06666666666666667, 'NYSE:CRM': 0.06190476190476191, 'NYSE:TSM': 0.05714285714285714, 'IG:AUDUSD': 0.05238095238095238, 'IG:NZDUSD': 0.047619047619047616, 'IG:EURUSD': 0.04285714285714286, 'IG:AUDEUR': 0.0380952380952381, 'IG:GBPUSD': 0.03333333333333333, 'IG:EURCAD': 0.02857142857142857, 'OANDA:XAGUSD': 0.023809523809523808, 'NYSE:JPM': 0.01904761904761905, 'OANDA:XAUUSD': 0.014285714285714285, 'BINANCE:DOGEUSDT': 0.009523809523809525, 'BINANCE:XLMUSDT': 0.004761904761904762}
+2025-11-30 13:41:07,994 - INFO - Final AlphaFusionNet weights: {'IG:USDJPY': -0.133621675881421, 'NASDAQ:AAPL': 0.13252209426849954, 'IG:EURCAD': 0.12445699227540083, 'IG:GBPUSD': -0.10847868881668248, 'NYSE:BAC': 0.10775353808860443, 'IG:AUDUSD': 0.09857406807711079, 'NYSE:JPM': 0.08331002250655525, 'IG:USDCAD': -0.07166270462251578, 'NYSE:IBM': 0.07076984656451, 'NASDAQ:GOOGL': 0.06885036889869998}
+2025-11-30 13:41:22,854 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:44:35,503 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:44:35,510 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:44:51,870 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while maintaining a disciplined risk framework."
+}
+2025-11-30 13:44:51,870 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05021075625166484, 'NYSE:JPM': 0.050165343938352716, 'NYSE:ORCL': 0.05015318846300106, 'NYSE:MS': 0.05015318547363817, 'NYSE:BAC': 0.05015318472629747, 'NYSE:WFC': 0.05015318472629747, 'NYSE:XOM': 0.05015318323161612, 'NYSE:IBM': 0.05015313465449624, 'NYSE:TSM': 0.050147976032183246, 'NYSE:CRM': 0.050125079142276326, 'IG:USDJPY': 0.04984317833601761, 'IG:USDCAD': 0.04984317833601761, 'IG:AUDUSD': 0.04984317833601761, 'IG:NZDUSD': 0.04984317833601761, 'IG:AUDEUR': 0.04984317833601761, 'OANDA:XAUUSD': 0.04984317833601761, 'IG:EURUSD': 0.04984317833601761, 'IG:GBPUSD': 0.04984317833601761, 'IG:EURCAD': 0.04984317833601761, 'OANDA:XAGUSD': 0.04984317833601761}
+2025-11-30 13:44:51,870 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.13025672441328326, 'IG:AUDUSD': 0.12871156613822374, 'NYSE:BAC': 0.09221633287424712, 'NYSE:CRM': 0.08132782501341114, 'IG:GBPUSD': 0.06715410191462791, 'NYSE:ORCL': 0.06519255338722907, 'OANDA:XAUUSD': 0.05880676077282406, 'NYSE:IBM': 0.05811585691985652, 'NYSE:MS': 0.05040330363825231, 'OANDA:XAGUSD': 0.04966222684643617, 'NASDAQ:MSFT': 0.048370079502865856, 'IG:EURCAD': 0.044843461687730034, 'IG:AUDEUR': -0.04440888418682395, 'NASDAQ:COST': -0.043084116913647934, 'IG:USDJPY': -0.03744620579054106}
+2025-11-30 13:45:06,482 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:48:33,175 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:48:33,183 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:48:50,559 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a more nuanced weighting of assets based on their relative strengths from both NeuralFusion and NetWeaver outputs. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 13:48:50,560 - INFO - NetWeaver converted weights: {'IG:USDJPY': 0.050268412794422374, 'NASDAQ:ASML': 0.050211814793280726, 'IG:AUDUSD': 0.05019394126392657, 'IG:NZDUSD': 0.05019107034759749, 'IG:GBPUSD': 0.050180298676705586, 'IG:EURUSD': 0.05017910603805122, 'IG:USDCAD': 0.05017545502019588, 'IG:AUDEUR': 0.05016867259332957, 'OANDA:XAGUSD': 0.05016385696901097, 'IG:EURCAD': 0.05014903100843205, 'NASDAQ:COST': 0.04981183404950476, 'NYSE:NOW': 0.04981183404950476, 'NASDAQ:MSFT': 0.04981183404950476, 'NASDAQ:AAPL': 0.04981183404950476, 'NASDAQ:NVDA': 0.04981183404950476, 'NASDAQ:AMZN': 0.04981183404950476, 'NASDAQ:QCOM': 0.04981183404950476, 'NASDAQ:GOOGL': 0.04981183404950476, 'NYSE:BAC': 0.04981183404950476, 'NYSE:WFC': 0.04981183404950476}
+2025-11-30 13:48:50,560 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.15764789577762386, 'IG:AUDUSD': 0.14878204676982726, 'NYSE:BAC': 0.09923458663461723, 'NASDAQ:MSFT': 0.08429632521606423, 'IG:USDJPY': 0.06797890591826115, 'NYSE:CRM': 0.06744350470209023, 'NYSE:XOM': -0.05764204485169309, 'IG:NZDUSD': 0.0500063242849204, 'OANDA:XAGUSD': 0.04812813015627608, 'NASDAQ:AAPL': 0.047976521299285604, 'OANDA:XAUUSD': 0.038137362573644425, 'NYSE:ORCL': 0.03604783562776828, 'NYSE:MS': 0.03277982532798841, 'IG:GBPUSD': 0.03195930245387899, 'IG:EURCAD': 0.031939388406060754}
+2025-11-30 13:49:10,971 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:52:57,293 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:52:57,300 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:53:27,611 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 13:53:27,611 - INFO - NetWeaver converted weights: {'IG:AUDUSD': 0.09523809523809523, 'IG:EURUSD': 0.09047619047619047, 'IG:USDCAD': 0.08571428571428572, 'IG:AUDEUR': 0.08095238095238096, 'IG:NZDUSD': 0.0761904761904762, 'NYSE:NOW': 0.07142857142857142, 'IG:GBPUSD': 0.06666666666666667, 'NYSE:JPM': 0.06190476190476191, 'IG:EURCAD': 0.05714285714285714, 'OANDA:XAUUSD': 0.05238095238095238, 'OANDA:XAGUSD': 0.047619047619047616, 'NYSE:ORCL': 0.04285714285714286, 'NYSE:BAC': 0.0380952380952381, 'NYSE:WFC': 0.03333333333333333, 'NYSE:XOM': 0.02857142857142857, 'NYSE:CRM': 0.023809523809523808, 'NYSE:IBM': 0.01904761904761905, 'NYSE:TSM': 0.014285714285714285, 'NASDAQ:AMZN': 0.009523809523809525, 'NASDAQ:GOOGL': 0.004761904761904762}
+2025-11-30 13:53:27,611 - INFO - Final AlphaFusionNet weights: {'IG:EURCAD': 0.13758607684377513, 'IG:USDJPY': -0.13665658306367037, 'IG:AUDUSD': 0.1290927690265802, 'NASDAQ:AAPL': 0.12895966903832995, 'NYSE:JPM': 0.1028372918309146, 'IG:GBPUSD': -0.08809664499037555, 'IG:USDCAD': -0.07380204914371687, 'NASDAQ:GOOGL': 0.06964770868833708, 'NYSE:CRM': -0.06854009275857319, 'NYSE:BAC': 0.064781114615727}
+2025-11-30 13:53:43,196 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 13:57:39,895 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 13:57:39,903 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 13:58:10,165 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest performers in this environment, ensuring a robust portfolio."
+}
+2025-11-30 13:58:10,166 - INFO - NetWeaver converted weights: {'NASDAQ:GOOGL': 0.05008036177547858, 'NASDAQ:NVDA': 0.050080361029223044, 'NASDAQ:AMZN': 0.05008036028296752, 'NASDAQ:AAPL': 0.050080359536712006, 'NASDAQ:MSFT': 0.050062528697571794, 'NASDAQ:ASML': 0.05005920878000859, 'NASDAQ:COST': 0.050053858435898636, 'NASDAQ:QCOM': 0.0499405478251697, 'NASDAQ:META': 0.0499405478251697, 'NASDAQ:AVGO': 0.0499405478251697, 'IG:AUDUSD': -0.0499405478251697, 'IG:USDCAD': -0.0499405478251697, 'IG:NZDUSD': -0.0499405478251697, 'IG:GBPUSD': -0.0499405478251697, 'IG:AUDEUR': -0.0499405478251697, 'IG:EURUSD': -0.0499405478251697, 'OANDA:XAUUSD': -0.0499405478251697, 'IG:USDJPY': -0.05002325879225559, 'IG:EURCAD': -0.050029517601147835, 'BINANCE:ETHUSDT': -0.05004470681703949}
+2025-11-30 13:58:10,166 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': -0.12786315767450646, 'IG:USDJPY': -0.12101485667263936, 'NASDAQ:AAPL': 0.11452697750140856, 'IG:GBPUSD': -0.10237271928423422, 'NASDAQ:GOOGL': 0.07242463782774922, 'NASDAQ:AVGO': 0.07117431115292037, 'NYSE:CRM': -0.05838885893669759, 'BINANCE:ETHUSDT': -0.04892294245546665, 'NASDAQ:NVDA': 0.04879789784416458, 'IG:EURUSD': -0.04735790071228282, 'IG:EURCAD': 0.04134076104363837, 'NYSE:WFC': -0.039686939051039094, 'NYSE:JPM': 0.03724446154761142, 'NYSE:MS': -0.03718738434025689, 'IG:AUDEUR': -0.031696193955384366}
+2025-11-30 13:58:18,410 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 14:02:07,348 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 14:02:07,356 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 14:02:10,823 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted weights from NeuralFusion and the relational scores from NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 14:02:10,823 - INFO - NetWeaver converted weights: {'NASDAQ:NVDA': 0.05017316772612484, 'NASDAQ:AMZN': 0.05017316772612484, 'NASDAQ:META': 0.050173166978486394, 'NASDAQ:GOOGL': 0.05017316660466717, 'NASDAQ:AVGO': 0.05017316585702873, 'NASDAQ:AAPL': 0.0501731651093903, 'NASDAQ:MSFT': 0.05017316361411348, 'NASDAQ:ASML': 0.05015731618333283, 'NASDAQ:QCOM': 0.050155234711247394, 'NYSE:NOW': 0.05015471977510841, 'IG:NZDUSD': 0.04983205657143753, 'IG:USDCAD': 0.04983205657143753, 'OANDA:XAUUSD': 0.04983205657143753, 'IG:AUDEUR': 0.04983205657143753, 'IG:EURUSD': 0.04983205657143753, 'IG:AUDUSD': 0.04983205657143753, 'NYSE:IBM': 0.04983205657143753, 'IG:EURCAD': 0.04983205657143753, 'IG:GBPUSD': 0.04983205657143753, 'BINANCE:BNBUSDT': 0.04983205657143753}
+2025-11-30 14:02:10,823 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.1317032445369907, 'IG:AUDUSD': 0.11436061424869663, 'NYSE:BAC': 0.0905841446385302, 'IG:GBPUSD': 0.08277373327017444, 'IG:AUDEUR': -0.07550071063451089, 'NYSE:IBM': 0.07048010986614038, 'NYSE:XOM': -0.06415673662882813, 'NYSE:CRM': 0.0601727687399324, 'OANDA:XAUUSD': 0.05391754203476245, 'IG:EURCAD': 0.04672428748086718, 'NASDAQ:MSFT': 0.045998382034620026, 'IG:USDJPY': -0.04238281175626192, 'NASDAQ:COST': -0.04094471415355526, 'NASDAQ:AAPL': 0.040233211314480204, 'NYSE:ORCL': 0.04006698866164904}
+2025-11-30 14:02:27,771 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:08:11,292 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:08:11,994 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:08:25,167 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Energy": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational alpha scores. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like energy that are facing headwinds."
+}
+2025-11-30 15:08:25,168 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.050124686893295724, 'IG:NZDUSD': 0.050117751884205246, 'IG:AUDUSD': 0.05011755883349424, 'OANDA:XAUUSD': 0.05011664399981096, 'IG:AUDEUR': 0.05011174040253317, 'IG:GBPUSD': 0.05010024069270307, 'IG:EURCAD': 0.05009814703203305, 'IG:EURUSD': 0.05009776257541755, 'OANDA:XAGUSD': 0.050097362445063603, 'NYSE:ORCL': 0.05007299448545663, 'NYSE:BAC': 0.049894511075598676, 'NYSE:WFC': 0.049894511075598676, 'NYSE:XOM': 0.049894511075598676, 'NYSE:CRM': 0.049894511075598676, 'NYSE:TSM': 0.049894511075598676, 'NASDAQ:GOOGL': 0.049894511075598676, 'NASDAQ:AMZN': 0.049894511075598676, 'NASDAQ:AAPL': 0.049894511075598676, 'NASDAQ:NVDA': 0.049894511075598676, 'NASDAQ:AVGO': 0.049894511075598676}
+2025-11-30 15:08:25,168 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.13322102925672474, 'IG:AUDUSD': 0.13225841652957518, 'NYSE:BAC': 0.1014511253265457, 'NYSE:CRM': 0.08884922489832271, 'IG:GBPUSD': 0.08339945448217036, 'NYSE:ORCL': 0.06670146130199203, 'OANDA:XAUUSD': 0.05331269992550529, 'NASDAQ:AAPL': 0.05057822358179081, 'IG:EURCAD': 0.05017499465651877, 'NASDAQ:COST': -0.049857154062308964, 'OANDA:XAGUSD': 0.04474671592419842, 'IG:AUDEUR': -0.04230924598939121, 'NASDAQ:QCOM': -0.03823864225325649, 'NASDAQ:MSFT': 0.03313537991187621, 'NYSE:IBM': 0.031766231899823125}
+2025-11-30 15:08:38,768 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:12:22,253 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:12:22,994 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:12:26,806 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to ensure full utilization of the model's insights. The top-k selections are set to 10 for NetWeaver to focus on the most promising relational opportunities, while 15 for the final fusion allows for a broader selection of assets that can mitigate risk effectively."
+}
+2025-11-30 15:12:26,807 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.05016198147746841, 'NASDAQ:COST': 0.05015823192546958, 'IG:AUDUSD': 0.05015480103012912, 'IG:NZDUSD': 0.05015086855085883, 'IG:AUDEUR': 0.050149705382284554, 'IG:EURCAD': 0.050143968026757316, 'IG:GBPUSD': 0.05014389330647794, 'IG:EURUSD': 0.050143754327054445, 'OANDA:XAGUSD': 0.050143637016765594, 'NYSE:NOW': 0.05009362135212029, 'NASDAQ:AMZN': 0.04985555376046142, 'NASDAQ:NVDA': 0.04985555376046142, 'NASDAQ:GOOGL': 0.04985555376046142, 'NASDAQ:AAPL': 0.04985555376046142, 'NASDAQ:AVGO': 0.04985555376046142, 'NASDAQ:META': 0.04985555376046142, 'NASDAQ:QCOM': 0.04985555376046142, 'NASDAQ:MSFT': 0.04985555376046142, 'IG:USDJPY': 0.04985555376046142, 'NYSE:XOM': 0.04985555376046142}
+2025-11-30 15:12:26,807 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.18731682943586417, 'NASDAQ:AAPL': 0.09915015193506599, 'IG:EURUSD': 0.09356751193793829, 'IG:USDCAD': 0.07273752903170237, 'NASDAQ:GOOGL': 0.06744599059736095, 'NYSE:XOM': -0.06269929182395147, 'NASDAQ:COST': -0.054162667237153565, 'NASDAQ:QCOM': 0.053274898578215206, 'NYSE:TSM': -0.05007359977310284, 'NYSE:MS': 0.04908355465186542, 'NYSE:WFC': -0.045088475579436994, 'BINANCE:BTCUSDT': 0.04395324138495819, 'IG:GBPUSD': -0.042252401882095704, 'NYSE:IBM': 0.039653770944874156, 'NYSE:CRM': 0.03954008520641474}
+2025-11-30 15:12:39,310 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:15:49,687 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:15:50,404 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:16:20,567 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the moderate-to-high volatility in the market, this approach aims to capture potential upside while controlling for downside risk. The top-k selections focus on the most promising assets from NetWeaver, ensuring that the final portfolio is both robust and strategically aligned with current market conditions."
+}
+2025-11-30 15:16:20,567 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.05014309761423668, 'IG:AUDUSD': 0.05013706105294895, 'IG:NZDUSD': 0.0501254573114368, 'IG:AUDEUR': 0.050122413300763675, 'IG:USDJPY': 0.05012002818933608, 'IG:GBPUSD': 0.05011467769234654, 'IG:EURUSD': 0.05011115232985985, 'IG:EURCAD': 0.05010970559167479, 'OANDA:XAGUSD': 0.05010861207200045, 'NASDAQ:AAPL': 0.05009849711974378, 'NASDAQ:AMZN': 0.04988092977256523, 'NASDAQ:MSFT': 0.04988092977256523, 'NASDAQ:NVDA': 0.04988092977256523, 'NASDAQ:GOOGL': 0.04988092977256523, 'NASDAQ:AVGO': 0.04988092977256523, 'NYSE:CRM': 0.04988092977256523, 'NYSE:ORCL': 0.04988092977256523, 'NYSE:WFC': 0.04988092977256523, 'NYSE:TSM': 0.04988092977256523, 'NYSE:XOM': 0.04988092977256523}
+2025-11-30 15:16:20,568 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.14763512900570777, 'NASDAQ:GOOGL': 0.08861960596272142, 'IG:USDJPY': -0.07962605934997032, 'IG:AUDUSD': 0.07931056608425284, 'IG:EURCAD': 0.07774749754037182, 'NASDAQ:AVGO': 0.07240882272244849, 'IG:GBPUSD': -0.06339419309463341, 'NYSE:JPM': 0.05864679485305754, 'NASDAQ:NVDA': 0.0581683434232211, 'NYSE:TSM': 0.05594633306222846, 'IG:AUDEUR': 0.05112850914232691, 'IG:USDCAD': -0.05064629528301671, 'NYSE:BAC': 0.04579086262428863, 'NYSE:MS': -0.03860006851365036, 'IG:NZDUSD': 0.032330919338104065}
+2025-11-30 15:16:34,225 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:20:22,434 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:20:23,151 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:20:36,703 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Consumer Discretionary": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture potential upside while managing downside risk effectively."
+}
+2025-11-30 15:20:36,703 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.0502090987392749, 'IG:AUDUSD': 0.05020523718832811, 'IG:USDJPY': 0.05020302393494563, 'IG:NZDUSD': 0.05018880488444065, 'IG:USDCAD': 0.050181933537843636, 'NASDAQ:ASML': 0.05017965663264958, 'IG:AUDEUR': 0.050176748401053906, 'IG:EURUSD': 0.05015934328575299, 'IG:GBPUSD': 0.050157842837532565, 'IG:EURCAD': 0.0501502983000265, 'OANDA:XAGUSD': 0.049818801225815154, 'BINANCE:BTCUSDT': 0.049818801225815154, 'BINANCE:ETHUSDT': 0.049818801225815154, 'BINANCE:DOGEUSDT': 0.049818801225815154, 'BINANCE:TONUSDT': 0.049818801225815154, 'BINANCE:DOTUSDT': 0.049818801225815154, 'BINANCE:ADAUSDT': 0.049818801225815154, 'BINANCE:XLMUSDT': 0.049818801225815154, 'BINANCE:XRPUSDT': 0.049818801225815154, 'BINANCE:SOLUSDT': 0.049818801225815154}
+2025-11-30 15:20:36,703 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.1587910279140069, 'NASDAQ:AAPL': 0.0966812579277168, 'IG:USDCAD': 0.09171432375820811, 'NYSE:XOM': -0.08043736548514054, 'NASDAQ:COST': -0.0768933678416078, 'BINANCE:BTCUSDT': 0.06865843768634405, 'IG:GBPUSD': -0.06845659885823263, 'IG:EURUSD': 0.05873419574463542, 'NASDAQ:MSFT': -0.054112963242425656, 'NASDAQ:GOOGL': 0.0484645110533973, 'NYSE:MS': 0.04704916173309922, 'NYSE:TSM': -0.041707186266373306, 'OANDA:XAUUSD': 0.03845245259137714, 'NASDAQ:AMZN': -0.03724630084538915, 'NYSE:IBM': 0.03260084905204599}
+2025-11-30 15:20:51,124 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:24:31,058 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:24:31,797 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:24:59,306 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest candidates from both models, ensuring a robust portfolio. The risk controls are set to manage potential losses effectively while allowing for significant upside potential."
+}
+2025-11-30 15:24:59,307 - INFO - NetWeaver converted weights: {'NASDAQ:AMZN': 0.05018331161150618, 'NASDAQ:GOOGL': 0.050183309742032174, 'NASDAQ:AAPL': 0.050183308994242594, 'NASDAQ:NVDA': 0.05018330824645302, 'NASDAQ:META': 0.050167207181687566, 'NASDAQ:QCOM': 0.05016451682267177, 'NASDAQ:AVGO': 0.05013011776752098, 'NASDAQ:MSFT': 0.05012040476007929, 'NYSE:NOW': 0.0500724603747818, 'NYSE:JPM': 0.05005605400059227, 'NYSE:TSM': 0.04985560004984325, 'NYSE:BAC': 0.04985560004984325, 'NYSE:XOM': 0.04985560004984325, 'NYSE:WFC': 0.04985560004984325, 'NYSE:IBM': 0.04985560004984325, 'NYSE:CRM': 0.04985560004984325, 'IG:USDJPY': 0.04985560004984325, 'NYSE:ORCL': 0.04985560004984325, 'IG:USDCAD': 0.04985560004984325, 'NYSE:MS': 0.04985560004984325}
+2025-11-30 15:24:59,307 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.1445861249495734, 'IG:GBPUSD': -0.08826787348753114, 'IG:USDJPY': -0.08764227277376765, 'NASDAQ:GOOGL': 0.08666650648997598, 'NYSE:JPM': 0.07456629783070179, 'IG:USDCAD': -0.07246388755176257, 'NASDAQ:AVGO': 0.06868904873320764, 'NYSE:BAC': 0.06755664055383277, 'NASDAQ:NVDA': 0.056077178546343164, 'IG:AUDUSD': 0.054487937124558856, 'NYSE:TSM': 0.04943227264093923, 'NYSE:IBM': 0.044270291471588556, 'IG:EURCAD': 0.04344472052163448, 'NYSE:CRM': -0.03174286115104274, 'NASDAQ:QCOM': 0.030106086173539902}
+2025-11-30 15:25:12,652 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:28:40,322 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:28:41,038 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:28:44,427 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted signals from NeuralFusion and the relational insights from NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 15:28:44,427 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.04997344865251366, 'NASDAQ:ASML': -0.04997344865251366, 'IG:USDCAD': -0.04997344865251366, 'BINANCE:BTCUSDT': -0.04997344865251366, 'BINANCE:BNBUSDT': -0.04997344865251366, 'NYSE:XOM': -0.04997344865251366, 'NYSE:ORCL': -0.04997344865251366, 'NYSE:BAC': -0.04997344865251366, 'NYSE:WFC': -0.04997344865251366, 'NYSE:CRM': -0.05001668755418613, 'NYSE:TSM': -0.04997344865251366, 'NYSE:MS': -0.050017890493703636, 'NASDAQ:AAPL': -0.05002767868194832, 'NASDAQ:QCOM': -0.05002767868194832, 'NASDAQ:GOOGL': -0.050027679054683576, 'NASDAQ:NVDA': -0.050027679427418835, 'NASDAQ:AVGO': -0.050027679427418835, 'NASDAQ:AMZN': -0.050027679800154094, 'IG:AUDUSD': -0.05003129546283179, 'IG:NZDUSD': -0.05003356489056986}
+2025-11-30 15:28:44,427 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': -0.12365737694309142, 'IG:USDJPY': -0.11221444746916164, 'IG:GBPUSD': -0.09587436447882165, 'NYSE:CRM': -0.09431793636680776, 'NASDAQ:AAPL': 0.08087654429621467, 'NYSE:MS': -0.0768042093635988, 'NYSE:WFC': -0.07046934895524722, 'IG:EURCAD': 0.055719638143543054, 'NYSE:JPM': 0.0540401918198468, 'NYSE:ORCL': -0.05398324922773189, 'NASDAQ:AMZN': -0.043419662031448585, 'NYSE:XOM': -0.04288399609852469, 'IG:NZDUSD': -0.03192705060067054, 'NASDAQ:QCOM': -0.03192329453649808, 'BINANCE:BTCUSDT': -0.03188868966879331}
+2025-11-30 15:28:53,034 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:32:26,877 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:32:27,618 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:32:58,155 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 15:32:58,155 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'OANDA:XAUUSD': 0.09047619047619047, 'IG:USDJPY': 0.08571428571428572, 'IG:AUDUSD': 0.08095238095238096, 'IG:NZDUSD': 0.0761904761904762, 'IG:USDCAD': 0.07142857142857142, 'IG:AUDEUR': 0.06666666666666667, 'NASDAQ:COST': 0.06190476190476191, 'IG:GBPUSD': 0.05714285714285714, 'NASDAQ:AAPL': 0.05238095238095238, 'NASDAQ:NVDA': 0.047619047619047616, 'NASDAQ:AMZN': 0.04285714285714286, 'NASDAQ:QCOM': 0.0380952380952381, 'IG:EURUSD': 0.03333333333333333, 'NASDAQ:GOOGL': 0.02857142857142857, 'IG:EURCAD': 0.023809523809523808, 'OANDA:XAGUSD': 0.01904761904761905, 'NASDAQ:AVGO': 0.014285714285714285, 'NYSE:BAC': 0.009523809523809525, 'NYSE:WFC': 0.004761904761904762}
+2025-11-30 15:32:58,156 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.19986328383879967, 'IG:USDCAD': 0.16885384397076902, 'IG:GBPUSD': -0.12930920421570227, 'NASDAQ:AAPL': 0.12367799254239932, 'OANDA:XAUUSD': 0.09485844411997302, 'NYSE:XOM': -0.08184635709195992, 'NASDAQ:COST': -0.05453042304273359, 'NYSE:MS': 0.05180420409583474, 'IG:USDJPY': 0.0489762336166057, 'NASDAQ:GOOGL': 0.04628001346522285}
+2025-11-30 15:33:11,458 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:36:39,110 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:36:39,905 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:37:06,461 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to align with the risk-adjusted weights from NeuralFusion. The top-k selections focus on the most promising assets based on relational alpha signals, ensuring a concentrated yet diversified portfolio."
+}
+2025-11-30 15:37:06,461 - INFO - NetWeaver converted weights: {'NASDAQ:META': 0.0499699801961202, 'NYSE:NOW': 0.0499699801961202, 'NASDAQ:QCOM': -0.0499699801961202, 'NASDAQ:AAPL': -0.0499699801961202, 'NASDAQ:NVDA': -0.0499699801961202, 'NASDAQ:AMZN': -0.0499699801961202, 'NASDAQ:GOOGL': -0.0499699801961202, 'NASDAQ:AVGO': -0.0499699801961202, 'OANDA:XAGUSD': -0.0499699801961202, 'NASDAQ:MSFT': -0.0499699801961202, 'NASDAQ:COST': -0.05000923286743417, 'IG:USDJPY': -0.05001160711710207, 'NASDAQ:ASML': -0.050013587607748926, 'OANDA:XAUUSD': -0.05001970843437118, 'IG:USDCAD': -0.05002779317262623, 'NYSE:CRM': -0.050032003776853094, 'IG:NZDUSD': -0.05003417631287409, 'IG:AUDUSD': -0.05003834942722037, 'IG:AUDEUR': -0.0500551165969217, 'IG:GBPUSD': -0.05005862272564632}
+2025-11-30 15:37:06,461 - INFO - Final AlphaFusionNet weights: {'NASDAQ:COST': -0.12145460509936032, 'IG:AUDUSD': 0.11026253907709282, 'IG:GBPUSD': -0.10871650798670282, 'IG:USDCAD': 0.07845993607409979, 'NASDAQ:AMZN': -0.06992496891452674, 'IG:USDJPY': -0.06746787487304579, 'NYSE:XOM': -0.06516966265647245, 'IG:NZDUSD': -0.05554057394868472, 'NASDAQ:AVGO': -0.05060237722900002, 'IG:AUDEUR': -0.049435683859192434, 'NASDAQ:AAPL': 0.048927824447370885, 'NYSE:MS': 0.04454697784576152, 'NYSE:WFC': -0.04427682914766194, 'BINANCE:BTCUSDT': 0.04283217066949561, 'NYSE:TSM': -0.04238146817153221}
+2025-11-30 15:37:23,693 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:41:06,843 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:41:07,631 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:41:10,846 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 15:41:10,846 - INFO - NetWeaver converted weights: {'NYSE:NOW': -0.04988749189888468, 'OANDA:XAUUSD': -0.04988749189888468, 'IG:USDCAD': -0.04988749189888468, 'IG:NZDUSD': -0.04988749189888468, 'IG:AUDEUR': -0.04988749189888468, 'IG:AUDUSD': -0.04988749189888468, 'IG:EURCAD': -0.04988749189888468, 'IG:GBPUSD': -0.04988749189888468, 'IG:EURUSD': -0.04988749189888468, 'OANDA:XAGUSD': -0.04988749189888468, 'NYSE:TSM': -0.050111046282014765, 'NYSE:WFC': -0.05011104665537116, 'NYSE:XOM': -0.05011104777544034, 'NYSE:ORCL': -0.0501110500155788, 'NYSE:JPM': -0.0501110500155788, 'NYSE:BAC': -0.0501110500155788, 'NYSE:CRM': -0.05011384840005685, 'NASDAQ:AAPL': -0.05011498049271599, 'NASDAQ:AVGO': -0.05011498049271599, 'NASDAQ:GOOGL': -0.050114980866101694}
+2025-11-30 15:41:10,846 - INFO - Final AlphaFusionNet weights: {'IG:AUDEUR': -0.09985464185804982, 'IG:GBPUSD': -0.0989668904149321, 'NYSE:XOM': -0.07915626156503089, 'NASDAQ:COST': -0.07109875138979692, 'IG:AUDUSD': 0.06969363909520049, 'IG:USDJPY': -0.06938513486882884, 'NYSE:WFC': -0.06622199859648446, 'IG:EURUSD': -0.06511889055246632, 'NASDAQ:MSFT': 0.06301371470982865, 'IG:EURCAD': -0.06291733582491131, 'IG:USDCAD': 0.060588939082286096, 'NYSE:TSM': -0.05845654551110071, 'IG:NZDUSD': -0.057003367968440966, 'NASDAQ:AVGO': -0.041988578758657726, 'NYSE:NOW': -0.036535309803984624}
+2025-11-30 15:41:28,033 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:45:11,401 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:45:12,148 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:45:42,429 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 15:45:42,429 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NASDAQ:COST': 0.09047619047619047, 'NASDAQ:AVGO': 0.08571428571428572, 'NASDAQ:AMZN': 0.08095238095238096, 'NASDAQ:QCOM': 0.0761904761904762, 'NASDAQ:AAPL': 0.07142857142857142, 'NASDAQ:GOOGL': 0.06666666666666667, 'NASDAQ:NVDA': 0.06190476190476191, 'NASDAQ:MSFT': 0.05714285714285714, 'NASDAQ:META': 0.05238095238095238, 'OANDA:XAUUSD': 0.047619047619047616, 'NYSE:CRM': 0.04285714285714286, 'IG:AUDUSD': 0.0380952380952381, 'IG:USDCAD': 0.03333333333333333, 'IG:NZDUSD': 0.02857142857142857, 'NYSE:MS': 0.023809523809523808, 'NYSE:TSM': 0.01904761904761905, 'NYSE:BAC': 0.014285714285714285, 'NYSE:ORCL': 0.009523809523809525, 'NYSE:WFC': 0.004761904761904762}
+2025-11-30 15:45:42,429 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14945389110978624, 'IG:GBPUSD': -0.147350857454719, 'IG:USDCAD': 0.13717051212476078, 'NASDAQ:MSFT': 0.12184620592811042, 'NASDAQ:AAPL': 0.11111133049568733, 'NYSE:CRM': 0.07773220234378578, 'OANDA:XAUUSD': 0.07129495156480417, 'NYSE:XOM': -0.06760232098168342, 'IG:AUDEUR': -0.05911900819312973, 'NYSE:MS': 0.05731871980353292}
+2025-11-30 15:45:57,577 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:49:25,110 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:49:25,835 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:49:54,291 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Energy": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation dynamics, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like energy that are facing headwinds."
+}
+2025-11-30 15:49:54,291 - INFO - NetWeaver converted weights: {'NYSE:MS': 0.050174868458224366, 'NYSE:BAC': 0.05011297430772238, 'NYSE:WFC': 0.05011297393435162, 'NYSE:ORCL': 0.05011297356098087, 'NYSE:XOM': 0.05011193522768659, 'NYSE:TSM': 0.05011176796133624, 'NYSE:JPM': 0.0501092754601752, 'NYSE:CRM': 0.05008868682703259, 'NYSE:NOW': 0.0500602824517826, 'NYSE:IBM': 0.050025318266905365, 'BINANCE:ETHUSDT': 0.04989789435438023, 'IG:USDCAD': 0.04989789435438023, 'IG:USDJPY': 0.04989789435438023, 'IG:NZDUSD': 0.04989789435438023, 'IG:AUDUSD': 0.04989789435438023, 'IG:AUDEUR': 0.04989789435438023, 'OANDA:XAUUSD': 0.04989789435438023, 'IG:EURUSD': 0.04989789435438023, 'IG:GBPUSD': 0.04989789435438023, 'IG:EURCAD': 0.04989789435438023}
+2025-11-30 15:49:54,291 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.1344399768898587, 'IG:USDCAD': 0.12921355530772066, 'NASDAQ:MSFT': 0.08104440574292407, 'NYSE:CRM': 0.07342157730219383, 'OANDA:XAUUSD': 0.06874407520147933, 'IG:GBPUSD': -0.06852576425865316, 'NASDAQ:AAPL': 0.06654259621167365, 'NYSE:MS': 0.06235443351900555, 'NASDAQ:COST': -0.05954879014640178, 'NYSE:IBM': 0.05203661961568409, 'NYSE:ORCL': 0.05177681932397542, 'IG:AUDEUR': -0.04988074295405879, 'IG:EURCAD': 0.041710913887748474, 'NYSE:BAC': 0.03038098603230272, 'NYSE:JPM': 0.03037874360631985}
+2025-11-30 15:50:08,984 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:53:37,668 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:53:38,384 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:54:08,666 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 15:54:08,667 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.09523809523809523, 'IG:NZDUSD': 0.09047619047619047, 'IG:AUDUSD': 0.08571428571428572, 'NYSE:ORCL': 0.08095238095238096, 'NYSE:MS': 0.0761904761904762, 'NYSE:WFC': 0.07142857142857142, 'NYSE:TSM': 0.06666666666666667, 'NYSE:BAC': 0.06190476190476191, 'NYSE:JPM': 0.05714285714285714, 'NYSE:XOM': 0.05238095238095238, 'IG:USDCAD': 0.047619047619047616, 'IG:USDJPY': 0.04285714285714286, 'NASDAQ:COST': 0.0380952380952381, 'NYSE:IBM': 0.03333333333333333, 'IG:AUDEUR': 0.02857142857142857, 'IG:EURUSD': 0.023809523809523808, 'IG:GBPUSD': 0.01904761904761905, 'IG:EURCAD': 0.014285714285714285, 'NASDAQ:ASML': 0.009523809523809525, 'OANDA:XAGUSD': 0.004761904761904762}
+2025-11-30 15:54:08,667 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.18837321638947502, 'IG:USDCAD': 0.15706699139940414, 'IG:GBPUSD': -0.10915536559301231, 'NASDAQ:MSFT': 0.09802419920264864, 'NYSE:MS': 0.08781552198618932, 'NYSE:ORCL': 0.08279626963480646, 'NASDAQ:AAPL': 0.07939425264976395, 'IG:AUDEUR': -0.07443495822327746, 'NYSE:BAC': 0.06619519233802636, 'NYSE:CRM': 0.05674403258339634}
+2025-11-30 15:54:25,359 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 15:58:05,654 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 15:58:06,365 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 15:58:33,847 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational alpha scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while maintaining a disciplined risk framework."
+}
+2025-11-30 15:58:33,847 - INFO - NetWeaver converted weights: {'NYSE:BAC': 0.05007240040382189, 'NYSE:CRM': 0.05007239779234277, 'NYSE:TSM': 0.05007239741927434, 'NYSE:MS': 0.05007239592700063, 'NYSE:WFC': 0.05007239406165856, 'NYSE:ORCL': 0.05006960246858434, 'NYSE:XOM': 0.050069601722489136, 'NYSE:JPM': 0.05005580832240999, 'NASDAQ:COST': 0.050041079168943126, 'IG:USDJPY': 0.05003894436073565, 'NYSE:IBM': 0.04993629783527398, 'NYSE:NOW': 0.04993629783527398, 'IG:USDCAD': 0.04993629783527398, 'IG:AUDUSD': 0.04993629783527398, 'NASDAQ:ASML': 0.04993629783527398, 'IG:NZDUSD': 0.04993629783527398, 'IG:EURUSD': 0.04993629783527398, 'IG:AUDEUR': 0.04993629783527398, 'IG:GBPUSD': 0.04993629783527398, 'IG:EURCAD': 0.04993629783527398}
+2025-11-30 15:58:33,847 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.129750094495017, 'IG:EURCAD': 0.09227802524085511, 'IG:AUDUSD': 0.08485276061438604, 'NYSE:JPM': 0.08195559616495912, 'IG:USDCAD': -0.07496266514400028, 'NYSE:BAC': 0.07343134468533632, 'IG:USDJPY': -0.07145803002841668, 'NASDAQ:GOOGL': 0.058895751555165694, 'IG:GBPUSD': -0.057948219820766866, 'NYSE:TSM': 0.05455007817053264, 'NASDAQ:AVGO': 0.053349340145080464, 'NASDAQ:COST': 0.0482242055778289, 'NYSE:IBM': 0.04466288466420742, 'NYSE:CRM': -0.040521902372106296, 'NASDAQ:ASML': 0.03315910132134134}
+2025-11-30 15:58:45,871 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:02:04,385 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:02:05,108 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:02:35,382 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 16:02:35,383 - INFO - NetWeaver converted weights: {'IG:USDCAD': 0.09523809523809523, 'IG:AUDUSD': 0.09047619047619047, 'IG:NZDUSD': 0.08571428571428572, 'NYSE:ORCL': 0.08095238095238096, 'NYSE:TSM': 0.0761904761904762, 'NYSE:BAC': 0.07142857142857142, 'NYSE:WFC': 0.06666666666666667, 'NYSE:MS': 0.06190476190476191, 'NYSE:XOM': 0.05714285714285714, 'NYSE:CRM': 0.05238095238095238, 'NYSE:JPM': 0.047619047619047616, 'NYSE:IBM': 0.04285714285714286, 'IG:EURUSD': 0.0380952380952381, 'IG:AUDEUR': 0.03333333333333333, 'IG:GBPUSD': 0.02857142857142857, 'IG:EURCAD': 0.023809523809523808, 'OANDA:XAGUSD': 0.01904761904761905, 'NASDAQ:COST': 0.014285714285714285, 'IG:USDJPY': 0.009523809523809525, 'NYSE:NOW': 0.004761904761904762}
+2025-11-30 16:02:35,383 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.17721567206839534, 'IG:USDCAD': 0.17553769761837293, 'NASDAQ:MSFT': 0.1084643509004325, 'IG:USDJPY': -0.0870200560955823, 'NYSE:ORCL': 0.08482645842946357, 'NYSE:CRM': 0.08285461580361761, 'IG:AUDEUR': -0.07838345050872707, 'NASDAQ:AAPL': 0.0714614469100832, 'NYSE:MS': 0.06781333734145169, 'NYSE:BAC': 0.06642291432387387}
+2025-11-30 16:02:46,826 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:06:11,348 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:06:12,072 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:06:15,323 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to ensure full utilization of the model's insights. The top-k selections are set to filter the strongest signals from NetWeaver, enhancing the portfolio's potential performance while managing risk effectively."
+}
+2025-11-30 16:06:15,323 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05017083265629825, 'NYSE:CRM': 0.050036474875709024, 'NYSE:ORCL': 0.050036474875709024, 'NYSE:WFC': 0.05003647413010745, 'NYSE:BAC': 0.05003647263890434, 'NYSE:TSM': 0.0500325859690133, 'NYSE:MS': 0.050031839685407024, 'NYSE:XOM': 0.05003077395803755, 'IG:USDJPY': 0.04995822335743285, 'NYSE:IBM': 0.04995822335743285, 'IG:AUDUSD': 0.04995822335743285, 'IG:USDCAD': -0.04995822335743285, 'IG:AUDEUR': -0.04995822335743285, 'NYSE:JPM': -0.04995822335743285, 'IG:NZDUSD': -0.04995822335743285, 'OANDA:XAUUSD': -0.04995822335743285, 'NASDAQ:NVDA': -0.04995822335743285, 'NASDAQ:AAPL': -0.04995822335743285, 'NASDAQ:AMZN': -0.050000883573350634, 'NASDAQ:GOOGL': -0.050004954063135015}
+2025-11-30 16:06:15,323 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14090711742013276, 'NASDAQ:MSFT': 0.0970126385106835, 'IG:AUDEUR': -0.09639125109388738, 'NYSE:CRM': 0.08269139201028097, 'IG:USDCAD': 0.07391343087072556, 'NASDAQ:AMZN': -0.07099501450010126, 'NASDAQ:COST': -0.06982777174340164, 'NYSE:ORCL': 0.06034901550776042, 'NYSE:MS': 0.057268357375187005, 'NASDAQ:GOOGL': -0.04924069962111105, 'IG:NZDUSD': -0.04753030115253056, 'IG:GBPUSD': -0.04751350590816673, 'IG:EURUSD': -0.04675907448340855, 'NYSE:BAC': 0.029823534592225778, 'NYSE:JPM': -0.029776895210396788}
+2025-11-30 16:06:23,845 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:09:53,496 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:09:54,172 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:10:05,546 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational alpha scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while maintaining a disciplined risk framework."
+}
+2025-11-30 16:10:05,546 - INFO - NetWeaver converted weights: {'NYSE:ORCL': 0.050099014335811876, 'NYSE:CRM': 0.05009901396254513, 'NYSE:WFC': 0.05009901321601165, 'NYSE:BAC': 0.05009901022987785, 'NYSE:TSM': 0.05009531241302175, 'NYSE:XOM': 0.05009371908037567, 'NYSE:JPM': 0.05009289574773699, 'NYSE:MS': 0.05007522311189871, 'NYSE:IBM': 0.05005367660772107, 'OANDA:XAUUSD': 0.050049837451403616, 'IG:USDCAD': 0.04991432838435956, 'IG:USDJPY': 0.04991432838435956, 'IG:AUDUSD': 0.04991432838435956, 'IG:NZDUSD': 0.04991432838435956, 'IG:AUDEUR': 0.04991432838435956, 'BINANCE:ETHUSDT': 0.04991432838435956, 'IG:EURUSD': 0.04991432838435956, 'IG:GBPUSD': 0.04991432838435956, 'IG:EURCAD': 0.04991432838435956, 'OANDA:XAGUSD': 0.04991432838435956}
+2025-11-30 16:10:05,547 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.13588338946469342, 'IG:USDCAD': 0.13177252324249833, 'NASDAQ:MSFT': 0.09115609108491485, 'NYSE:CRM': 0.08162011270085553, 'NASDAQ:COST': -0.06673224279984587, 'NYSE:ORCL': 0.06235474321010137, 'IG:AUDEUR': -0.05972569257468029, 'OANDA:XAGUSD': 0.05815732305415005, 'OANDA:XAUUSD': 0.05512590651675196, 'NYSE:MS': 0.0534979196651338, 'IG:EURCAD': 0.04975080069215567, 'NASDAQ:AAPL': 0.04760076688865419, 'NYSE:IBM': 0.04539269648668529, 'NASDAQ:AMZN': -0.030965371664442493, 'NYSE:BAC': 0.030264419954436805}
+2025-11-30 16:10:22,243 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:13:49,401 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:13:50,082 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:14:00,246 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:14:00,246 - INFO - NetWeaver converted weights: {'NASDAQ:META': 0.05007743411903151, 'NASDAQ:AAPL': 0.05005988181423821, 'NASDAQ:GOOGL': 0.05005988181423821, 'NASDAQ:AMZN': 0.05005988181423821, 'NASDAQ:QCOM': 0.05005988144126303, 'NASDAQ:NVDA': 0.05005988106828785, 'NYSE:XOM': 0.050057134554418764, 'NYSE:BAC': 0.050057131943735816, 'NYSE:WFC': 0.050057131943735816, 'NASDAQ:AVGO': 0.05005708830805541, 'NYSE:CRM': 0.04993946711787573, 'NYSE:ORCL': 0.04993946711787573, 'NYSE:MS': 0.04993946711787573, 'NASDAQ:MSFT': 0.04993946711787573, 'NYSE:TSM': 0.04993946711787573, 'NYSE:IBM': 0.04993946711787573, 'NYSE:NOW': 0.04993946711787573, 'NYSE:JPM': 0.04993946711787573, 'OANDA:XAUUSD': 0.04993946711787573, 'NASDAQ:COST': 0.04993946711787573}
+2025-11-30 16:14:00,246 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.10531136261920032, 'IG:AUDUSD': 0.10308107255535201, 'NASDAQ:MSFT': 0.09857537958267719, 'IG:AUDEUR': -0.08909188932318525, 'NYSE:CRM': 0.08376536263168742, 'NYSE:BAC': 0.07484811760605495, 'NASDAQ:AAPL': 0.06676054611617771, 'NYSE:ORCL': 0.06307946402624996, 'OANDA:XAUUSD': 0.059395959174035375, 'NYSE:IBM': 0.05908239601892835, 'NYSE:MS': 0.05212342926868875, 'IG:EURUSD': -0.04424507355207196, 'IG:USDJPY': -0.04170331327871541, 'NASDAQ:META': 0.029473482619135648, 'NASDAQ:NVDA': 0.029463151627839725}
+2025-11-30 16:14:16,462 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:17:47,896 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:17:48,659 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:17:52,710 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:17:52,710 - INFO - NetWeaver converted weights: {'NYSE:BAC': 0.05015082154389674, 'NYSE:XOM': 0.050150820796591264, 'NYSE:ORCL': 0.05015082042293853, 'NYSE:IBM': 0.0501508200492858, 'NYSE:WFC': 0.050150819675633077, 'IG:USDCAD': 0.05014427071832274, 'NYSE:MS': 0.05014355938148463, 'NYSE:CRM': 0.05014046085018056, 'NYSE:TSM': 0.05013636065265598, 'IG:AUDUSD': 0.05012112382676763, 'IG:NZDUSD': 0.04985601220822429, 'IG:EURUSD': 0.04985601220822429, 'IG:AUDEUR': 0.04985601220822429, 'IG:GBPUSD': 0.04985601220822429, 'IG:EURCAD': 0.04985601220822429, 'OANDA:XAGUSD': 0.04985601220822429, 'NYSE:JPM': 0.04985601220822429, 'OANDA:XAUUSD': 0.04985601220822429, 'BINANCE:XLMUSDT': 0.04985601220822429, 'BINANCE:XRPUSDT': 0.04985601220822429}
+2025-11-30 16:17:52,711 - INFO - Final AlphaFusionNet weights: {'IG:EURCAD': 0.11295288620687252, 'IG:USDJPY': -0.10286201247333815, 'NASDAQ:AAPL': 0.1020155541660486, 'NYSE:JPM': 0.08607108262008996, 'IG:AUDUSD': 0.08121296930762645, 'IG:GBPUSD': -0.06875765596098232, 'NYSE:BAC': 0.06672894106725981, 'IG:USDCAD': -0.059407017051321974, 'BINANCE:XLMUSDT': 0.05725541993611192, 'NASDAQ:GOOGL': 0.05300103787604657, 'NASDAQ:AVGO': 0.051928775692644244, 'NYSE:TSM': 0.04652762031861835, 'NYSE:IBM': 0.04544860358492314, 'NYSE:CRM': -0.03411871393197754, 'NYSE:XOM': 0.031711709806138424}
+2025-11-30 16:18:04,002 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:21:36,790 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:21:37,505 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:21:49,833 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:21:49,833 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05021076053422603, 'NYSE:JPM': 0.05016534298438731, 'NYSE:ORCL': 0.05015318601458537, 'NYSE:BAC': 0.05015318601458537, 'NYSE:WFC': 0.05015318526724467, 'NYSE:MS': 0.05015318489357433, 'NYSE:XOM': 0.05015318302522263, 'NYSE:IBM': 0.050153134448102946, 'NYSE:TSM': 0.05014797657307426, 'NYSE:CRM': 0.05012507893599849, 'IG:USDJPY': 0.049843178130899876, 'IG:USDCAD': 0.049843178130899876, 'IG:AUDUSD': 0.049843178130899876, 'IG:NZDUSD': 0.049843178130899876, 'IG:AUDEUR': 0.049843178130899876, 'OANDA:XAUUSD': 0.049843178130899876, 'IG:EURUSD': 0.049843178130899876, 'IG:GBPUSD': 0.049843178130899876, 'IG:EURCAD': 0.049843178130899876, 'OANDA:XAGUSD': 0.049843178130899876}
+2025-11-30 16:21:49,833 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.13025672452091192, 'IG:AUDUSD': 0.12871156624313815, 'NYSE:BAC': 0.09221633379733625, 'NYSE:CRM': 0.08132782503440583, 'IG:GBPUSD': 0.06715410191141037, 'NYSE:ORCL': 0.0651925520552581, 'OANDA:XAUUSD': 0.058806760754943566, 'NYSE:IBM': 0.0581158569000088, 'NYSE:MS': 0.050403303384097584, 'OANDA:XAGUSD': 0.04966222681249236, 'NASDAQ:MSFT': 0.048370079587832834, 'IG:EURCAD': 0.04484346164532157, 'IG:AUDEUR': -0.04440888438601326, 'NASDAQ:COST': -0.04308411698932959, 'IG:USDJPY': -0.037446205977499716}
+2025-11-30 16:22:06,510 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:25:51,560 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:25:52,297 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:26:14,155 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure."
+}
+2025-11-30 16:26:14,155 - INFO - NetWeaver converted weights: {'NYSE:BAC': 0.05024168232458958, 'NYSE:WFC': 0.05024168232458958, 'NYSE:ORCL': 0.050241681575930175, 'NYSE:IBM': 0.050230861618273656, 'NYSE:MS': 0.05022673307206551, 'NYSE:TSM': 0.05022258241393957, 'NYSE:CRM': 0.050221831051264765, 'NYSE:XOM': 0.050220198148436195, 'NYSE:JPM': 0.05020193301256034, 'IG:AUDUSD': 0.05012123437501076, 'IG:NZDUSD': 0.049782958008334, 'IG:USDCAD': 0.049782958008334, 'NASDAQ:ASML': 0.049782958008334, 'IG:AUDEUR': 0.049782958008334, 'IG:EURUSD': 0.049782958008334, 'IG:USDJPY': 0.049782958008334, 'IG:GBPUSD': 0.049782958008334, 'NASDAQ:NVDA': 0.049782958008334, 'NASDAQ:AMZN': 0.049782958008334, 'NASDAQ:QCOM': 0.049782958008334}
+2025-11-30 16:26:14,156 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.14794914070274004, 'IG:AUDUSD': 0.13980696314788307, 'NYSE:BAC': 0.09353475174875046, 'NYSE:CRM': 0.09346040606290465, 'NYSE:ORCL': 0.06396133871107464, 'IG:USDJPY': 0.0636074335655672, 'NYSE:MS': 0.060880561808819046, 'NYSE:IBM': 0.05877109127279407, 'NASDAQ:COST': -0.056204089148685014, 'NASDAQ:MSFT': 0.04941575480810683, 'IG:NZDUSD': 0.04676006819292476, 'OANDA:XAUUSD': 0.035847932885899624, 'NYSE:JPM': 0.03005370034262712, 'BINANCE:DOGEUSDT': 0.029943889258317324, 'NASDAQ:NVDA': 0.02980287834290614}
+2025-11-30 16:26:33,708 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:30:33,006 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:30:33,747 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:31:04,045 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 16:31:04,045 - INFO - NetWeaver converted weights: {'IG:AUDUSD': 0.09523809523809523, 'NYSE:NOW': 0.09047619047619047, 'IG:NZDUSD': 0.08571428571428572, 'NYSE:JPM': 0.08095238095238096, 'IG:USDCAD': 0.0761904761904762, 'IG:AUDEUR': 0.07142857142857142, 'IG:EURUSD': 0.06666666666666667, 'IG:GBPUSD': 0.06190476190476191, 'IG:EURCAD': 0.05714285714285714, 'OANDA:XAGUSD': 0.05238095238095238, 'NYSE:IBM': 0.047619047619047616, 'NASDAQ:AVGO': 0.04285714285714286, 'NASDAQ:NVDA': 0.0380952380952381, 'NASDAQ:AMZN': 0.03333333333333333, 'NASDAQ:QCOM': 0.02857142857142857, 'NASDAQ:AAPL': 0.023809523809523808, 'NASDAQ:MSFT': 0.01904761904761905, 'NASDAQ:GOOGL': 0.014285714285714285, 'OANDA:XAUUSD': 0.009523809523809525, 'NYSE:TSM': 0.004761904761904762}
+2025-11-30 16:31:04,045 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.13303817652626618, 'IG:EURCAD': 0.12698774998076304, 'IG:USDJPY': -0.12612985558865356, 'IG:AUDUSD': 0.11914868607007192, 'NYSE:JPM': 0.10612555204774209, 'IG:GBPUSD': -0.08411298226908402, 'NASDAQ:AVGO': 0.08357462724362962, 'NYSE:CRM': -0.07727275154602392, 'IG:USDCAD': -0.07372197409153824, 'NASDAQ:GOOGL': 0.06988764463622749}
+2025-11-30 16:31:18,787 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:35:28,754 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:35:29,720 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:35:53,686 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:35:53,686 - INFO - NetWeaver converted weights: {'IG:USDJPY': 0.05015300730227722, 'NYSE:WFC': 0.050136947711105315, 'NYSE:XOM': 0.050136947711105315, 'NYSE:ORCL': 0.050136945096259794, 'NYSE:BAC': 0.05013694472271044, 'NYSE:TSM': 0.05013574041407818, 'NYSE:NOW': 0.05013449355181212, 'NYSE:CRM': 0.05013187516728485, 'IG:NZDUSD': 0.05011491463520734, 'NYSE:JPM': 0.05011464131797849, 'IG:AUDUSD': 0.0498667542370181, 'NYSE:IBM': 0.0498667542370181, 'IG:USDCAD': 0.0498667542370181, 'IG:AUDEUR': 0.0498667542370181, 'NYSE:MS': 0.0498667542370181, 'IG:EURUSD': 0.0498667542370181, 'NASDAQ:AMZN': 0.0498667542370181, 'NASDAQ:AAPL': 0.0498667542370181, 'NASDAQ:MSFT': 0.0498667542370181, 'NASDAQ:GOOGL': 0.0498667542370181}
+2025-11-30 16:35:53,686 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.13311898811115447, 'IG:GBPUSD': -0.08835468491645022, 'IG:USDCAD': -0.08730335869029147, 'IG:AUDUSD': 0.08565956799097654, 'NASDAQ:GOOGL': 0.0841335053445922, 'IG:USDJPY': -0.07910824004408797, 'IG:EURCAD': 0.0789087223460306, 'NYSE:JPM': 0.07419515650743308, 'NYSE:BAC': 0.053600067019363366, 'NASDAQ:AVGO': 0.05205577486314399, 'NYSE:IBM': 0.044173018252892944, 'NYSE:TSM': 0.04058925765929972, 'NYSE:CRM': -0.037062256852440606, 'NYSE:XOM': 0.030875484938236324, 'IG:NZDUSD': 0.030861916463606576}
+2025-11-30 16:36:06,834 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:40:12,390 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:40:13,128 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:40:22,330 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation dynamics, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure. The reasoning behind the sector multipliers is to overweight technology, which is showing resilience, while underweighting sectors like energy that are facing headwinds."
+}
+2025-11-30 16:40:22,330 - INFO - NetWeaver converted weights: {'NYSE:XOM': 0.050199224401162, 'NYSE:WFC': 0.05019922290510855, 'NYSE:ORCL': 0.05019922215708184, 'NYSE:BAC': 0.05019922215708184, 'NYSE:JPM': 0.05019350456661387, 'NYSE:TSM': 0.05019261826375863, 'NYSE:CRM': 0.050165775566092155, 'NYSE:MS': 0.050116674667035704, 'IG:NZDUSD': 0.05009127471041608, 'IG:USDCAD': 0.05005565673568417, 'IG:AUDUSD': 0.04983876038699649, 'IG:AUDEUR': 0.04983876038699649, 'IG:EURUSD': 0.04983876038699649, 'NYSE:IBM': 0.04983876038699649, 'IG:GBPUSD': 0.04983876038699649, 'IG:EURCAD': 0.04983876038699649, 'NASDAQ:META': 0.04983876038699649, 'NASDAQ:AAPL': 0.04983876038699649, 'NASDAQ:NVDA': 0.04983876038699649, 'NASDAQ:AMZN': 0.04983876038699649}
+2025-11-30 16:40:22,331 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': 0.12691532407190273, 'NYSE:BAC': 0.1162610834339274, 'IG:AUDUSD': 0.11009465360893848, 'NYSE:CRM': 0.08696580481182162, 'IG:GBPUSD': 0.0796871206957856, 'IG:AUDEUR': -0.07267788696721095, 'NYSE:IBM': 0.06785249990703933, 'NYSE:ORCL': 0.06763006842201849, 'NASDAQ:QCOM': -0.046416763392764904, 'IG:EURCAD': 0.04498364015636048, 'IG:USDJPY': -0.040800379888941904, 'NASDAQ:COST': -0.0394159760215147, 'NASDAQ:AAPL': 0.03853745996307584, 'NYSE:XOM': -0.03270229165569446, 'NYSE:WFC': 0.029059047003003047}
+2025-11-30 16:40:30,913 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:44:41,297 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:44:42,014 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:44:52,062 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:44:52,062 - INFO - NetWeaver converted weights: {'NYSE:IBM': 0.05025101887135357, 'NYSE:CRM': 0.05021986428682552, 'NYSE:BAC': 0.05021699301022826, 'NYSE:XOM': 0.05021699226193675, 'NYSE:ORCL': 0.05021699151364526, 'NYSE:WFC': 0.05021699151364526, 'NYSE:TSM': 0.05021697954098293, 'NYSE:MS': 0.05020751043322764, 'NYSE:JPM': 0.050201035984757086, 'IG:USDCAD': 0.050107690219024704, 'IG:AUDUSD': 0.049792793236437295, 'IG:NZDUSD': 0.049792793236437295, 'IG:AUDEUR': 0.049792793236437295, 'IG:GBPUSD': 0.049792793236437295, 'IG:EURUSD': 0.049792793236437295, 'NASDAQ:AAPL': 0.049792793236437295, 'NASDAQ:AMZN': 0.049792793236437295, 'NASDAQ:NVDA': 0.049792793236437295, 'NASDAQ:GOOGL': 0.049792793236437295, 'NASDAQ:META': 0.049792793236437295}
+2025-11-30 16:44:52,062 - INFO - Final AlphaFusionNet weights: {'IG:GBPUSD': 0.12940135782747267, 'IG:USDCAD': 0.12101739519817883, 'NYSE:BAC': 0.11793769871787906, 'IG:AUDUSD': 0.11317135687537162, 'NYSE:CRM': 0.08395791177720416, 'NYSE:IBM': 0.06710908469765715, 'NYSE:ORCL': 0.06458730352146111, 'IG:AUDEUR': -0.06084873047200007, 'IG:USDJPY': -0.04514867548570666, 'NASDAQ:AAPL': 0.03852321914485687, 'NASDAQ:QCOM': -0.03695862280643703, 'NASDAQ:COST': -0.03426536213586229, 'NYSE:WFC': 0.029029328559784892, 'NYSE:MS': 0.02902384775756539, 'NYSE:JPM': 0.02902010502256216}
+2025-11-30 16:45:03,244 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:49:08,273 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:49:08,962 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:49:14,449 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:49:14,449 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.050080517750113615, 'NYSE:BAC': 0.05005077626879479, 'NYSE:MS': 0.05005077477716544, 'NYSE:XOM': 0.05005077477716544, 'NYSE:ORCL': 0.05005077440425811, 'NYSE:JPM': 0.05005077440425811, 'NYSE:WFC': 0.05005077403135079, 'NYSE:TSM': 0.05005077365844346, 'NYSE:CRM': 0.05003648514394198, 'NASDAQ:META': 0.05001447013252342, 'NASDAQ:AAPL': 0.04995131046519851, 'NASDAQ:AMZN': 0.04995131046519851, 'NASDAQ:GOOGL': 0.04995131046519851, 'NASDAQ:NVDA': 0.04995131046519851, 'NASDAQ:AVGO': 0.04995131046519851, 'NASDAQ:QCOM': 0.04995131046519851, 'NASDAQ:MSFT': 0.04995131046519851, 'NYSE:IBM': 0.04995131046519851, 'IG:USDCAD': 0.04995131046519851, 'IG:AUDUSD': 0.04995131046519851}
+2025-11-30 16:49:14,450 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14540313313437248, 'IG:GBPUSD': -0.1390352054700439, 'NASDAQ:AAPL': 0.08976751231115422, 'NYSE:MS': 0.07233184429164806, 'NYSE:CRM': 0.07167644748835472, 'NASDAQ:COST': -0.07037584902620635, 'IG:AUDEUR': -0.06884181615780656, 'NASDAQ:MSFT': 0.06819365964310359, 'NASDAQ:GOOGL': 0.04768174348273364, 'NASDAQ:QCOM': 0.04545202346586183, 'NASDAQ:META': 0.043696839806214506, 'NYSE:XOM': -0.04056590229042701, 'NYSE:IBM': 0.03862279614277883, 'NYSE:BAC': 0.029177614188122456, 'NYSE:JPM': 0.029177613101171642}
+2025-11-30 16:49:31,852 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:53:24,114 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:53:25,099 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:53:29,421 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets while maintaining a diversified exposure."
+}
+2025-11-30 16:53:29,421 - INFO - NetWeaver converted weights: {'NYSE:TSM': 0.05004702501436646, 'NYSE:BAC': 0.05004702352284892, 'NYSE:WFC': 0.05004702352284892, 'NYSE:MS': 0.05004702352284892, 'NYSE:ORCL': 0.05004702053981395, 'NYSE:XOM': 0.05004702053981395, 'NYSE:JPM': 0.05004598543741457, 'NASDAQ:META': 0.050027124669906255, 'NASDAQ:AAPL': 0.05002712317898178, 'NASDAQ:NVDA': 0.05002712317898178, 'NASDAQ:GOOGL': 0.04995905068721746, 'NASDAQ:AMZN': 0.04995905068721746, 'NASDAQ:QCOM': 0.04995905068721746, 'NASDAQ:AVGO': 0.04995905068721746, 'NASDAQ:MSFT': 0.04995905068721746, 'NYSE:CRM': 0.04995905068721746, 'NYSE:NOW': 0.04995905068721746, 'NYSE:IBM': -0.04995905068721746, 'NASDAQ:COST': -0.04995905068721746, 'IG:USDJPY': -0.04995905068721746}
+2025-11-30 16:53:29,422 - INFO - Final AlphaFusionNet weights: {'IG:GBPUSD': -0.13699294429928177, 'IG:AUDUSD': 0.1152396996811755, 'NASDAQ:COST': -0.1040538176604668, 'NASDAQ:AAPL': 0.10320374941959982, 'NYSE:MS': 0.07164058189235709, 'NYSE:CRM': 0.06885197735749571, 'NASDAQ:MSFT': 0.06549493254171362, 'IG:AUDEUR': -0.06518714349832692, 'NASDAQ:GOOGL': 0.054673655411231245, 'NASDAQ:META': 0.04043434974469513, 'NYSE:ORCL': 0.03884907909595411, 'NASDAQ:QCOM': 0.03716427062518113, 'NYSE:XOM': -0.03527829891506788, 'OANDA:XAUUSD': 0.03329663538474508, 'NYSE:BAC': 0.029638864472708266}
+2025-11-30 16:53:42,560 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 16:57:55,109 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 16:57:55,838 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 16:58:25,668 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 16:58:25,668 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05018323566702898, 'NYSE:ORCL': 0.05011185846803986, 'NYSE:TSM': 0.05011185846803986, 'NYSE:BAC': 0.05011185772131498, 'NYSE:WFC': 0.05011185772131498, 'NYSE:XOM': 0.05011185697459012, 'NYSE:MS': 0.050108368397486884, 'NYSE:JPM': 0.05010128857215536, 'IG:USDCAD': 0.05009952931701932, 'NYSE:CRM': 0.050098367712437766, 'IG:NZDUSD': 0.049884992098057204, 'IG:AUDEUR': 0.049884992098057204, 'IG:AUDUSD': 0.049884992098057204, 'IG:GBPUSD': 0.049884992098057204, 'IG:EURUSD': 0.049884992098057204, 'IG:EURCAD': 0.049884992098057204, 'OANDA:XAGUSD': 0.049884992098057204, 'NYSE:IBM': 0.049884992098057204, 'OANDA:XAUUSD': 0.049884992098057204, 'NASDAQ:AAPL': 0.049884992098057204}
+2025-11-30 16:58:25,668 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.1534549548499133, 'NASDAQ:AAPL': 0.09421220961355183, 'NASDAQ:COST': -0.09202222751081274, 'IG:USDCAD': 0.08820872091438395, 'NYSE:MS': 0.07641570350667051, 'IG:GBPUSD': -0.07455868445005542, 'NYSE:CRM': 0.06939273807085011, 'OANDA:XAUUSD': 0.054675301899989016, 'IG:EURCAD': 0.053671798874632796, 'NYSE:IBM': 0.05295104200668635, 'NASDAQ:AMZN': -0.045266824721413086, 'NYSE:XOM': -0.04340767689251786, 'NYSE:ORCL': 0.03928571554117158, 'BINANCE:BTCUSDT': 0.03214822218323035, 'NYSE:JPM': 0.030328178964121197}
+2025-11-30 16:58:36,992 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:02:40,220 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:02:40,941 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:03:08,914 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 17:03:08,914 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05011768528217387, 'NASDAQ:ASML': 0.05008670516266674, 'NYSE:WFC': 0.05006626046410494, 'NYSE:ORCL': 0.05006626009108223, 'NYSE:TSM': 0.050066258598991435, 'NYSE:CRM': 0.050066258225968746, 'NYSE:BAC': 0.050066258225968746, 'NYSE:XOM': 0.05006625747992336, 'NYSE:JPM': 0.05006105594877948, 'NASDAQ:MSFT': 0.050060718026477505, 'NASDAQ:NVDA': 0.04992762824938629, 'NASDAQ:GOOGL': 0.04992762824938629, 'NASDAQ:META': 0.04992762824938629, 'NASDAQ:AMZN': 0.04992762824938629, 'NASDAQ:QCOM': 0.04992762824938629, 'NASDAQ:AAPL': 0.04992762824938629, 'NASDAQ:AVGO': 0.04992762824938629, 'NYSE:MS': 0.04992762824938629, 'NASDAQ:COST': 0.04992762824938629, 'IG:USDJPY': 0.04992762824938629}
+2025-11-30 17:03:08,914 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.14061225175043446, 'IG:USDCAD': 0.10116342691060691, 'NYSE:MS': 0.08172024717145823, 'NASDAQ:AAPL': 0.08075744449807136, 'NYSE:CRM': 0.08061528308551073, 'NASDAQ:COST': -0.07714550845111105, 'IG:GBPUSD': -0.063452501510387, 'IG:AUDEUR': -0.06213092315734907, 'NASDAQ:GOOGL': 0.06060616811365945, 'NASDAQ:QCOM': 0.05296143969745056, 'BINANCE:BTCUSDT': 0.042590107555658625, 'NYSE:JPM': 0.042190444579507845, 'NASDAQ:ASML': 0.04182856389516824, 'NYSE:XOM': -0.03936802593692243, 'NYSE:ORCL': 0.03285766368670393}
+2025-11-30 17:03:24,589 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:07:23,447 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:07:24,176 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:07:28,104 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising relational opportunities, while a final top-k of 15 allows for broader diversification. This strategy aligns with the macro backdrop of cooling inflation and mixed policy outlook, aiming to capture resilient sectors like technology while managing risks effectively."
+}
+2025-11-30 17:07:28,104 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05004612836865371, 'IG:EURUSD': 0.05002872122393564, 'IG:NZDUSD': 0.05002798282546298, 'IG:USDCAD': 0.05002663390657079, 'NASDAQ:AVGO': 0.050025818758239665, 'NASDAQ:META': 0.05002581838551827, 'NASDAQ:AMZN': 0.05002581689463273, 'NASDAQ:AAPL': 0.050025816149189974, 'NASDAQ:QCOM': 0.050025816149189974, 'NASDAQ:NVDA': 0.05002581540374723, 'NASDAQ:GOOGL': 0.049971563193485884, 'IG:AUDEUR': 0.049971563193485884, 'IG:AUDUSD': 0.049971563193485884, 'IG:GBPUSD': 0.049971563193485884, 'IG:EURCAD': 0.049971563193485884, 'OANDA:XAGUSD': 0.049971563193485884, 'NASDAQ:MSFT': 0.049971563193485884, 'NYSE:TSM': 0.049971563193485884, 'NYSE:ORCL': 0.049971563193485884, 'NYSE:WFC': 0.049971563193485884}
+2025-11-30 17:07:28,104 - INFO - Final AlphaFusionNet weights: {'IG:AUDUSD': 0.12964639840054726, 'IG:USDCAD': 0.1260914560094769, 'IG:GBPUSD': -0.08911600948994693, 'NASDAQ:MSFT': 0.0855444638296671, 'NASDAQ:COST': -0.08433035542544288, 'NASDAQ:AAPL': 0.07640955296690356, 'IG:AUDEUR': -0.07073011789579355, 'IG:USDJPY': -0.06141152776108422, 'OANDA:XAGUSD': 0.056343883960433966, 'NYSE:CRM': 0.04239622350542945, 'NYSE:XOM': -0.04205560388395395, 'NASDAQ:META': 0.038941255100794214, 'BINANCE:BTCUSDT': 0.03379291267115875, 'NASDAQ:QCOM': 0.03159511978508572, 'NASDAQ:NVDA': 0.03159511931428175}
+2025-11-30 17:07:46,184 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:11:40,468 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:11:41,414 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:12:09,763 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 17:12:09,763 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.05004612836865371, 'IG:EURUSD': 0.05002872122393564, 'IG:NZDUSD': 0.05002798282546298, 'IG:USDCAD': 0.05002663390657079, 'NASDAQ:AVGO': 0.050025818758239665, 'NASDAQ:META': 0.05002581838551827, 'NASDAQ:AMZN': 0.05002581689463273, 'NASDAQ:AAPL': 0.050025816149189974, 'NASDAQ:QCOM': 0.050025816149189974, 'NASDAQ:NVDA': 0.05002581540374723, 'NASDAQ:GOOGL': 0.049971563193485884, 'IG:AUDEUR': 0.049971563193485884, 'IG:AUDUSD': 0.049971563193485884, 'IG:GBPUSD': 0.049971563193485884, 'IG:EURCAD': 0.049971563193485884, 'OANDA:XAGUSD': 0.049971563193485884, 'NASDAQ:MSFT': 0.049971563193485884, 'NYSE:TSM': 0.049971563193485884, 'NYSE:ORCL': 0.049971563193485884, 'NYSE:WFC': 0.049971563193485884}
+2025-11-30 17:12:09,763 - INFO - Final AlphaFusionNet weights: {'IG:USDCAD': -0.16947481774792283, 'IG:NZDUSD': 0.11947600916467518, 'IG:AUDUSD': -0.10803806855026242, 'NYSE:MS': -0.0901459818377911, 'NYSE:WFC': 0.08503277152353611, 'IG:EURUSD': 0.06324922351609581, 'IG:GBPUSD': -0.054963143341696476, 'OANDA:XAGUSD': 0.052018387968052256, 'BINANCE:BTCUSDT': -0.049829078894059305, 'BINANCE:DOTUSDT': 0.04063687722571102, 'NASDAQ:ASML': 0.03776621549897637, 'NYSE:JPM': 0.035260655065950185, 'NASDAQ:MSFT': 0.033108404791613304, 'NASDAQ:AMZN': 0.03050018266407278, 'NASDAQ:QCOM': 0.030500182209584642}
+2025-11-30 17:12:25,287 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:16:24,998 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:16:25,918 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:16:56,196 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 17:16:56,196 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.09523809523809523, 'NYSE:WFC': 0.09047619047619047, 'NYSE:XOM': 0.08571428571428572, 'NYSE:BAC': 0.08095238095238096, 'NYSE:ORCL': 0.0761904761904762, 'NYSE:MS': 0.07142857142857142, 'NASDAQ:GOOGL': 0.06666666666666667, 'NASDAQ:NVDA': 0.06190476190476191, 'NASDAQ:AAPL': 0.05714285714285714, 'NASDAQ:QCOM': 0.05238095238095238, 'NASDAQ:META': 0.047619047619047616, 'NASDAQ:AMZN': 0.04285714285714286, 'NYSE:JPM': 0.0380952380952381, 'NASDAQ:AVGO': 0.03333333333333333, 'NYSE:TSM': 0.02857142857142857, 'NYSE:CRM': 0.023809523809523808, 'NASDAQ:MSFT': 0.01904761904761905, 'NYSE:IBM': 0.014285714285714285, 'IG:USDCAD': 0.009523809523809525, 'IG:AUDUSD': 0.004761904761904762}
+2025-11-30 17:16:56,197 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.16855557145007422, 'IG:USDJPY': -0.14118874157183237, 'IG:USDCAD': -0.111928537505588, 'NASDAQ:GOOGL': 0.10244963860201615, 'IG:GBPUSD': -0.0980069841934204, 'NYSE:BAC': 0.09265131731515187, 'NYSE:JPM': 0.07732298266372777, 'NASDAQ:AVGO': 0.07331081040502399, 'NASDAQ:NVDA': 0.06769187594270926, 'IG:EURCAD': 0.06689354035045597}
+2025-11-30 17:17:09,324 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:20:37,496 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:20:38,383 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:20:41,615 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aligns with the macro backdrop of cooling inflation and elevated interest rates, ensuring a cautious yet opportunistic stance in the portfolio."
+}
+2025-11-30 17:20:41,615 - INFO - NetWeaver converted weights: {'NYSE:ORCL': 0.0501774507302597, 'NYSE:MS': 0.0501774507302597, 'NYSE:XOM': 0.050177450356408554, 'NYSE:WFC': 0.05017744998255742, 'NYSE:BAC': 0.050177449234855155, 'NYSE:CRM': 0.05015609192781057, 'NYSE:JPM': 0.050154233965573704, 'NYSE:TSM': 0.050135952478389235, 'NYSE:IBM': 0.05009898396705412, 'NYSE:NOW': 0.050055015306520144, 'NASDAQ:GOOGL': 0.04985124713203115, 'NASDAQ:AMZN': 0.04985124713203115, 'NASDAQ:META': 0.04985124713203115, 'NASDAQ:MSFT': 0.04985124713203115, 'NASDAQ:NVDA': 0.04985124713203115, 'NASDAQ:AAPL': 0.04985124713203115, 'NASDAQ:AVGO': 0.04985124713203115, 'IG:AUDUSD': 0.04985124713203115, 'IG:USDCAD': 0.04985124713203115, 'NASDAQ:QCOM': 0.04985124713203115}
+2025-11-30 17:20:41,616 - INFO - Final AlphaFusionNet weights: {'NASDAQ:AAPL': 0.13826630300770543, 'IG:USDJPY': -0.11088112022037926, 'NASDAQ:GOOGL': 0.07964998681813977, 'IG:GBPUSD': -0.07465923158418723, 'IG:AUDUSD': 0.07441022383925594, 'IG:USDCAD': -0.07093970115559163, 'NASDAQ:AVGO': 0.07092511236135841, 'NYSE:JPM': 0.06679008129430375, 'NYSE:BAC': 0.06104995868261588, 'NASDAQ:NVDA': 0.053690777271769345, 'IG:EURCAD': 0.048035388515355354, 'NYSE:TSM': 0.047086888762820724, 'NYSE:IBM': 0.03917982515131217, 'NYSE:CRM': -0.03591067148189477, 'NASDAQ:MSFT': 0.028524729853310393}
+2025-11-30 17:20:51,943 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:25:01,407 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:25:02,108 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:25:16,283 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {
+    "Technology": 1.1,
+    "Consumer Discretionary": 0.9
+  },
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted weights from NeuralFusion and the relational scores from NetWeaver. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest performers in the tech sector, while also considering the broader market context."
+}
+2025-11-30 17:25:16,283 - INFO - NetWeaver converted weights: {'NYSE:CRM': 0.050155711656828736, 'NASDAQ:MSFT': 0.05013549541109947, 'NASDAQ:NVDA': 0.05013549541109947, 'NASDAQ:META': 0.050135494664022374, 'NASDAQ:AAPL': 0.050135491675714114, 'NASDAQ:GOOGL': 0.050135491675714114, 'NASDAQ:AMZN': 0.050135491675714114, 'NASDAQ:AVGO': 0.050135491675714114, 'NASDAQ:QCOM': 0.050134451008194, 'NYSE:NOW': 0.050113734043969946, 'NYSE:ORCL': 0.04986476511019298, 'NYSE:TSM': 0.04986476511019298, 'NYSE:BAC': 0.04986476511019298, 'NYSE:WFC': 0.04986476511019298, 'NYSE:XOM': 0.04986476511019298, 'NYSE:JPM': 0.04986476511019298, 'NYSE:MS': 0.04986476511019298, 'NYSE:IBM': 0.04986476511019298, 'IG:USDJPY': 0.04986476511019298, 'IG:NZDUSD': 0.04986476511019298}
+2025-11-30 17:25:16,283 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.12809890491093617, 'IG:GBPUSD': -0.10025739020499887, 'IG:USDCAD': 0.09090989069445118, 'NYSE:CRM': 0.08949935213658329, 'NASDAQ:COST': -0.08059803162694647, 'IG:AUDUSD': 0.08042947476045423, 'NASDAQ:AAPL': 0.07003664775195051, 'IG:EURUSD': -0.06519482189195352, 'IG:AUDEUR': -0.0640027847765256, 'NYSE:MS': 0.047723874692151315, 'NYSE:NOW': 0.04133764808674357, 'NASDAQ:AMZN': 0.03936763100238153, 'IG:USDJPY': -0.03879864117009844, 'NASDAQ:NVDA': 0.03187245338438093, 'NASDAQ:META': 0.03187245290944437}
+2025-11-30 17:25:27,867 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:29:25,366 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:29:26,271 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:29:39,925 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 17:29:39,925 - INFO - NetWeaver converted weights: {'IG:NZDUSD': 0.05010809169655525, 'NYSE:NOW': 0.05010599061474001, 'IG:USDCAD': 0.05010402625013434, 'IG:EURUSD': 0.05009427388351952, 'IG:GBPUSD': 0.05009291683243972, 'NASDAQ:AAPL': 0.05009270223064375, 'NASDAQ:GOOGL': 0.05009270223064375, 'NASDAQ:MSFT': 0.050092701857424045, 'NASDAQ:NVDA': 0.050092701484204326, 'NASDAQ:AMZN': 0.05009270111098462, 'NASDAQ:META': 0.049903119180871064, 'NASDAQ:AVGO': 0.049903119180871064, 'IG:EURCAD': 0.049903119180871064, 'IG:AUDEUR': 0.049903119180871064, 'IG:AUDUSD': 0.049903119180871064, 'OANDA:XAGUSD': 0.049903119180871064, 'NASDAQ:COST': 0.049903119180871064, 'NASDAQ:QCOM': 0.049903119180871064, 'NYSE:XOM': 0.049903119180871064, 'NYSE:TSM': 0.049903119180871064}
+2025-11-30 17:29:39,925 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.1290264654701121, 'IG:USDCAD': 0.12090405663858671, 'IG:AUDUSD': 0.10673717581719461, 'IG:USDJPY': -0.0853676803115535, 'IG:GBPUSD': -0.07491911879724096, 'IG:EURCAD': 0.07168157245838114, 'NASDAQ:AAPL': 0.06611804902542583, 'NYSE:CRM': 0.05676005555171741, 'OANDA:XAGUSD': 0.05436799995477287, 'NASDAQ:COST': -0.04748116176939377, 'NYSE:NOW': 0.04478524913679814, 'NYSE:XOM': 0.039912870826749394, 'NYSE:IBM': -0.03506843814257589, 'IG:EURUSD': -0.034708711147009214, 'NASDAQ:NVDA': 0.032161394952488466}
+2025-11-30 17:29:54,817 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:33:55,218 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:33:56,043 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:34:26,321 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.7,
+  "method": "rank",
+  "gross_net": 1.0,
+  "topk_net": null,
+  "topk_final": null,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "LLM call failed: LLM API call failed: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=30)"
+}
+2025-11-30 17:34:26,322 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.09523809523809523, 'NYSE:WFC': 0.09047619047619047, 'NYSE:ORCL': 0.08571428571428572, 'NYSE:TSM': 0.08095238095238096, 'NYSE:XOM': 0.0761904761904762, 'NYSE:BAC': 0.07142857142857142, 'NYSE:MS': 0.06666666666666667, 'NYSE:IBM': 0.06190476190476191, 'NYSE:JPM': 0.05714285714285714, 'NASDAQ:GOOGL': 0.05238095238095238, 'NASDAQ:AVGO': 0.047619047619047616, 'NASDAQ:AAPL': 0.04285714285714286, 'NASDAQ:AMZN': 0.0380952380952381, 'NASDAQ:QCOM': 0.03333333333333333, 'NASDAQ:NVDA': 0.02857142857142857, 'NASDAQ:META': 0.023809523809523808, 'NASDAQ:MSFT': 0.01904761904761905, 'NYSE:CRM': 0.014285714285714285, 'NASDAQ:COST': 0.009523809523809525, 'BINANCE:ETHUSDT': 0.004761904761904762}
+2025-11-30 17:34:26,322 - INFO - Final AlphaFusionNet weights: {'IG:GBPUSD': -0.1578734287689161, 'NASDAQ:MSFT': 0.1413470885932048, 'NASDAQ:COST': -0.10612446463324718, 'IG:USDCAD': 0.10405989806359317, 'NASDAQ:ASML': 0.09111968232181039, 'IG:AUDUSD': 0.08678344366936988, 'NYSE:CRM': 0.08396162366147927, 'IG:AUDEUR': -0.08190500622938926, 'IG:USDJPY': -0.07551601498246122, 'NYSE:ORCL': 0.07130934907652896}
+2025-11-30 17:34:38,815 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:38:46,869 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:38:47,578 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:39:00,777 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to align with the risk-adjusted weights from NeuralFusion. The top-k selections are set to 10 for NetWeaver to focus on the most promising relational opportunities, while 15 for the final fusion ensures a broader portfolio diversification."
+}
+2025-11-30 17:39:00,778 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.050066045090628855, 'NYSE:JPM': 0.050033809290479216, 'NYSE:XOM': 0.050033808917698284, 'NYSE:CRM': 0.05003380779935552, 'NYSE:TSM': 0.0500338074265746, 'NYSE:ORCL': 0.05003380705379369, 'NYSE:BAC': 0.050033804817108264, 'NYSE:WFC': 0.050033804817108264, 'NYSE:MS': 0.050033804817108264, 'NYSE:IBM': 0.0500208531031812, 'NASDAQ:AAPL': 0.04996426468669638, 'NASDAQ:MSFT': 0.04996426468669638, 'NASDAQ:META': 0.04996426468669638, 'NASDAQ:AVGO': 0.04996426468669638, 'NASDAQ:NVDA': 0.04996426468669638, 'NASDAQ:GOOGL': 0.04996426468669638, 'NASDAQ:AMZN': 0.04996426468669638, 'NASDAQ:QCOM': 0.04996426468669638, 'NASDAQ:ASML': -0.04996426468669638, 'IG:NZDUSD': -0.04996426468669638}
+2025-11-30 17:39:00,778 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.12112455889171946, 'IG:GBPUSD': -0.10722025411017676, 'NYSE:CRM': 0.08546538427193777, 'NASDAQ:COST': -0.07935137282252265, 'IG:USDCAD': 0.0788173418364793, 'IG:NZDUSD': -0.07423301326557454, 'IG:USDJPY': -0.06349992155269571, 'IG:AUDUSD': 0.061205836089875634, 'IG:AUDEUR': -0.05568089789986772, 'NASDAQ:AAPL': 0.055614119182904674, 'IG:EURUSD': -0.054755287783980054, 'IG:EURCAD': 0.047769927900334276, 'NYSE:ORCL': 0.04060998306462005, 'NYSE:NOW': 0.040557731464479246, 'NYSE:XOM': 0.03409436986283206}
+2025-11-30 17:39:09,207 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:42:50,877 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:42:51,591 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:43:03,438 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating the varying confidence levels from NeuralFusion and NetWeaver. Given the moderate-to-high volatility in the market, a gross exposure of 1.0 is maintained to align with the risk-adjusted weights from NeuralFusion, while top-k selections are applied to focus on the most promising assets from NetWeaver's relational insights."
+}
+2025-11-30 17:43:03,438 - INFO - NetWeaver converted weights: {'NYSE:WFC': 0.050051002066399654, 'NYSE:ORCL': 0.05005100169349063, 'NYSE:BAC': 0.050051000574763575, 'NYSE:XOM': 0.050051000201854566, 'NYSE:CRM': 0.05005099871021854, 'NYSE:TSM': 0.050050997964400545, 'NYSE:MS': 0.0500509621651499, 'NASDAQ:AAPL': 0.05003176999607377, 'NASDAQ:MSFT': 0.05003176999607377, 'NASDAQ:NVDA': 0.05003176999607377, 'NASDAQ:GOOGL': 0.04995477266355015, 'NASDAQ:AMZN': 0.04995477266355015, 'NASDAQ:AVGO': 0.04995477266355015, 'NASDAQ:QCOM': 0.04995477266355015, 'NASDAQ:META': 0.04995477266355015, 'NYSE:JPM': 0.04995477266355015, 'NYSE:IBM': 0.04995477266355015, 'NASDAQ:COST': 0.04995477266355015, 'NYSE:NOW': -0.04995477266355015, 'IG:USDCAD': -0.04995477266355015}
+2025-11-30 17:43:03,439 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.13612843445537076, 'IG:GBPUSD': -0.12660210784434867, 'NYSE:CRM': 0.08975173988969076, 'IG:AUDEUR': -0.07959073713648543, 'IG:USDJPY': -0.06707656098187684, 'IG:AUDUSD': 0.06064681369644769, 'NASDAQ:AAPL': 0.06026848729868142, 'IG:EURUSD': -0.05509117617596083, 'IG:NZDUSD': -0.05271118356785639, 'NYSE:ORCL': 0.05024750717700013, 'NASDAQ:COST': -0.049182125791371704, 'IG:USDCAD': 0.04895895586288647, 'IG:EURCAD': 0.04543477515161672, 'NASDAQ:AMZN': 0.0398738233821869, 'NASDAQ:NVDA': 0.0384355715882192}
+2025-11-30 17:43:14,103 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:47:27,336 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:47:28,033 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:47:53,001 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the NeuralFusion risk signals and the NetWeaver alpha scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the strongest relational signals while maintaining a diversified exposure across sectors."
+}
+2025-11-30 17:47:53,002 - INFO - NetWeaver converted weights: {'NASDAQ:AMZN': 0.05017489970277008, 'NASDAQ:MSFT': 0.05017489932893794, 'NASDAQ:NVDA': 0.05017489932893794, 'NASDAQ:AAPL': 0.050174898955105816, 'NASDAQ:AVGO': 0.050174898955105816, 'NASDAQ:GOOGL': 0.050174898581273684, 'NASDAQ:META': 0.050174898581273684, 'NASDAQ:QCOM': 0.05013021265554777, 'NASDAQ:COST': 0.05008415336546182, 'NYSE:NOW': 0.05005350014627716, 'NYSE:TSM': 0.049850784039930804, 'NYSE:XOM': 0.049850784039930804, 'NYSE:BAC': 0.049850784039930804, 'NYSE:WFC': 0.049850784039930804, 'NYSE:ORCL': 0.049850784039930804, 'NYSE:MS': 0.049850784039930804, 'NYSE:CRM': 0.049850784039930804, 'IG:USDCAD': 0.049850784039930804, 'NYSE:IBM': 0.049850784039930804, 'IG:NZDUSD': 0.049850784039930804}
+2025-11-30 17:47:53,002 - INFO - Final AlphaFusionNet weights: {'IG:AUDEUR': -0.13815606988604576, 'NASDAQ:MSFT': 0.10068033514931449, 'IG:USDCAD': 0.08957003128613018, 'IG:GBPUSD': -0.08411719352510387, 'NYSE:CRM': 0.07567047390042116, 'IG:USDJPY': -0.07075808895324136, 'IG:AUDUSD': 0.06925524917331376, 'NYSE:ORCL': 0.0680084492828942, 'NYSE:IBM': 0.058771539086619265, 'NYSE:BAC': 0.05563563047541825, 'NASDAQ:AAPL': 0.054196072555759464, 'NYSE:WFC': 0.04108184857710371, 'IG:EURUSD': -0.03191465118059282, 'NASDAQ:AMZN': 0.031092183599848357, 'NASDAQ:NVDA': 0.03109218336819354}
+2025-11-30 17:48:02,664 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:51:49,340 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:51:50,038 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:51:53,354 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the NeuralFusion risk signals and the NetWeaver alpha scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets while maintaining a diversified exposure."
+}
+2025-11-30 17:51:53,354 - INFO - NetWeaver converted weights: {'NASDAQ:META': 0.04996563244255237, 'NASDAQ:AAPL': 0.04996563244255237, 'NASDAQ:MSFT': 0.04996563244255237, 'NASDAQ:NVDA': 0.04996563244255237, 'NASDAQ:GOOGL': 0.04996563244255237, 'NASDAQ:AMZN': 0.04996563244255237, 'NASDAQ:QCOM': 0.04996563244255237, 'NASDAQ:AVGO': 0.04996563244255237, 'NYSE:NOW': -0.04996563244255237, 'OANDA:XAUUSD': -0.04996563244255237, 'IG:USDCAD': -0.050018403179677165, 'IG:NZDUSD': -0.05003296014646807, 'IG:EURUSD': -0.050033904766226794, 'IG:AUDEUR': -0.050034918369772884, 'NASDAQ:ASML': -0.05003547121919885, 'IG:EURCAD': -0.05003605128895321, 'IG:GBPUSD': -0.05003692513423514, 'IG:AUDUSD': -0.05003774903817545, 'OANDA:XAGUSD': -0.050038231084192114, 'NASDAQ:COST': -0.05003906134757669}
+2025-11-30 17:51:53,354 - INFO - Final AlphaFusionNet weights: {'IG:AUDEUR': -0.16960444381661244, 'NASDAQ:MSFT': 0.08807127480531239, 'IG:GBPUSD': -0.08087722872612074, 'IG:NZDUSD': -0.07509393383177768, 'NASDAQ:COST': -0.07402860798771134, 'IG:USDJPY': -0.0739137810934618, 'NYSE:XOM': -0.0608515063806404, 'IG:EURUSD': -0.05960666694378302, 'NYSE:BAC': 0.05682528809063573, 'NYSE:CRM': 0.05191399276230552, 'NASDAQ:ASML': -0.04513326367989136, 'NASDAQ:AAPL': 0.04205230759856956, 'NYSE:NOW': -0.04171742017587923, 'NYSE:MS': -0.04170290780100826, 'IG:AUDUSD': 0.038607376306290506}
+2025-11-30 17:52:06,372 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 17:55:59,715 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 17:56:00,642 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 17:56:26,356 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational insights. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This strategy aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 17:56:26,356 - INFO - NetWeaver converted weights: {'NYSE:MS': 0.05016474161924116, 'NYSE:TSM': 0.05016474124548471, 'NYSE:WFC': 0.05016474124548471, 'NYSE:XOM': 0.050164740871728265, 'NYSE:BAC': 0.05016474012421538, 'NYSE:ORCL': 0.05016473937670251, 'NASDAQ:COST': 0.05016055497419608, 'NYSE:CRM': 0.05014194989743122, 'NYSE:JPM': 0.05013290468649489, 'NASDAQ:META': 0.05012588899190132, 'NASDAQ:MSFT': 0.04984502569671198, 'NASDAQ:AAPL': 0.04984502569671198, 'NASDAQ:NVDA': 0.04984502569671198, 'NASDAQ:GOOGL': 0.04984502569671198, 'NASDAQ:AMZN': 0.04984502569671198, 'NASDAQ:AVGO': 0.04984502569671198, 'NASDAQ:QCOM': 0.04984502569671198, 'NYSE:IBM': 0.04984502569671198, 'NASDAQ:ASML': 0.04984502569671198, 'IG:USDCAD': 0.04984502569671198}
+2025-11-30 17:56:26,356 - INFO - Final AlphaFusionNet weights: {'IG:AUDEUR': -0.13804698333081594, 'IG:USDCAD': 0.10295307283762001, 'NASDAQ:MSFT': 0.09446386993697875, 'NYSE:BAC': 0.09142900705334427, 'IG:GBPUSD': -0.09084906391492673, 'NYSE:CRM': 0.08895753409777767, 'NYSE:ORCL': 0.06767311564120321, 'NYSE:IBM': 0.06462175615080729, 'IG:AUDUSD': 0.06122291693177252, 'NYSE:XOM': -0.038160090561976716, 'IG:EURUSD': -0.03630991636688592, 'NASDAQ:QCOM': -0.033214047284486535, 'NYSE:WFC': 0.03070746953978313, 'NYSE:TSM': 0.03070746953978313, 'NASDAQ:META': 0.030683686811838307}
+2025-11-30 17:56:42,436 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 18:00:32,574 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 18:00:33,283 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 18:00:43,061 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both the risk-adjusted signals from NeuralFusion and the relational insights from NetWeaver. Given the current moderate-to-high volatility and sector rotation dynamics, a top-k selection of 10 for NetWeaver ensures we focus on the most promising assets while maintaining a diversified exposure."
+}
+2025-11-30 18:00:43,061 - INFO - NetWeaver converted weights: {'NASDAQ:ASML': 0.05011912060791909, 'IG:USDCAD': 0.05011320006486408, 'IG:NZDUSD': 0.05009127333969494, 'IG:EURUSD': 0.050089584597123905, 'IG:AUDEUR': 0.05008157345564306, 'IG:EURCAD': 0.050080111527000766, 'IG:GBPUSD': 0.0500774892667796, 'IG:AUDUSD': 0.050076513230027875, 'OANDA:XAGUSD': 0.050074439588177505, 'NASDAQ:META': 0.05007264471491557, 'NASDAQ:AAPL': 0.04991240496078534, 'NASDAQ:AMZN': 0.04991240496078534, 'NASDAQ:AVGO': 0.04991240496078534, 'NASDAQ:NVDA': 0.04991240496078534, 'NASDAQ:GOOGL': 0.04991240496078534, 'NASDAQ:QCOM': 0.04991240496078534, 'NYSE:NOW': 0.04991240496078534, 'NASDAQ:MSFT': 0.04991240496078534, 'NYSE:CRM': 0.04991240496078534, 'IG:USDJPY': 0.04991240496078534}
+2025-11-30 18:00:43,061 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.12249855099946408, 'IG:USDCAD': 0.10685308854729744, 'IG:GBPUSD': -0.0961722198300122, 'NYSE:CRM': 0.08942982602662079, 'NASDAQ:COST': -0.08254474879765111, 'IG:AUDUSD': 0.07463333015466946, 'IG:AUDEUR': -0.07190565576481457, 'IG:EURCAD': 0.06229950322059522, 'NYSE:MS': -0.05199639604700642, 'OANDA:XAGUSD': 0.05175017853411241, 'NASDAQ:ASML': 0.051234163700943955, 'NASDAQ:AAPL': 0.04021521243208693, 'BINANCE:ADAUSDT': -0.03372748228212766, 'NASDAQ:QCOM': -0.03281279679723596, 'NASDAQ:META': 0.031926846865361826}
+2025-11-30 18:00:56,323 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 18:04:37,088 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 18:04:37,783 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 18:04:41,836 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights, accommodating both positive and negative signals from NeuralFusion and NetWeaver. Given the current moderate-to-high volatility and sector rotation, a top-k selection of 10 for NetWeaver ensures we focus on the most promising relational opportunities while maintaining a diversified exposure. The risk controls are set to manage potential losses effectively, with SL at -5% and TP at +10% for each asset, ensuring a disciplined approach to risk management."
+}
+2025-11-30 18:04:41,836 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.050143579609267803, 'NYSE:IBM': 0.05011261671299731, 'NYSE:CRM': 0.05007907372718635, 'NYSE:ORCL': 0.05007907372718635, 'NYSE:TSM': 0.05007907372718635, 'NYSE:XOM': 0.05007907223471368, 'NYSE:BAC': 0.05007907036912289, 'NYSE:WFC': 0.05007906999600474, 'NYSE:MS': 0.05007394286890277, 'NASDAQ:COST': 0.05007223792257045, 'NASDAQ:ASML': 0.049912318910486135, 'NYSE:JPM': 0.049912318910486135, 'IG:USDCAD': 0.049912318910486135, 'IG:USDJPY': 0.049912318910486135, 'NASDAQ:MSFT': 0.049912318910486135, 'NASDAQ:GOOGL': 0.049912318910486135, 'NASDAQ:AMZN': 0.049912318910486135, 'NASDAQ:AAPL': 0.049912318910486135, 'NASDAQ:NVDA': 0.049912318910486135, 'NASDAQ:AVGO': 0.049912318910486135}
+2025-11-30 18:04:41,837 - INFO - Final AlphaFusionNet weights: {'NASDAQ:MSFT': 0.12115407091618581, 'IG:GBPUSD': -0.11936451540388927, 'IG:USDCAD': 0.10470495292957299, 'NYSE:CRM': 0.08205191912113742, 'IG:AUDEUR': -0.08109221628189188, 'NASDAQ:QCOM': -0.06006704369979473, 'NYSE:ORCL': 0.05804457412088425, 'NASDAQ:ASML': 0.05371865141091299, 'IG:EURCAD': 0.051737919109385126, 'NASDAQ:COST': -0.049701827213981836, 'IG:EURUSD': -0.04830356167704229, 'IG:NZDUSD': -0.04348696880321027, 'NASDAQ:AAPL': 0.043324460727378784, 'IG:USDJPY': -0.042332965978132894, 'NYSE:XOM': 0.040914352606599654}
+2025-11-30 18:04:59,189 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
+2025-11-30 18:08:01,231 - INFO - Loaded NeuralFusionCore weights from /home/novo/novoXpert/Portfolio/AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json
+2025-11-30 18:08:01,920 - INFO - NetWeaver predictions saved to MongoDB successfully.
+2025-11-30 18:08:05,318 - INFO - AlphaFusionNet Policy: {
+  "alpha": 0.65,
+  "method": "softmax",
+  "gross_net": 1.0,
+  "topk_net": 10,
+  "topk_final": 15,
+  "overrides": {},
+  "sector_multipliers": {},
+  "reasoning": "The chosen alpha of 0.65 reflects a balanced approach, prioritizing risk management while still seeking alpha opportunities. The softmax method allows for a smooth distribution of weights based on both NeuralFusion's risk-adjusted signals and NetWeaver's relational scores. Given the current moderate-to-high volatility and sector rotation favoring technology, the top-k selections focus on the most promising assets. This approach aims to capture upside potential while managing downside risk effectively."
+}
+2025-11-30 18:08:05,319 - INFO - NetWeaver converted weights: {'NYSE:NOW': 0.050143579609267803, 'NYSE:IBM': 0.05011261671299731, 'NYSE:CRM': 0.05007907372718635, 'NYSE:ORCL': 0.05007907372718635, 'NYSE:TSM': 0.05007907372718635, 'NYSE:XOM': 0.05007907223471368, 'NYSE:BAC': 0.05007907036912289, 'NYSE:WFC': 0.05007906999600474, 'NYSE:MS': 0.05007394286890277, 'NASDAQ:COST': 0.05007223792257045, 'NASDAQ:ASML': 0.049912318910486135, 'NYSE:JPM': 0.049912318910486135, 'IG:USDCAD': 0.049912318910486135, 'IG:USDJPY': 0.049912318910486135, 'NASDAQ:MSFT': 0.049912318910486135, 'NASDAQ:GOOGL': 0.049912318910486135, 'NASDAQ:AMZN': 0.049912318910486135, 'NASDAQ:AAPL': 0.049912318910486135, 'NASDAQ:NVDA': 0.049912318910486135, 'NASDAQ:AVGO': 0.049912318910486135}
+2025-11-30 18:08:05,319 - INFO - Final AlphaFusionNet weights: {'IG:GBPUSD': -0.13272187186432188, 'IG:EURCAD': 0.11728193169835811, 'NYSE:JPM': 0.10129575663886356, 'NASDAQ:GOOGL': 0.08859693948987779, 'NASDAQ:AVGO': 0.08005196735230807, 'IG:USDCAD': -0.07773832579963591, 'NYSE:XOM': 0.07099373136819367, 'NYSE:IBM': 0.052436195250729345, 'NASDAQ:AAPL': 0.050518567897470515, 'IG:AUDUSD': 0.045438640779588854, 'NASDAQ:NVDA': 0.044260436502675575, 'NYSE:BAC': 0.03899306549602121, 'IG:USDJPY': -0.03482330920965099, 'NYSE:MS': -0.03371998141355897, 'IG:EURUSD': -0.031129279238745658}
+2025-11-30 18:08:20,427 - INFO - AlphaFusionNet decision saved to MongoDB successfully.
