@@ -22,7 +22,7 @@ Key Features
 
 3. LLM Integration:
    - Uses OpenAI GPT-4 (via `OpenAI_LLM` wrapper) to provide qualitative guidance.
-   - Generates policy JSON with alpha, weighting method, gross exposure, and reasoning.
+   - Generates policy JSON with alpha, weighting method, gross exposure, and a tradingagent for reasoning.
    - Graceful fallback to default parameters if LLM fails.
 
 4. Config-driven:
