@@ -1,11 +1,12 @@
 [submodule "apps/NeuralFusionCore"]
     path = apps/NeuralFusionCore
     url = git@github.com:Novoxpert/NeuralFusionCore.git
-
+    branch = main
 [submodule "apps/ChronoBridge"]
     path = apps/ChronoBridge
     url = git@github.com:Novoxpert/ChronoBridge.git
-
+    branch = main
 [submodule "apps/NetWeaver"]
     path = apps/NetWeaver
     url = git@github.com:Novoxpert/NetWeaver.git
+    branch = main
