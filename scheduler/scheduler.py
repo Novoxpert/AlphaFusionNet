@@ -7,7 +7,7 @@ Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
 Date: 2025 Oct 4
 Version: 1.1.0 
 """
-from tasks import app
+from .tasks import app
 from celery.schedules import crontab
 
 # Set timezone to UTC
@@ -24,8 +24,7 @@ app.conf.beat_schedule = {
     # Prediction task at 14:30 UTC time
     'prediction-14-30pm': {
         'task': 'tasks.prediction_14_30PM',
-        'schedule': crontab(hour=14, minute=30),
+        'schedule': crontab(hour=13, minute=58),
     },
     
-  
 }
