@@ -131,6 +131,7 @@ Place downloaded models under a folder you will reference (e.g. `apps/NeuralFusi
 # Clone repository
 git clone https://github.com/Novoxpert/AlphaFusionNet.git
 cd AlphaFusionNet
+git submodule update --init --recursive
 
 
 # (optional) create a virtual environment
@@ -152,7 +153,7 @@ This pipeline coordinates ChronoBridge data services, model APIs, and scheduled 
 ### 1) run ChronoBridge API service
 Create API for Get Fused embedding and ohlcv per asset from Mongodb.
 ```bash
-python -m apps.ChronoBridge.scripts.chronobridge_api_ervice 
+python -m apps.ChronoBridge.scripts.chronobridge_api_service 
 ```
 ### 2) run AlphaFusionNet API service
 Create API for Get weights from Mongodb.
@@ -164,9 +165,9 @@ python -m scripts.alphafusionnet_api_service
 
 ```bash
 
-Celery -A tasks worker --loglevel=info
+celery -A scheduler.tasks worker --loglevel=info 
 python run_triggers.py
-celery -A scheduler beat --loglevel=info
+celery -A scheduler.scheduler beat --loglevel=info
 ```
 Outputs:  a checkpoint such as `apps/NeuralFusionCore/data/outputs/model_weights.pt` and 
         `apps/NeuralFusionCore/data/processed/train.parquet`, `val.parquet` 

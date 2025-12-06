@@ -14,7 +14,7 @@ Before using the system, ensure you have the following:
 - **MongoDB** (news, predictions, metrics, ..)
 - **Redis** (streaming layer)
 - **Celery + Redis** (scheduler + task queue)
-- **Python 3.12+**
+- **Python 3.11+**
 - **PyTorch** (GPU recommended)
 - **poetry / pipenv / virtualenv** (optional)
 
@@ -23,7 +23,7 @@ Before using the system, ensure you have the following:
 Create a `.env` file form `.env_example` with:
 
 ~~~
-# Mongo
+# Local MongoDB
 NOVO_MONGO_USER=
 NOVO_MONGO_PASS=
 NOVO_MONGO_HOST=
@@ -31,15 +31,29 @@ NOVO_MONGO_PORT=
 NOVO_MONGO_AUTH_DB=
 NOVO_MONGO_DB=
 
-# Clickhouse
+# Local Redis
+REDIS_HOST=
+REDIS_PORT=
+REDIS_DB=
+
+# LLM API Key
+OPENAI_API_KEY=
+
+# News Source (MongoDB)
+NOVO_MONGO_USER=
+NOVO_MONGO_PASS=
+NOVO_MONGO_HOST=
+NOVO_MONGO_PORT=
+NOVO_MONGO_AUTH_DB=
+NOVO_MONGO_DB=
+
+# Price Source (Clickhouse DB)
 CH_HOST=
 CH_PORT=
 CH_DB=
 CH_TABLE=
 CH_USER=
 CH_PASS=
-
-OPENAI_API_KEY=
 ~~~
 
 ---
@@ -155,7 +169,7 @@ python -m apps.NeuralFusionCore.scripts.prediction_service  --mode synchronize -
 
 Writes to MongoDB:
 
-- `NeuralFusionCore_prediction`
+- `NeuralFusionCore_predictions`
 
 ---
 
@@ -256,6 +270,10 @@ Start worker:
 celery -A app.celery_app worker --loglevel=INFO
 ~~~
 
+Start training (just for initial run):
+~~~bash
+python run_triggers.py
+~~~
 Start scheduler:
 
 ~~~bash
