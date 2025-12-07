@@ -159,6 +159,44 @@ def previous_trading_day(d: date) -> date:
 # ---------------------------------------------------------------------
 # Main backtesting loop
 # ---------------------------------------------------------------------
+def backtest_last_days(n_days: int, mode: str = "synchronize") -> None:
+    today = datetime.now(timezone.utc).date()
+
+    # collect last n trading days
+    days = []
+    d = today
+    while len(days) < n_days:
+        d -= timedelta(days=1)
+        if is_trading_day(d):
+            days.append(d)
+
+    days.reverse()  # oldest first
+
+    logging.info("Backtesting last %d trading days: %s", n_days, days)
+
+    for trade_day in days:
+        prev_day = previous_trading_day(trade_day)
+
+        start_dt = datetime(prev_day.year, prev_day.month, prev_day.day, 14, 30, tzinfo=timezone.utc)
+        end_dt   = datetime(prev_day.year, prev_day.month, prev_day.day, 18, 30, tzinfo=timezone.utc)
+
+        start_str = start_dt.strftime("%Y-%m-%d %H:%M:%S")
+        end_str   = end_dt.strftime("%Y-%m-%d %H:%M:%S")
+
+        logging.info("=== Backtest day %s ===", trade_day)
+
+        run_script("apps.ChronoBridge.scripts.chronobridge_service",
+                   "--mode", mode, "--start_date", start_str, "--end_date", end_str)
+
+        run_script("apps.NeuralFusionCore.scripts.prediction_service",
+                   "--mode", mode)
+
+        run_script_safe("apps.NetWeaver.src.services.netweaver_prediction_service",
+                        "--start_time", start_str, "--end_time", end_str,
+                        "--future_steps", "60", "--no_timestamp")
+
+        run_script("scripts.alphafusionnet_service")
+        
 def backtest_month(months_back: int, mode: str = "synchronize") -> None:
     """
     Run the backtest pipeline for all trading days in the month that is
@@ -252,7 +290,14 @@ def backtest_month(months_back: int, mode: str = "synchronize") -> None:
 # ---------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser(
-        description="Run AlphaFusionNet backtesting for a past month."
+        description="Run AlphaFusionNet backtesting for past time."
+    )
+
+    parser.add_argument(
+        "--days",
+        type=int,
+        default=None,
+        help="Backtest only the last N trading days (ignores --month if provided).",
     )
     parser.add_argument(
         "--month",
@@ -272,10 +317,15 @@ def main():
 
     args = parser.parse_args()
 
-    if args.month < 0:
-        raise ValueError("--month must be >= 0 (0 = this month, 1 = last month, ...).")
+    if args.days:
+        backtest_last_days(args.days, mode=args.mode)
+    else:
+        if args.month < 0:
+            raise ValueError("--month must be >= 0 (0 = this month, 1 = last month, ...).")
+        backtest_month(months_back=args.month, mode=args.mode)
+    
 
-    backtest_month(months_back=args.month, mode=args.mode)
+    
 
 
 if __name__ == "__main__":
