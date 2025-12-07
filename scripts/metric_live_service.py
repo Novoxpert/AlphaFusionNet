@@ -145,6 +145,7 @@ def run_live_metric_snapshot(
     benchmark_symbol: str = "SP:SPX",
     nav0: float = NAV0_DEFAULT,
     window_hours: int = 4,
+    risk_controls: dict | None = None,
 ):
     """
     Single-shot computation for one minute.
@@ -179,6 +180,7 @@ def run_live_metric_snapshot(
         start_time_utc=start_time_utc,
         nav0=nav0,
         window_hours=window_hours,
+        risk_controls=risk_controls,
     )
 
     t0 = window_doc["t0"]
@@ -331,6 +333,9 @@ if __name__ == "__main__":
     portfolio_weights = weights_doc["final_weights"]
     symbols = list(portfolio_weights.keys())
 
+    # Risk controls (SL, TP, CONF per asset) from the same prediction doc
+    risk_controls = weights_doc.get("risk_controls", {})
+
     market_cfg = cfg.get("market", {})
     benchmark_symbols = market_cfg.get("benchmark_symbol", ["SP:SPX"])
     benchmark_symbol = benchmark_symbols[0]
@@ -347,4 +352,5 @@ if __name__ == "__main__":
         start_time_utc=start_time,
         benchmark_symbol=benchmark_symbol,
         nav0=NAV0_DEFAULT,
+        risk_controls=risk_controls,
     )
