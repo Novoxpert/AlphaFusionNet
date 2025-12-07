@@ -101,10 +101,10 @@ notes: {notes}
 Output Format:
 
 - A JSON object with a single field "reasoning" containing the user-facing textual explanation.
--impoertant note:
+-Important note:
     e.g: for IG:EURUSD in output should have : 
         EURUSD (-3.11%): A negative position indicates a bearish outlook on the Euro against the USD, driven by potential interest rate differentials. Keep an eye on economic indicators from both regions.
--becareful to not insert "IG:" , just use the name of assets in final_weights.
+-Becareful to not insert "IG:" , just use the name of assets in final_weights.
 
 
 
