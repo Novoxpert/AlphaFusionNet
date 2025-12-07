@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Backtesting / Bulk Simulation Service
 =====================================
@@ -18,7 +19,8 @@ Behavior
     • For each trading day, we fetch the **latest prediction** in
       AlphaFusionNet_predictions whose timestamp is **strictly before**
       that UTC calendar day (timestamp < day 00:00:00).
-      The document's `final_weights` are used as the portfolio weights.
+      The document's `final_weights` are used as the portfolio weights,
+      and its `risk_controls` are used to compute per-asset SL/TP/CONF.
     • If no earlier prediction is found, we skip that day.
 
 - Window definition (ALL IN UTC):
@@ -46,10 +48,11 @@ Reads config from `AFN_config.yaml`:
 
 Usage
 -----
-    python -m scripts.metric_backtesting
+    python -m scripts.metric_backtesting --days 90
+    python -m scripts.metric_backtesting -d 30
 
 You can adjust:
-    BACKTEST_DAYS              : how many calendar days back from today (UTC)
+    BACKTEST_DAYS_DEFAULT      : how many calendar days back from today (UTC)
     WINDOW_START_HOUR_UTC      : start hour (default 14 for 14:00 UTC)
     WINDOW_START_MINUTE_UTC    : start minute (default 30 for 14:30 UTC)
     WINDOW_HOURS               : window length (default 4 hours)
@@ -57,13 +60,13 @@ You can adjust:
 ------
 Author: Elham Esmaeilnia(elham.e.shirvani@gmail.com)
 Date: 2025 Nov 23
-Version: 3.1.0 
+Version: 3.2.0  (risk_controls + SL/TP/CONF integration)
 """
 
 import logging
 import os
 from datetime import datetime, timedelta, timezone
-
+import argparse
 import yaml
 from dotenv import load_dotenv
 
@@ -97,8 +100,8 @@ logging.getLogger("c_utils").setLevel(logging.ERROR)
 
 CONFIG_FILE = os.environ.get("ALPHAFUSIONNET_CONFIG", "config/AFN_config.yaml")
 
-# How many calendar days back from today (UTC) to consider
-BACKTEST_DAYS = 60
+# Default number of calendar days back from today (UTC) to consider
+BACKTEST_DAYS_DEFAULT = 60
 
 # Window definition: [14:30, 18:30] UTC
 WINDOW_START_HOUR_UTC = 14
@@ -125,11 +128,11 @@ def load_config(config_path: str = CONFIG_FILE):
 # ------------------------
 # Prediction helper
 # ------------------------
-def get_prediction_weights_for_day(db, day):
+def get_prediction_for_day(db, day):
     """
     Fetch the latest AlphaFusionNet prediction whose timestamp is
     strictly BEFORE the given UTC calendar day, and return its
-    `final_weights` dict.
+    `final_weights` dict AND `risk_controls` dict.
 
     Example:
         day = 2025-01-14
@@ -143,8 +146,9 @@ def get_prediction_weights_for_day(db, day):
 
     Returns
     -------
-    dict or None
-        final_weights dict if found, otherwise None.
+    (final_weights, risk_controls)
+        final_weights : dict or None
+        risk_controls : dict (possibly empty) or None if no doc
     """
     col = db["AlphaFusionNet_predictions"]
 
@@ -168,7 +172,7 @@ def get_prediction_weights_for_day(db, day):
             day.isoformat(),
             day_start.isoformat(),
         )
-        return None
+        return None, None
 
     final_weights = doc.get("final_weights") or {}
     if not final_weights:
@@ -178,18 +182,22 @@ def get_prediction_weights_for_day(db, day):
             day.isoformat(),
             doc.get("timestamp"),
         )
-        return None
+        return None, None
+
+    risk_controls = doc.get("risk_controls") or {}
 
     logger.info(
         "Using AlphaFusionNet prediction from %s for trading day %s "
-        "(latest prediction before %s, weights for %d symbols).",
+        "(latest prediction before %s, weights for %d symbols, "
+        "risk_controls for %d symbols).",
         doc.get("timestamp"),
         day.isoformat(),
         day_start.isoformat(),
         len(final_weights),
+        len(risk_controls),
     )
 
-    return final_weights
+    return final_weights, risk_controls
 
 
 # ------------------------
@@ -303,12 +311,14 @@ def run_backtest_window(
     benchmark_symbol: str,
     nav0: float = NAV0_DEFAULT,
     window_hours: int = WINDOW_HOURS,
+    risk_controls=None,
 ):
     """
     Offline simulation of a full live window [t0, t1], with per-minute snapshots,
     but using preloaded OHLCV prices from ClickHouse and bulk Mongo writes.
 
-    - Initializes window state at t0.
+    - Initializes window state at t0 (including SL/TP/CONF from risk_controls
+      if provided).
     - Preloads all OHLCV for [t0, t1] for symbols + benchmark.
     - Loops minute by minute using the in-memory price grid.
     - Collects all snapshots in memory.
@@ -337,6 +347,7 @@ def run_backtest_window(
         start_time_utc=start_time_utc,
         nav0=nav0,
         window_hours=window_hours,
+        risk_controls=risk_controls, 
     )
 
     t0 = window_doc["t0"]
@@ -456,6 +467,22 @@ def run_backtest_window(
 # Entrypoint
 # ------------------------
 if __name__ == "__main__":
+    # ------------------------
+    # CLI arguments
+    # ------------------------
+    parser = argparse.ArgumentParser(
+        description="Backfill AlphaFusionNet windows and metrics over past N days."
+    )
+    parser.add_argument(
+        "--days",
+        "-d",
+        type=int,
+        default=BACKTEST_DAYS_DEFAULT,
+        help=f"How many calendar days back from today (UTC) to backtest (default: {BACKTEST_DAYS_DEFAULT})",
+    )
+    args = parser.parse_args()
+    backtest_days = args.days
+
     cfg = load_config()
 
     # ClickHouse
@@ -495,7 +522,7 @@ if __name__ == "__main__":
         # ------------------------
         today_utc = datetime.now(timezone.utc).date()
         end_date = today_utc - timedelta(days=1)  # yesterday (UTC)
-        start_date = today_utc - timedelta(days=BACKTEST_DAYS)
+        start_date = today_utc - timedelta(days=backtest_days)
 
         logger.info(
             "Calendar backtest range (UTC calendar days): %s to %s",
@@ -545,8 +572,8 @@ if __name__ == "__main__":
                     d.isoformat(),
                 )
 
-                # 1) Get portfolio weights from latest AlphaFusionNet_predictions BEFORE this day
-                final_weights = get_prediction_weights_for_day(db, d)
+                # 1) Get portfolio weights + risk_controls from latest AlphaFusionNet_predictions BEFORE this day
+                final_weights, risk_controls = get_prediction_for_day(db, d)
                 if not final_weights:
                     # already logged inside helper
                     continue
@@ -563,6 +590,13 @@ if __name__ == "__main__":
                 #         d.isoformat(),
                 #     )
                 #     continue
+                #
+                # # Also filter risk_controls to the same symbol set
+                # risk_controls = {
+                #     sym: rc
+                #     for sym, rc in (risk_controls or {}).items()
+                #     if sym in portfolio_weights
+                # }
 
                 portfolio_weights = final_weights
 
@@ -602,6 +636,7 @@ if __name__ == "__main__":
                     benchmark_symbol=benchmark_symbol,
                     nav0=NAV0_DEFAULT,
                     window_hours=WINDOW_HOURS,
+                    risk_controls=risk_controls, 
                 )
 
                 touched_months.add((d.year, d.month))
