@@ -268,6 +268,80 @@ def compute_positions_from_weights(
     cash0 = nav0 * (1.0 - sum_w)
     return positions, cash0, sum_w
 
+def compute_sl_tp_levels(
+    portfolio_weights: Dict[str, float],
+    entry_prices: Dict[str, float],
+    risk_controls: Dict[str, Dict[str, float]],
+) -> Tuple[Dict[str, float], Dict[str, float], Dict[str, float]]:
+    """
+    Compute per-symbol SL/TP *price levels* and confidence.
+
+    Inputs:
+      - portfolio_weights: {symbol -> weight}
+      - entry_prices     : {symbol -> entry_price at t0}
+      - risk_controls    : {
+                              symbol: {
+                                  "SL": sl_fraction,
+                                  "TP": tp_fraction,
+                                  "CONF": confidence
+                              },
+                           }
+
+    Logic (per symbol s):
+      let p0 = entry price
+      let w  = weight
+      let sl = abs(SL), tp = abs(TP)  (fractions, e.g. 0.05 -> 5%)
+
+      if w >= 0 (long):
+          SL_price = p0 * (1 - sl)
+          TP_price = p0 * (1 + tp)
+      else (short):
+          SL_price = p0 * (1 + sl)
+          TP_price = p0 * (1 - tp)
+
+    Returns:
+      sl_prices      : {symbol -> SL_price}
+      tp_prices      : {symbol -> TP_price}
+      confidences    : {symbol -> CONF}
+    """
+    sl_prices: Dict[str, float] = {}
+    tp_prices: Dict[str, float] = {}
+    confidences: Dict[str, float] = {}
+
+    for sym, w in portfolio_weights.items():
+        p0 = entry_prices.get(sym)
+        rc = risk_controls.get(sym, {})
+
+        if p0 is None:
+            continue
+
+        sl_raw = rc.get("SL")
+        tp_raw = rc.get("TP")
+        conf = rc.get("CONF")
+
+        # Require both SL and TP to compute levels
+        if sl_raw is None or tp_raw is None:
+            continue
+
+        # Use absolute value so negative/positive conventions don't break math
+        sl = abs(float(sl_raw))
+        tp = abs(float(tp_raw))
+
+        # Long vs short logic
+        if w >= 0:
+            sl_price = p0 * (1.0 - sl)
+            tp_price = p0 * (1.0 + tp)
+        else:
+            sl_price = p0 * (1.0 + sl)
+            tp_price = p0 * (1.0 - tp)
+
+        sl_prices[sym] = float(sl_price)
+        tp_prices[sym] = float(tp_price)
+
+        if conf is not None:
+            confidences[sym] = float(conf)
+
+    return sl_prices, tp_prices, confidences
 
 def init_window_state(
     db,
@@ -280,6 +354,7 @@ def init_window_state(
     start_time_utc: datetime,
     nav0: float = NAV0_DEFAULT,
     window_hours: int = 4,
+    risk_controls: Optional[Dict[str, Dict[str, float]]] = None,
 ) -> Dict:
     """
     Initialize and persist a window document in Mongo 'windows' collection.
@@ -293,6 +368,9 @@ def init_window_state(
     if existing:
         logger.info("Window %s already exists in DB, reusing", window_id)
         return existing
+
+    if risk_controls is None:
+        risk_controls = {}
 
     # Align t0 to minute boundary to match candle_time
     start_time_utc = start_time_utc.replace(second=0, microsecond=0)
@@ -325,9 +403,26 @@ def init_window_state(
     )
     benchmark_entry = float(df_bench.iloc[0]["close"]) if not df_bench.empty else None
 
+    # Compute initial positions
     positions, cash0, total_weight = compute_positions_from_weights(
         portfolio_weights, entry_prices, nav0=nav0
     )
+
+    # Compute SL/TP levels and confidence per symbol from risk_controls
+    sl_prices, tp_prices, confidences = compute_sl_tp_levels(
+        portfolio_weights=portfolio_weights,
+        entry_prices=entry_prices,
+        risk_controls=risk_controls,
+    )
+
+    # Enrich positions with SL/TP/CONF for convenience
+    for sym, pos in positions.items():
+        if sym in sl_prices:
+            pos["sl_price"] = sl_prices[sym]
+        if sym in tp_prices:
+            pos["tp_price"] = tp_prices[sym]
+        if sym in confidences:
+            pos["confidence"] = confidences[sym]
 
     window_doc = {
         "window_id": window_id,
@@ -342,6 +437,9 @@ def init_window_state(
         "cash_initial": float(cash0),
         "benchmark_symbol": benchmark_symbol,
         "benchmark_entry": benchmark_entry,
+        "portfolio_confidence": confidences,  
+        "sl_prices": sl_prices,             
+        "tp_prices": tp_prices,              
         "rp_t0": 0.0,
         "pnl_t0": 0.0,
         "stale_count": 0,
