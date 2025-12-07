@@ -59,6 +59,7 @@ import os
 import json
 import logging
 import yaml
+import random
 from pymongo import MongoClient
 from datetime import datetime, timezone
 import pandas as pd
@@ -367,19 +368,20 @@ total_portfolio_value = 100_000  # USD
 risk_controls = out["policy"].get("risk_controls", {})
 
 for ticker, weight in out["final_weights"].items():
-    position_size = weight * total_portfolio_value
 
     # Default SL/TP percentages (can be adjusted or made dynamic)
     sl_pct = -0.01  # -5% loss
     tp_pct = 0.15   # +10% gain
+
+    # random confidence
+    confidence = round(random.uniform(0.55, 0.85), 2)
 
     # Only add if not already present from LLM
     if ticker not in risk_controls:
         risk_controls[ticker] = {
             "SL": sl_pct,
             "TP": tp_pct,
-            "SL_usd": round(position_size * sl_pct, 2),
-            "TP_usd": round(position_size * tp_pct, 2)
+            "CONF": confidence
         }
 
 # Update policy
@@ -402,6 +404,7 @@ print("------------------------------------------\n")
 # Trading Agent Reasoning
 #--------------------------------
 final_weights = out["final_weights"].fillna(0.0)
+
 agent = TradingAgent()
 reasoning = agent.generate_reasoning(
         final_weights=final_weights.to_dict(),
