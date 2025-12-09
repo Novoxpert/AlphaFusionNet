@@ -9,7 +9,7 @@ billiard>=4.2.2
 
 streamlit>=1.50.0
 
-pandas>=2.3.2
+pandas<=2
 numpy>=2.0.1
 scikit-learn>=1.7.1
 scipy>=1.16.1
@@ -60,3 +60,12 @@ referencing>=0.36.2
 rpds-py>=0.27.1
 attrs>=25.3.0
 
+clickhouse-driver>=0.2.0     
+fakeredis>=2.0.0              
+openai<1.0.0                  
+python-binance>=1.0.19        
+exchange-calendars>=4.5.0     
+pandas-market-calendars>=4.3.0
+python-dateutil>=2.8.2       
+PyYAML>=6.0.0                 
+pytest>=7.0.0                 
