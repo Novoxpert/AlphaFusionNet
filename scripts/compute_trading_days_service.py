@@ -240,27 +240,38 @@ def compute_common_trading_days_range(
 # ---------------------------------------------------------------------------
 # FORWARD-LOOKING (PRODUCTION CACHE) FUNCTION
 # ---------------------------------------------------------------------------
-def compute_common_trading_days(months_ahead: int = 13):
+def compute_common_trading_days(
+    months_back: int = 13,
+    months_ahead: int = 13,
+):
     """
     Compute the intersection of trading days for all prefixes found in the
-    AFN_config.yaml symbol list, from today (UTC) up to months_ahead months
-    in the future (end-of-month).
+    AFN_config.yaml symbol list, from a past start date up to a future end date.
 
-    This is the forward-looking function used for Celery / scheduling. It
-    writes to `data/trading_days_cache.json`.
+    This is the function used for Celery / scheduling. It writes a cache to
+    `data/trading_days_cache.json` that includes:
+
+        - Historical trading days (for previous_common_trading_day)
+        - Future trading days (for is_today_common_trading_day / scheduling)
+
+    Args:
+        months_back (int): how many months to go back (start-of-month).
+        months_ahead (int): how many months to go forward (end-of-month).
 
     Returns:
         List[str]: sorted ISO date strings (YYYY-MM-DD) of common trading days.
     """
     # Use UTC date, NOT local date.
-    now = datetime.utcnow().date()
+    today_utc = datetime.utcnow().date()
 
-    # Correct way to get "months_ahead" months ahead, then snap to end-of-month.
-    # relativedelta(day=31) means "last day of the month".
-    end = now + relativedelta(months=months_ahead, day=31)
+    # Start: first day of the month `months_back` months ago
+    start = (today_utc - relativedelta(months=months_back)).replace(day=1)
+
+    # End: last day of the month `months_ahead` months ahead
+    end = today_utc + relativedelta(months=months_ahead, day=31)
 
     common_list, per_exchange_days = compute_common_trading_days_range(
-        start_date=now,
+        start_date=start,
         end_date=end,
         return_counts=True,
     )
@@ -273,7 +284,7 @@ def compute_common_trading_days(months_ahead: int = 13):
         json.dumps(
             {
                 "generated_at": datetime.utcnow().isoformat() + "Z",
-                "start": now.isoformat(),
+                "start": start.isoformat(),
                 "end": end.isoformat(),
                 "common_trading_days": out,
                 "per_exchange_counts": {p: len(v) for p, v in per_exchange_days.items()},
@@ -282,8 +293,12 @@ def compute_common_trading_days(months_ahead: int = 13):
         )
     )
 
-    print(f"Wrote {len(out)} common trading days to {OUT_PATH}")
+    print(
+        f"Wrote {len(out)} common trading days to {OUT_PATH} "
+        f"(range {start} → {end})"
+    )
     return out
+
 
 
 # ---------------------------------------------------------------------------
