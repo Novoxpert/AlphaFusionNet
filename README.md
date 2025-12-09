@@ -144,7 +144,11 @@ source .venv/bin/activate
  .\.venv\Scripts\Activate.ps1
 
 # install exact dependencies
+
+#on linux:
 pip install -r requirements.txt
+#on windows:
+pip install -r requirements-windows.txt
 ```
 ---
 ## Pipeline 
