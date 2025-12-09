@@ -318,10 +318,8 @@ if __name__ == "__main__":
     mongo_cfg = cfg["novo_mongo"]
     mongo_client, db = init_mongo_client(mongo_cfg)
 
-    # Default window start: current hour in UTC (e.g. 14:30 UTC for trading window)
-    now = datetime.utcnow().replace(minute=0, second=0, microsecond=0)
-    # Always start window at today's 14:30 UTC
-    start_time = now.replace(hour=14, minute=30, second=0, microsecond=0)
+    # Window start: exactly "now" in UTC, as decided by the scheduler
+    start_time = datetime.utcnow().replace(second=0, microsecond=0)
 
     # Get latest portfolio weights from AlphaFusionNet_predictions
     weights_doc = db["AlphaFusionNet_predictions"].find_one(
