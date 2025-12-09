@@ -69,6 +69,7 @@ from datetime import datetime, timedelta, timezone
 import argparse
 import yaml
 from dotenv import load_dotenv
+from pathlib import Path 
 
 from lib.db_utils import init_clickhouse_client, init_mongo_client
 from lib.metric_utils import (
@@ -113,7 +114,9 @@ WINDOW_HOURS = 4
 # Config loader
 # ------------------------
 def load_config(config_path: str = CONFIG_FILE):
-    load_dotenv()
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
+    ENV_PATH = PROJECT_ROOT / ".env"
+    load_dotenv(dotenv_path=ENV_PATH)
 
     with open(config_path, "r") as f:
         raw_yaml = f.read()

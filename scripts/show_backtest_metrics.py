@@ -59,6 +59,7 @@ import csv
 from datetime import datetime
 from dotenv import load_dotenv
 import yaml
+from pathlib import Path 
 
 from lib.db_utils import init_mongo_client
 
@@ -78,7 +79,9 @@ MONTHLY_COLLECTION = "monthly"
 # Config loader
 # ------------------------
 def load_config(config_path: str = CONFIG_FILE):
-    load_dotenv()
+    PROJECT_ROOT = Path(__file__).resolve().parents[1]
+    ENV_PATH = PROJECT_ROOT / ".env"
+    load_dotenv(dotenv_path=ENV_PATH)
 
     with open(config_path, "r") as f:
         raw_yaml = f.read()

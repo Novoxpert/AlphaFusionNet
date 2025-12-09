@@ -37,12 +37,16 @@ from apps.ChronoBridge.config import Paths, FeatureCfg
 import time
 from pandas.tseries.frequencies import to_offset
 from dotenv import load_dotenv
+from pathlib import Path 
 
 P = Paths(); F = FeatureCfg(); 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
 
 # --------------------------- MongoDB setup ---------------------------
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = PROJECT_ROOT / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
 mongo_user = os.getenv("NOVO_MONGO_USER")
 mongo_pass = os.getenv("NOVO_MONGO_PASS")
 mongo_host = os.getenv("NOVO_MONGO_HOST")

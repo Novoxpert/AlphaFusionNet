@@ -30,6 +30,7 @@ from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
 import numpy as np
+from pathlib import Path 
 
 from scripts.alphafusionnet_api_service import app
 from apps.NeuralFusionCore.scripts.prediction_service import save_predictions
@@ -37,7 +38,10 @@ from apps.NeuralFusionCore.scripts.prediction_service import save_predictions
 # -----------------------------
 # Test Mongo setup
 # -----------------------------
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = PROJECT_ROOT / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
 mongo_user = os.getenv("NOVO_MONGO_USER")
 mongo_pass = os.getenv("NOVO_MONGO_PASS")
 mongo_host = os.getenv("NOVO_MONGO_HOST")
