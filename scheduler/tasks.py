@@ -20,6 +20,7 @@ import torch
 
 # Import your trading-day utilities (UTC-based)
 from lib.trading_calendar_utils import (
+    utc_today,
     is_today_common_trading_day,
     previous_common_trading_day,
 )
@@ -40,8 +41,8 @@ app.conf.enable_utc = True
 # Prevent celery from retrying skipped publishes
 app.conf.task_publish_retry = False
 
-BASE_DIR = Path(__file__).resolve().parent
-
+BASE_DIR = Path(__file__).resolve().parent  # .../AlphaFusionNet/scheduler
+PROJECT_ROOT = BASE_DIR.parent              # .../AlphaFusionNet
 # --------------------------------------------------------------------
 # TRADING-DAY FILTER: SKIP SCHEDULED TASKS ON NON-TRADING DAYS
 # --------------------------------------------------------------------
@@ -76,25 +77,35 @@ def skip_if_not_trading_day(headers=None, **kwargs):
 def run_script(script, *args):
     """Runs a Python script or module."""
     if script == "-m":
-        cmd = [sys.executable, script, *args]
+        # Usage: run_script("-m", "package.module", "arg1", "arg2", ...)
+        module, *script_args = args
+        cmd = [sys.executable, "-m", module, *script_args]
     else:
-        cmd = [sys.executable, str(BASE_DIR / script), *args]
+        
+        script_path = PROJECT_ROOT / script
+        if not script_path.exists():
+            raise FileNotFoundError(f"Script not found: {script_path}")
+        cmd = [sys.executable, str(script_path), *args]
 
     print(f"[TASK] Running: {' '.join(cmd)}")
-    subprocess.run(cmd, check=True, cwd=BASE_DIR)
+    subprocess.run(cmd, check=True, cwd=PROJECT_ROOT)
     print(f"[TASK] Finished {script}")
 
 
 def run_script_safe(script, *args):
     """Runs a Python script or module safely, logging errors."""
     if script == "-m":
-        cmd = [sys.executable, script, *args]
+        module, *script_args = args
+        cmd = [sys.executable, "-m", module, *script_args]
     else:
-        cmd = [sys.executable, str(BASE_DIR / script), *args]
+        script_path = PROJECT_ROOT / script
+        if not script_path.exists():
+            raise FileNotFoundError(f"Script not found: {script_path}")
+        cmd = [sys.executable, str(script_path), *args]
 
     print(f"[TASK] Running: {' '.join(cmd)}")
     try:
-        subprocess.run(cmd, check=True, cwd=BASE_DIR)
+        subprocess.run(cmd, check=True, cwd=PROJECT_ROOT)
         print(f"[TASK] Finished {script}")
     except subprocess.CalledProcessError as e:
         logging.error(
@@ -108,9 +119,10 @@ def run_script_safe(script, *args):
 def run_background(script, *args):
     """Runs a script/module in background (detached)."""
     if script == "-m":
-        cmd = [sys.executable, script, args[0], *args[1:]]
+        module, *script_args = args
+        cmd = [sys.executable, "-m", module, *script_args]
     else:
-        script_path = BASE_DIR / script
+        script_path = PROJECT_ROOT / script
         if not script_path.exists():
             raise FileNotFoundError(f"Script not found: {script_path}")
         cmd = [sys.executable, str(script_path), *args]
@@ -118,20 +130,19 @@ def run_background(script, *args):
     print(f"[TASK] Starting background process: {' '.join(cmd)}")
     subprocess.Popen(
         cmd,
-        cwd=BASE_DIR,
+        cwd=PROJECT_ROOT,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         stdin=subprocess.DEVNULL,
         close_fds=True,
     )
 
-
 # --------------------------------------------------------------------
 # TASK DEFINITIONS
 # --------------------------------------------------------------------
 
 # --------- INITIAL STARTUP ----------
-@app.task
+@app.task(name="tasks.initial_run")
 def initial_run():
     run_script("-m", "scripts.compute_trading_days_service")
     run_script("-m", "apps.ChronoBridge.scripts.data_ingest_service", "--mode", "historical", "--days", "150")
@@ -144,7 +155,7 @@ def initial_run():
 
 
 # --------- DAILY WORKFLOW ----------
-@app.task
+@app.task(name="tasks.daily_update")
 def daily_update():
     run_script("-m", "apps.NeuralFusionCore.scripts.data_ingest_service", "--mode", "latest", "--hours", "20")
     run_script("-m", "apps.NeuralFusionCore.scripts.features_service", "--mode", "finetune", "--latest_hours", "20")
@@ -154,34 +165,57 @@ def daily_update():
 
 
 # --------- METRIC LIVE ----------
-@app.task
+@app.task(name="tasks.calculate_metric_live")
 def calculate_metric_live():
     run_script("-m", "scripts.metric_live_service")
 
 
 # --------- PREDICTION AT 14:30 UTC ----------
-@app.task
+@app.task(name="tasks.prediction_14_30PM")
 def prediction_14_30PM():
     start_prediction_time = time.time()
     torch.cuda.empty_cache()
 
-    today = datetime.now(timezone.utc).date()
+    # --- trading-day logic: use previous trading day for TODAY (UTC) ---
+    today = utc_today()
     last_trading_day = previous_common_trading_day(today)
     if last_trading_day is None:
         raise RuntimeError("No previous trading day found in cache!")
 
+    # Build window on the *previous* trading day: 14:30–18:30 UTC
+    start_dt = datetime(
+        last_trading_day.year,
+        last_trading_day.month,
+        last_trading_day.day,
+        14, 30, 0,
+        tzinfo=timezone.utc,
+    )
+    end_dt = datetime(
+        last_trading_day.year,
+        last_trading_day.month,
+        last_trading_day.day,
+        18, 30, 0,
+        tzinfo=timezone.utc,
+    )
+    
+
+    # Use SAME format as model_backtesting.py
+    start_str = start_dt.strftime("%Y-%m-%d %H:%M:%S")
+    end_str   = end_dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
     # Prediction pipeline
     run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service",
                "--mode", "synchronize",
-               "--start_date", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc).timestamp())),
-               "--end_date", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc).timestamp())))
+               "--start_date", start_str,
+               "--end_date", end_str)
 
     run_script("-m", "apps.NeuralFusionCore.scripts.prediction_service",
                "--mode", "synchronize")
 
     run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_prediction_service",
-                    "--start_str", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc).timestamp())),
-                    "--end_str", str(int(datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc).timestamp())),
+                    "--start_time", start_str,
+                    "--end_time", end_str,
                     "--future_steps", "60",
                     "--no_timestamp")
 
@@ -192,9 +226,9 @@ def prediction_14_30PM():
     # === schedule metric live between 14:30 and 18:30 UTC ===
 
     now_utc = datetime.now(timezone.utc)
-    start_dt = datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 14, 30, tzinfo=timezone.utc)
-    end_dt   = datetime(last_trading_day.year, last_trading_day.month, last_trading_day.day, 18, 30, tzinfo=timezone.utc)
-
+    start_dt = start_dt  # previous trading day 14:30 UTC
+    end_dt   = end_dt    # previous trading day 18:30 UTC
+  
     # If we're BEFORE the 14:30 window -> wait until exactly 14:30
     if now_utc < start_dt:
         initial_delay = (start_dt - now_utc).total_seconds()
@@ -223,3 +257,14 @@ def prediction_14_30PM():
 
     run_script("-m", "scripts.metric_monthly_service")
     return "Prediction finished. Metrics scheduled every minute for full trading window."
+
+# --------- REFRESH TRADING-DAYS CACHE ----------
+@app.task(name="tasks.refresh_trading_days_cache")
+def refresh_trading_days_cache():
+    """
+    Refresh the trading-days cache JSON.
+
+    This should run even on non-trading days, so it is NOT included
+    in SCHEDULED_TASKS (and therefore not blocked by skip_if_not_trading_day).
+    """
+    run_script("-m", "scripts.compute_trading_days_service")
