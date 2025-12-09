@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from dotenv import load_dotenv
 import json, os
 import uvicorn
+from pathlib import Path  
 
 # -------------------- App & CORS --------------------
 app = FastAPI(title="AlphaFusionNet API")
@@ -35,7 +36,10 @@ app.add_middleware(
 )
 
 # -------------------- MongoDB --------------------
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = PROJECT_ROOT / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
+
 mongo_user = os.getenv("NOVO_MONGO_USER")
 mongo_pass = os.getenv("NOVO_MONGO_PASS")
 mongo_host = os.getenv("NOVO_MONGO_HOST")

@@ -21,8 +21,11 @@ from typing import Dict, Any
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from src.llm_alphafusionnet import OpenAI_LLM
+from pathlib import Path 
 
-load_dotenv()
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ENV_PATH = PROJECT_ROOT / ".env"
+load_dotenv(dotenv_path=ENV_PATH)
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:
