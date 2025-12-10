@@ -31,7 +31,7 @@ from lib.trading_calendar_utils import (
 app = Celery(
     "tasks",
     broker="redis://localhost:6379/1",
-    backend="redis://localhost:6379/1",
+    backend="redis://localhost:6379/2",
 )
 
 # Make Celery fully UTC-based
@@ -157,8 +157,8 @@ def initial_run():
 # --------- DAILY WORKFLOW ----------
 @app.task(name="tasks.daily_update")
 def daily_update():
-    run_script("-m", "apps.NeuralFusionCore.scripts.data_ingest_service", "--mode", "latest", "--hours", "20")
-    run_script("-m", "apps.NeuralFusionCore.scripts.features_service", "--mode", "finetune", "--latest_hours", "20")
+    run_script("-m", "apps.ChronoBridge.scripts.data_ingest_service", "--mode", "latest", "--hours", "20")
+    run_script("-m", "apps.ChronoBridge.scripts.features_service", "--mode", "finetune", "--latest_hours", "20")
     run_script("-m", "apps.NeuralFusionCore.scripts.finetune_service", "--epochs", "30")
     run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service", "--mode", "bridge", "--hours", "20")
     run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_finetune_service", "--latest_hours", "20", "--no_analysis")
@@ -226,8 +226,21 @@ def prediction_14_30PM():
     # === schedule metric live between 14:30 and 18:30 UTC ===
 
     now_utc = datetime.now(timezone.utc)
-    start_dt = start_dt  # previous trading day 14:30 UTC
-    end_dt   = end_dt    # previous trading day 18:30 UTC
+    today_utc = utc_today()
+    start_dt = datetime(
+        today_utc.year,
+        today_utc.month,
+        today_utc.day,
+        14, 30, 0,
+        tzinfo=timezone.utc,
+    )
+    end_dt = datetime(
+        today_utc.year,
+        today_utc.month,
+        today_utc.day,
+        18, 30, 0,
+        tzinfo=timezone.utc,
+    )
   
     # If we're BEFORE the 14:30 window -> wait until exactly 14:30
     if now_utc < start_dt:
