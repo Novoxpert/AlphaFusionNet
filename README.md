@@ -168,8 +168,11 @@ python -m scripts.alphafusionnet_api_service
 ### 3) run scheduler    
 
 ```bash
-
+# on Linux:
 celery -A scheduler.tasks worker --loglevel=info 
+# on Windows:
+celery -A scheduler.tasks worker --loglevel=info -P threads --concurrency=8
+
 python run_triggers.py
 celery -A scheduler.scheduler beat --loglevel=info
 ```
