@@ -169,9 +169,9 @@ python -m scripts.alphafusionnet_api_service
 
 ```bash
 # on Linux:
-celery -A scheduler.tasks worker --loglevel=info 
+celery -A scheduler.tasks worker --loglevel=info --concurrency=1
 # on Windows:
-celery -A scheduler.tasks worker --loglevel=info -P threads --concurrency=8
+celery -A scheduler.tasks worker --loglevel=info -P threads --concurrency=1
 
 python run_triggers.py
 celery -A scheduler.scheduler beat --loglevel=info
