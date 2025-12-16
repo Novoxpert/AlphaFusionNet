@@ -481,6 +481,42 @@ def compute_portfolio_value(
 
     return float(total_value), value_per_symbol
 
+def compute_symbol_pnl(
+    positions: Dict[str, Dict[str, float]],
+    entry_prices: Dict[str, float],
+    prices_t: Dict[str, float],
+) -> Dict[str, float]:
+    """
+    Per-symbol live PnL in currency units:
+        pnl_s(t) = q_s * (P_s(t) - P_s(t0))
+
+    Uses:
+      - q_s from positions[s]["q"]
+      - entry price from entry_prices (or positions[s]["p_entry"] fallback)
+      - current price from prices_t
+
+    Works for long/short naturally because q can be negative if you ever model it so.
+    """
+    symbol_pnl: Dict[str, float] = {}
+
+    for sym, pos in positions.items():
+        q = pos.get("q")
+        if q is None:
+            continue
+
+        p0 = entry_prices.get(sym)
+        if p0 is None:
+            p0 = pos.get("p_entry")  # fallback if you stored it in positions
+
+        p_t = prices_t.get(sym)
+
+        if p0 is None or p_t is None:
+            continue
+
+        symbol_pnl[sym] = float(q) * (float(p_t) - float(p0))
+
+    return symbol_pnl
+
 
 def compute_metrics_snapshot(
     window_doc: Dict,
@@ -492,13 +528,14 @@ def compute_metrics_snapshot(
     Given window_doc state and current prices, compute full metric snapshot:
       - NAV, return, PnL
       - benchmark return, alpha
-      - per-symbol contribution
+      - per-symbol contribution (normalized by NAV0)
+      - per-symbol PnL in currency units
       - per-symbol current prices (close) for dashboard
     """
     nav0 = float(window_doc["nav_initial"])
     cash0 = float(window_doc["cash_initial"])
     positions = window_doc["positions"]
-    entry_prices = window_doc.get("entry_prices", {})
+    entry_prices = window_doc.get("entry_prices", {}) or {}
     benchmark_entry = window_doc.get("benchmark_entry")
 
     nav_t, value_per_symbol = compute_portfolio_value(positions, prices_t, cash0)
@@ -509,19 +546,44 @@ def compute_metrics_snapshot(
     # benchmark & alpha
     r_b = None
     alpha = None
-    if benchmark_entry and benchmark_price_t:
-        r_b = benchmark_price_t / benchmark_entry - 1.0
+    if benchmark_entry is not None and benchmark_price_t is not None:
+        r_b = float(benchmark_price_t) / float(benchmark_entry) - 1.0
         alpha = rp_t - r_b
 
-    # per-symbol contribution
+    # per-symbol contribution (normalized by NAV0)
     contrib: Dict[str, float] = {}
     for sym, pos in positions.items():
-        q = pos["q"]
+        q = pos.get("q")
+        if q is None:
+            continue
+
         p0 = entry_prices.get(sym)
+        # fallback if you stored p_entry in positions
+        if p0 is None:
+            p0 = pos.get("p_entry")
+
         p_t = prices_t.get(sym)
         if p0 is None or p_t is None:
             continue
-        contrib[sym] = q * (p_t - p0) / nav0
+
+        contrib[sym] = float(q) * (float(p_t) - float(p0)) / nav0
+
+    # per-symbol pnl in currency units
+    symbol_pnl: Dict[str, float] = {}
+    for sym, pos in positions.items():
+        q = pos.get("q")
+        if q is None:
+            continue
+
+        p0 = entry_prices.get(sym)
+        if p0 is None:
+            p0 = pos.get("p_entry")
+
+        p_t = prices_t.get(sym)
+        if p0 is None or p_t is None:
+            continue
+
+        symbol_pnl[sym] = float(q) * (float(p_t) - float(p0))
 
     snapshot = {
         "as_of": as_of,
@@ -536,12 +598,13 @@ def compute_metrics_snapshot(
         "alpha_vs_benchmark": alpha,
         # explicit for dashboard: per-symbol current close prices
         "symbol_prices": prices_t,
-        # keep old key name for convenience / backward compat
         "prices": prices_t,
         "value_per_symbol": value_per_symbol,
         "contribution_per_symbol": contrib,
+        "symbol_pnl": symbol_pnl,
     }
     return snapshot
+
 
 
 def persist_window_snapshot(
