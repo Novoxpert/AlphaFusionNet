@@ -50,11 +50,11 @@ from pathlib import Path
 # ---------------------------------------------------------------------
 try:
     # If your utils expose this, we use it
-    from lib.trading_calendar_utils import is_today_common_trading_day as _is_common_trading_day  # type: ignore
+    from lib.trading_calendar_utils import is_common_trading_day  # type: ignore
 
     def is_trading_day(d: date) -> bool:
         """Wrapper around project trading-calendar util."""
-        return _is_common_trading_day(d)
+        return bool(is_common_trading_day(d))
 
 except Exception:
     # Fallback: simple weekday-based trading days (Mon–Fri)
