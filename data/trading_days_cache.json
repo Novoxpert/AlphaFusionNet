@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-12-09T06:59:40.804322Z",
+  "generated_at": "2025-12-16T06:42:33.144962Z",
   "start": "2024-11-01",
   "end": "2027-01-31",
   "common_trading_days": [
@@ -566,10 +566,10 @@
     "2027-01-29"
   ],
   "per_exchange_counts": {
-    "IG": 586,
     "NYSE": 561,
-    "OANDA": 586,
     "NASDAQ": 586,
-    "BINANCE": 822
+    "OANDA": 586,
+    "BINANCE": 822,
+    "IG": 586
   }
 }
