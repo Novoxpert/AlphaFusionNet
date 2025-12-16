@@ -50,6 +50,7 @@ SCHEDULED_TASKS = {
     "tasks.daily_update",
     "tasks.prediction_14_30PM",
     "tasks.calculate_metric_live",
+    "tasks.calculate_metric_monthly"
 }
 
 
@@ -169,7 +170,10 @@ def daily_update():
 def calculate_metric_live():
     run_script("-m", "scripts.metric_live_service")
 
-
+# --------- METRIC MONTHLY ----------
+@app.task(name="tasks.calculate_metric_monthly")
+def calculate_metric_monthly():
+    run_script("-m", "scripts.metric_monthly_service")
 # --------- PREDICTION AT 14:30 UTC ----------
 @app.task(name="tasks.prediction_14_30PM")
 def prediction_14_30PM():
@@ -268,7 +272,12 @@ def prediction_14_30PM():
         calculate_metric_live.apply_async(countdown=delta)
         t += timedelta(minutes=1)
 
-    run_script("-m", "scripts.metric_monthly_service")
+
+    delay_to_monthly = (end_dt - now_utc).total_seconds()
+    if delay_to_monthly < 0:
+        delay_to_monthly = 0
+    calculate_metric_monthly.apply_async(countdown=delay_to_monthly + 5)
+   
     return "Prediction finished. Metrics scheduled every minute for full trading window."
 
 # --------- REFRESH TRADING-DAYS CACHE ----------
