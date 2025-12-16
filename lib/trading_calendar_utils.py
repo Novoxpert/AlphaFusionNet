@@ -72,6 +72,11 @@ def is_today_common_trading_day() -> bool:
     today_utc = utc_today()
     return today_utc in load_common_days()
 
+def is_common_trading_day(d: date) -> bool:
+    """
+    Returns True if the given date is a common trading day (UTC calendar).
+    """
+    return d in load_common_days()
 
 def next_common_trading_day(after_date: date = None):
     """
