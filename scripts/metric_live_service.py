@@ -87,7 +87,7 @@ from datetime import datetime
 import yaml
 from dotenv import load_dotenv
 from pathlib import Path 
-
+from datetime import datetime, timedelta
 from lib.db_utils import init_clickhouse_client, init_mongo_client
 from lib.metric_utils import (
     init_window_state,
@@ -132,7 +132,34 @@ def load_config(config_path: str = CONFIG_FILE):
         raise RuntimeError(f"Config file empty or invalid: {config_path}")
 
     return cfg
+# ------------------------
+# Find window_id
+# ------------------------
+def get_or_create_today_window_id(db, now_utc: datetime) -> tuple[str, datetime]:
+    """
+    Reuse today's existing window_id if it exists; otherwise create a new one (t0 = now).
+    "Today" is UTC day (based on now_utc.date()).
+    """
+    windows_col = db["windows"]
+    now_utc = now_utc.replace(second=0, microsecond=0)
 
+    day_start = datetime(now_utc.year, now_utc.month, now_utc.day)
+    day_end = day_start + timedelta(days=1)
+
+    # Most recent window created today (UTC)
+    existing = windows_col.find_one(
+        {"t0": {"$gte": day_start, "$lt": day_end}},
+        sort=[("t0", -1)],
+        projection={"window_id": 1, "t0": 1},
+    )
+
+    if existing and existing.get("window_id") and existing.get("t0"):
+        return existing["window_id"], existing["t0"]
+
+    # No window for today -> define first window as starting now
+    t0 = now_utc
+    window_id = f"{t0:%Y%m%d_%H%M}"
+    return window_id, t0
 
 # ------------------------
 # Single-shot live metric computation
@@ -322,7 +349,8 @@ if __name__ == "__main__":
     mongo_client, db = init_mongo_client(mongo_cfg)
 
     # Window start: exactly "now" in UTC, as decided by the scheduler
-    start_time = datetime.utcnow().replace(second=0, microsecond=0)
+    now_utc = datetime.utcnow().replace(second=0, microsecond=0)
+    window_id, start_time = get_or_create_today_window_id(db, now_utc)
 
     # Get latest portfolio weights from AlphaFusionNet_predictions
     weights_doc = db["AlphaFusionNet_predictions"].find_one(
@@ -340,8 +368,6 @@ if __name__ == "__main__":
     market_cfg = cfg.get("market", {})
     benchmark_symbols = market_cfg.get("benchmark_symbol", ["SP:SPX"])
     benchmark_symbol = benchmark_symbols[0]
-
-    window_id = f"{start_time:%Y%m%d_%H%M}"
 
     run_live_metric_snapshot(
         db=db,
