@@ -24,7 +24,7 @@ app.conf.beat_schedule = {
     # Prediction task at 14:30 UTC time
     'prediction-14-30pm': {
         'task': 'tasks.prediction_14_30PM',
-        'schedule': crontab(hour=13, minute=50),
+        'schedule': crontab(hour=13 ,minute=25),
     },
     # Refresh trading-days cache once per day (02:00 UTC)
     'refresh-trading-days-cache': {
