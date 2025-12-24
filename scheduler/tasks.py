@@ -17,6 +17,9 @@ from celery import Celery
 from celery.signals import before_task_publish
 import time
 import torch
+from celery.exceptions import Ignore
+
+logger = logging.getLogger(__name__)
 
 # Import your trading-day utilities (UTC-based)
 from lib.trading_calendar_utils import (
@@ -53,23 +56,42 @@ SCHEDULED_TASKS = {
     "tasks.calculate_metric_monthly"
 }
 
-
 @before_task_publish.connect
-def skip_if_not_trading_day(headers=None, **kwargs):
-    """
-    Prevent Celery beat from publishing a scheduled task if today is NOT
-    a common trading day across all symbols (UTC-based).
-    """
+def log_if_not_trading_day(headers=None, **kwargs):
     if not headers:
         return
-
     task_name = headers.get("task", "")
+    if task_name in SCHEDULED_TASKS and not is_today_common_trading_day():
+        print(f"[BEAT WARN] {task_name} would run, but workers will SKIP (non-trading day).")
 
-    if task_name in SCHEDULED_TASKS:
-        # We silently skip (do NOT raise!)
+def _skip_if_not_trading_day(task_name: str) -> None:
+    """
+    Worker-side hard gate. If today (UTC) is not a common trading day, stop execution.
+    Works even if Beat already queued the task.
+    """
+    try:
         if not is_today_common_trading_day():
-            print(f"[SKIP] {task_name} blocked — today is NOT a trading day (UTC).")
-            return False   # silently cancel publish!
+            logger.warning("[SKIP] %s blocked — today is NOT a common trading day (UTC).", task_name)
+            raise Ignore()
+    except Ignore:
+        raise
+    except Exception as e:
+        # Fail-safe: if trading-day check breaks, do NOT run trading-day dependent jobs
+        logger.exception("[SKIP] %s blocked — trading-day check failed: %s", task_name, e)
+        raise Ignore()
+
+
+def trading_day_only(fn):
+    """
+    Decorator to protect tasks that must not run on non-trading days.
+    """
+    def wrapper(*args, **kwargs):
+        # Celery sets the current task context; we can get the registered name reliably:
+        from celery import current_task
+        task_name = getattr(current_task, "name", fn.__name__)
+        _skip_if_not_trading_day(task_name)
+        return fn(*args, **kwargs)
+    return wrapper
 
 
 # --------------------------------------------------------------------
@@ -157,25 +179,29 @@ def initial_run():
 
 # --------- DAILY WORKFLOW ----------
 @app.task(name="tasks.daily_update")
+@trading_day_only
 def daily_update():
-    run_script("-m", "apps.ChronoBridge.scripts.data_ingest_service", "--mode", "latest", "--hours", "20")
-    run_script("-m", "apps.ChronoBridge.scripts.features_service", "--mode", "finetune", "--latest_hours", "20")
+    run_script("-m", "apps.ChronoBridge.scripts.data_ingest_service", "--mode", "latest", "--hours", "48")
+    run_script("-m", "apps.ChronoBridge.scripts.features_service", "--mode", "finetune", "--latest_hours", "48")
     run_script("-m", "apps.NeuralFusionCore.scripts.finetune_service", "--epochs", "30")
-    run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service", "--mode", "bridge", "--hours", "20")
-    run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_finetune_service", "--latest_hours", "20", "--no_analysis")
+    run_script("-m", "apps.ChronoBridge.scripts.chronobridge_service", "--mode", "bridge", "--hours", "48")
+    run_script_safe("-m", "apps.NetWeaver.src.services.netweaver_finetune_service", "--latest_hours", "48", "--no_analysis")
 
 
 # --------- METRIC LIVE ----------
 @app.task(name="tasks.calculate_metric_live")
+@trading_day_only
 def calculate_metric_live():
     run_script("-m", "scripts.metric_live_service")
 
 # --------- METRIC MONTHLY ----------
 @app.task(name="tasks.calculate_metric_monthly")
+@trading_day_only
 def calculate_metric_monthly():
     run_script("-m", "scripts.metric_monthly_service")
 # --------- PREDICTION AT 14:30 UTC ----------
 @app.task(name="tasks.prediction_14_30PM")
+@trading_day_only
 def prediction_14_30PM():
     start_prediction_time = time.time()
     torch.cuda.empty_cache()
@@ -242,22 +268,23 @@ def prediction_14_30PM():
         today_utc.year,
         today_utc.month,
         today_utc.day,
-        18, 30, 0,
+        18, 31, 0,
         tzinfo=timezone.utc,
     )
-  
+    
+    GRACE_SECONDS = 10
     # If we're BEFORE the 14:30 window -> wait until exactly 14:30
     if now_utc < start_dt:
-        initial_delay = (start_dt - now_utc).total_seconds()
+        initial_delay = (start_dt - now_utc).total_seconds() + GRACE_SECONDS
         print(f"[TASK] Waiting {initial_delay:.2f}s until 14:30 UTC to start metric_live")
         calculate_metric_live.apply_async(countdown=initial_delay)
-        first_metric_time = start_dt
+        first_metric_time = start_dt  + timedelta(seconds=GRACE_SECONDS)
 
     # If we're already IN the window
     elif start_dt <= now_utc <= end_dt:
         print("[TASK] Starting metric_live immediately (inside window).")
-        calculate_metric_live.delay()
-        first_metric_time = now_utc
+        calculate_metric_live.apply_async(countdown=GRACE_SECONDS)
+        first_metric_time = now_utc + timedelta(seconds=GRACE_SECONDS)
 
     # If it's past 18:30 -> nothing
     else:
