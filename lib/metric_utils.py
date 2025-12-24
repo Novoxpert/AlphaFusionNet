@@ -147,6 +147,7 @@ Version: 1.0.0
 import logging
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Optional
+import time
 
 import numpy as np
 import pandas as pd
@@ -156,6 +157,9 @@ logger = logging.getLogger(__name__)
 NAV0_DEFAULT = 100_000.0
 ROLLING_WINDOW_DAYS = 5
 
+MAX_RETRIES = 3           # e.g. 3 × 5s = 15 seconds total
+RETRY_SLEEP_SECONDS = 5
+ENTRY_LOOKBACK_MINUTES = 5
 
 # ------------------------
 # ClickHouse helpers
@@ -359,8 +363,10 @@ def init_window_state(
     """
     Initialize and persist a window document in Mongo 'windows' collection.
 
-    - Reads entry close prices **exactly at t0** (start_time_utc) for all symbols & benchmark.
-    - Computes positions and cash0.
+    Robust version:
+      - Retries fetching entry prices to avoid ClickHouse ingestion races
+      - Falls back to short lookback if exact candle is delayed
+      - Fails fast if entry prices are still missing
     """
     windows_col = db["windows"]
 
@@ -372,50 +378,108 @@ def init_window_state(
     if risk_controls is None:
         risk_controls = {}
 
-    # Align t0 to minute boundary to match candle_time
+    # Align t0 to minute boundary
     start_time_utc = start_time_utc.replace(second=0, microsecond=0)
 
     entry_prices: Dict[str, float] = {}
+
+    # ----------------------------
+    # ENTRY PRICE FETCH WITH RETRY
+    # ----------------------------
     for sym in symbols:
-        # Use ONLY the candle at exactly t0
-        df = fetch_ohlcv_range(
+        p0 = None
+
+        for attempt in range(1, MAX_RETRIES + 1):
+            df = fetch_ohlcv_range(
+                ch_client,
+                ch_table,
+                sym,
+                start_time_utc,
+                start_time_utc,
+            )
+            if not df.empty:
+                p0 = float(df.iloc[0]["close"])
+                break
+
+            logger.warning(
+                "[%s] entry price not ready at t0=%s (attempt %d/%d)",
+                sym, start_time_utc, attempt, MAX_RETRIES
+            )
+            time.sleep(RETRY_SLEEP_SECONDS)
+
+        # Fallback: short lookback (robust)
+        if p0 is None:
+            p0, is_stale = get_minute_close_price(
+                ch_client=ch_client,
+                ch_table=ch_table,
+                symbol=sym,
+                as_of=start_time_utc,
+                lookback_minutes=ENTRY_LOOKBACK_MINUTES,
+            )
+            if p0 is not None:
+                logger.warning(
+                    "[%s] using fallback entry price (lookback, stale=%s)",
+                    sym, is_stale
+                )
+
+        if p0 is None:
+            raise RuntimeError(
+                f"FATAL: could not determine entry price for {sym} "
+                f"at or near t0={start_time_utc}"
+            )
+
+        entry_prices[sym] = float(p0)
+
+    # ----------------------------
+    # BENCHMARK ENTRY (same logic)
+    # ----------------------------
+    benchmark_entry = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        df_bench = fetch_ohlcv_range(
             ch_client,
             ch_table,
-            sym,
+            benchmark_symbol,
             start_time_utc,
-            start_time_utc,  # start == end -> only t0 candle
+            start_time_utc,
         )
-        if df.empty:
-            logger.warning("No entry price found for %s at t0=%s", sym, start_time_utc)
-            continue
+        if not df_bench.empty:
+            benchmark_entry = float(df_bench.iloc[0]["close"])
+            break
 
-        # we expect a single row at that timestamp; use its close
-        p0 = float(df.iloc[0]["close"])
-        entry_prices[sym] = p0
+        logger.warning(
+            "[BENCH %s] entry not ready at t0=%s (attempt %d/%d)",
+            benchmark_symbol, start_time_utc, attempt, MAX_RETRIES
+        )
+        time.sleep(RETRY_SLEEP_SECONDS)
 
-    # Benchmark entry price, also exactly at t0
-    df_bench = fetch_ohlcv_range(
-        ch_client,
-        ch_table,
-        benchmark_symbol,
-        start_time_utc,
-        start_time_utc,  # only t0 candle
-    )
-    benchmark_entry = float(df_bench.iloc[0]["close"]) if not df_bench.empty else None
+    if benchmark_entry is None:
+        benchmark_entry, bench_stale = get_minute_close_price(
+            ch_client=ch_client,
+            ch_table=ch_table,
+            symbol=benchmark_symbol,
+            as_of=start_time_utc,
+            lookback_minutes=ENTRY_LOOKBACK_MINUTES,
+        )
 
-    # Compute initial positions
+    if benchmark_entry is None:
+        raise RuntimeError(
+            f"FATAL: could not determine benchmark entry price for {benchmark_symbol} "
+            f"at or near t0={start_time_utc}"
+        )
+
+    # ----------------------------
+    # PORTFOLIO INITIALIZATION
+    # ----------------------------
     positions, cash0, total_weight = compute_positions_from_weights(
         portfolio_weights, entry_prices, nav0=nav0
     )
 
-    # Compute SL/TP levels and confidence per symbol from risk_controls
     sl_prices, tp_prices, confidences = compute_sl_tp_levels(
         portfolio_weights=portfolio_weights,
         entry_prices=entry_prices,
         risk_controls=risk_controls,
     )
 
-    # Enrich positions with SL/TP/CONF for convenience
     for sym, pos in positions.items():
         if sym in sl_prices:
             pos["sl_price"] = sl_prices[sym]
@@ -437,21 +501,23 @@ def init_window_state(
         "cash_initial": float(cash0),
         "benchmark_symbol": benchmark_symbol,
         "benchmark_entry": benchmark_entry,
-        "portfolio_confidence": confidences,  
-        "sl_prices": sl_prices,             
-        "tp_prices": tp_prices,              
+        "portfolio_confidence": confidences,
+        "sl_prices": sl_prices,
+        "tp_prices": tp_prices,
         "rp_t0": 0.0,
         "pnl_t0": 0.0,
         "stale_count": 0,
         "status": "LIVE",
-        # each snapshot is per-minute metrics
         "live_history": [],
         "created_at": datetime.utcnow(),
         "updated_at": datetime.utcnow(),
     }
 
     windows_col.insert_one(window_doc)
-    logger.info("Initialized window %s with %d positions", window_id, len(positions))
+    logger.info(
+        "Initialized window %s with %d/%d entry prices",
+        window_id, len(entry_prices), len(symbols)
+    )
 
     return window_doc
 
