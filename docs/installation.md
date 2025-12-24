@@ -6,7 +6,7 @@ To get started, clone the repository and optionally create an isolated Python en
 # Clone repository
 git clone https://github.com/Novoxpert/AlphaFusionNet.git
 cd AlphaFusionNet
-
+git submodule update --init --recursive
 
 # (optional) create a virtual environment
 python -m venv .venv
@@ -18,5 +18,9 @@ source .venv/bin/activate
  .\.venv\Scripts\Activate.ps1
 
 # install exact dependencies
+
+#on linux:
 pip install -r requirements.txt
+#on windows:
+pip install -r requirements-windows.txt
 ```
