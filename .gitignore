@@ -5,3 +5,6 @@ __pycache__/
 __pycache__/
 __pycache__/
 **/__pycache__/
+
+# Celery beat schedule files
+scheduler/celerybeat-schedule.*
