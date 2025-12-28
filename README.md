@@ -1,6 +1,6 @@
 # AlphaFusionNet — LLM‑Guided Neural + Graph Market Monitoring Engine
 
- **Compliance note (important):** This repository is designed for **market monitoring, risk awareness, market structure analysis, and data/ops governance**.  
+ This repository is designed for **market monitoring, risk awareness, market structure analysis, and data/ops governance**.  
  It is **not** an investment advisory product and **must not** be used to generate or present:
  - buy/sell or long/short instructions, entry/exit, target prices, TP/SL  
  - allocations, portfolio/weight recommendations, “best opportunities,” expected returns  
@@ -62,88 +62,6 @@ This repository provides an end‑to‑end pipeline that integrates four core co
 7. [Appendix](#appendix)  
 8. [Authors & citation](#authors--citation)  
 9. [Support](#support)  
-
----
-
-## Architecture Diagram
-AlphaFusionNet is a hybrid portfolio decision-making engine that fuses deep quantitative modeling with qualitative LLM-guided policy reasoning. It integrates real-time multimodal data ingestion, feature engineering, TimesNet-based MarketNews MSGCA-fusion modeling, graph modeling, fusion logic, and full metric monitoring, all orchestrated in UTC via Celery.
-[For more details about this architecture, please refer to this.](./docs/architecture.md)
-```mermaid
-flowchart LR
-    subgraph S1[Data Sources]
-        CH[(ClickHouse<br>OHLCV 1m)]
-        MN[(MongoDB<br>News 1m)]
-    end
-
-    subgraph S2[ChronoBridge Pipeline]
-        DI[Data Ingest<br>Resample OHLCV→3m<br>Fetch News]
-        FE[Feature Service<br>OHLCV Features<br>BigBird News Embedding<br>3m Merge]
-        BR[Bridge/Synchronized mode<br> save/Inputs API]
-    end
-
-    subgraph S3[Models]
-        NFC[NeuralFusionCore<br>TimesNet + LSTM + GatedCrossAttentionFusion->PORTFOLIO]
-        NW[NetWeaver<br>Graph Model->TopK + Predicted Return]
-    end
-
-    subgraph S4[AlphaFusionNet Fusion]
-        AFN[LLM-Guided Fusion<br>α Weighting<br>Top-K<br>SL/TP<br>Reasoning]
-    end
-
-    subgraph S5[Metrics]
-        ML[Live Metrics]
-        MM[Monthly Metrics]
-        MB[Backtest Metrics]
-    end
-
-    subgraph S6[Storage]
-        REDIS[(Redis)]
-        MCHRO[(MongoDB<br>ChronoBridge data)]
-        MPRED[(MongoDB<br>NFC & NW Predictions)]
-        MAFN[(MongoDB<br>AFN Policies + Metrics)]
-        FS[(Filesystem<br>Parquets / Models / CSV/ Json)]
-    end
-
-    subgraph S7[Orchestration & UI]
-        CEL[Celery Scheduler]
-        UI[React Dashboard]
-    end
-
-    CH --> DI
-    MN --> DI
-    DI --> REDIS
-    REDIS --> FE
-    FE --> FS
-    FS --> NFC
-    NFC --> MPRED
-
-    NFC --> BR
-    BR --> MCHRO
-    MCHRO --> BR
-    BR --> NFC 
-    BR --> NW
-
-    NFC --> AFN
-    NW --> AFN
-    AFN --> MAFN
-
-    MAFN --> ML
-    MAFN --> MM
-    MAFN --> MB
-
-    ML --> UI
-    MM --> UI
-
-    CEL --> DI
-    CEL --> FE
-    CEL --> BR
-    CEL --> NFC
-    CEL --> NW
-    CEL --> AFN
-    CEL --> ML
-    CEL --> MM
-
-```
 
 ## Setup
 
@@ -238,7 +156,7 @@ For the full engine layout, see `./docs/layout.md`.
 
 ## Dependencies
 
-- Python 3.12+  
+- Python 3.11+  
 - PyTorch 2.x  
 
 ---
