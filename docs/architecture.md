@@ -1,35 +1,38 @@
-# AlphaFusionNet Architecture
+# AlphaFusionNet — System Architecture
 
-AlphaFusionNet is a hybrid portfolio decision-making engine that fuses deep quantitative modeling with qualitative LLM-guided policy reasoning. It integrates real-time multimodal data ingestion, feature engineering, TimesNet-based MarketNews gated-fusion modeling, graph modeling, fusion logic, and full metric monitoring, all orchestrated in UTC via Celery.
+AlphaFusionNet is a **financial decision intelligence system** designed to support **market monitoring, risk assessment, structural analysis, and policy-driven reasoning** in complex financial environments.
 
-This document provides a full overview of the architecture, components, and data flow.
+The system integrates quantitative modeling, graph-based dependency analysis, and LLM-guided policy interpretation to provide **risk-aware insights** derived from real-time multimodal data.  
+AlphaFusionNet does **not** generate execution instructions or investment recommendations.
+
+This document describes the full architecture, core components, and data flow.
 
 ---
 
-# 1. High-Level System Overview
+## 1. High-Level System Overview
 
-AlphaFusionNet consists of the following major subsystems:
+AlphaFusionNet consists of the following subsystems:
 
 - **ChronoBridge Data Pipeline**  
-  Fetches OHLCV + news, resamples, embeds text, merges features.
+  Multimodal data ingestion, synchronization, and feature construction (prices + news).
 
-- **NeuralFusionCore**  
-  Risk-aware signals using TimesNet + LSTM + gated fused attention.
+- **NeuralFusionCore (NFC)**  
+  Context-aware representation learning over temporal and textual signals, producing **risk- and salience-oriented scores**.
 
 - **NetWeaver**  
-  Graph neural network for return prediction & top-K selection.
+  Graph-based modeling of cross-asset relationships and dependency structure.
 
-- **AlphaFusionNet Fusion Engine**  
-  Combines NeuralFusionCore & NetWeaver outputs using an LLM-generated policy.
+- **AlphaFusionNet Policy & Fusion Layer**  
+  Policy-driven fusion of model outputs using LLM reasoning (non-executive, non-directional).
 
-- **Metrics System**  
-  Live and monthly pipelines (MongoDB + CSV).
+- **Metrics & Monitoring System**  
+  Continuous generation of descriptive, diagnostic, and governance metrics.
 
-- **Orchestration**  
-  All services run via Celery Scheduler in UTC.
+- **Orchestration Layer**  
+  Deterministic scheduling and coordination of all services.
 
-- **Dashboard**  
-  React frontend visualizing policy, metrics, and allocations.
+- **Dashboard Layer**  
+  Visualization of market state, structural dependencies, and monitoring metrics.
 
 ---
 
@@ -155,112 +158,167 @@ flowchart LR
                    React Dashboard
 ```
 ---
-# 4. ChronoBridge Data Pipeline
 
-ChronoBridge is the real-time data preparation layer for AlphaFusionNet. It ingests raw market and news data, performs multimodal feature engineering, and provides synchronized inputs for NeuralFusionCore and NetWeaver.
+## 3. Core Design Principle 
 
----
+AlphaFusionNet is explicitly designed as:
 
-## 4.1 Data Ingest Service
+> **A monitoring, diagnostics, and decision-support system — not an execution or advisory engine.**
 
-The Data Ingest Service is responsible for collecting and preprocessing raw data.
-
-### Inputs
-- OHLCV price data (1-minute) from ClickHouse  
-- News data (1-minute) from MongoDB
-
-### Processing
-- Resamples OHLCV data from 1-minute to 3-minute intervals  
-- Forwards news as-is (preserving timestamps)  
-- Streams OHLCV (3m) and news (1m) into Redis  
-- Ensures all timestamps are handled in UTC  
-- Maintains symbol-level alignment and schema consistency
-
-### Outputs
-- Redis streams:  
-  - `ohlcv_3m`  
-  - `news_raw`  
-- Downstream services read structured, time-aligned data from Redis
+All outputs are:
+- descriptive, not prescriptive  
+- structural, not directional  
+- risk- and context-oriented, not performance-oriented  
 
 ---
 
-## 4.2 Feature Service
+## 4. ChronoBridge Data Pipeline
 
-The Feature Service creates multimodal features from OHLCV and news.
+ChronoBridge is the **data normalization and synchronization layer** of AlphaFusionNet.  
+Its role is to ensure that **all downstream components operate on aligned, consistent, and temporally coherent information**.
 
-### OHLCV Feature Engineering
-- Features derived from 3-minute OHLCV bars  
-- Rolling-window metrics such as returns and volatility-like features
+### 4.1 Data Ingest Service
 
-### Timesnet mask features
-- Features derived from timestamps for timesnet.
+**Inputs**
+- OHLCV market data (1-minute resolution)
+- News data with original timestamps
 
-### News Embedding
-- Uses a BigBird transformer model to generate dense vector embeddings from text  
-- Resamples and aligns news embeddings to the 3-minute grid.
+**Responsibilities**
+- Resample OHLCV to a unified temporal grid (e.g., 3-minute)
+- Preserve original news timing
+- Enforce UTC consistency
+- Maintain schema and symbol alignment
 
-### Symbol–News Alignment
-- Identifies which symbols are referenced by each news item  
-- Encodes symbol associations as one-hot vectors  
-- Ensures news relevance is reflected in the feature set
-
-### Merged Feature DataFrame
-- Contains:  
-  - OHLCV features (all symbols)  
-  - Time features (from timestamps)
-  - News embeddings  
-  - One-hot news–symbol indicators  
-- Fully synchronized to a 3-minute timestamp grid  
-- Serves as the core multimodal dataset for model training and live inference
+**Outputs**
+- Time-aligned streams delivered via Redis for downstream services
 
 ---
 
-## 4.3 Training Mode Outputs
+### 4.2 Feature Service
 
-When ChronoBridge feature servuice runs in training mode, it generates datasets for NeuralFusionCore.
+The Feature Service constructs **multimodal representations** used by learning and graph components.
 
-### Train/Validation Split
-- Splits merged features into:  
-  - `train`  
-  - `validation`  
+**Price-Derived Features**
+- Rolling statistics and temporal descriptors
+- Volatility- and movement-related signals (non-directional)
 
-### Normalization
-- Computes normalization parameters using only the training subset  
-- Applies the same normalizer to the validation subset  
-- Prevents data leakage and ensures deterministic preprocessing
+**Temporal Encoding**
+- Time-based masks and positional features
 
-### Output Files (saved under `data/processed/`)
-- `train.parquet` — normalized training dataset  
-- `val.parquet` — normalized validation dataset  
-- `meta.json` — normalizer parameters, schema, and config metadata
+**Textual Processing**
+- Transformer-based embeddings (BigBird)
+- Alignment of news embeddings to the unified time grid
+
+**Symbol Association**
+- Encodes relevance between news items and symbols
+- Enables symbol-level contextualization without sentiment-based execution logic
+
+The resulting dataset forms the **canonical feature space** for all models.
 
 ---
-## 4.4 Bridge Mode 
-When ChronoBridge service runs in this mode, it generates datasets for NetWeaver.
 
-### Pipline
-1. Fetch latest raw market & news data
-2. Generate lagged features + embeddings
-3. Slide through the time series row-by-row:
-     ▸ build rolling window of features and news embeddings
-     ▸ run NFC model forward pass with `return_embeddings=True`
-     ▸ extract per-asset fused representations
-4. Persist fused embeddings, OHLCV, and timestamp to:
-     ▸ MongoDB  (collection: `chrono_bridge`)
-5. Exposes a Chronobridge API for NW training data.
+### 4.3 Training Mode Outputs
+
+When operating in training mode, ChronoBridge produces:
+
+- Normalized training and validation datasets
+- Explicit metadata describing preprocessing and schema
+- Deterministic splits to prevent data leakage
+
+These artifacts are used exclusively for **representation learning**, not signal generation.
+
 ---
-## 4.5 Synchronized Mode (Inference Service)
 
-synchronized Mode ensures both models receive consistent, synchronized inputs during live inference.
+### 4.4 Bridge Mode (Graph Preparation)
 
-### Responsibilities
-- Builds a 4-hour history window of 3-minute merged features  
-- Ensures NeuralFusionCore and NetWeaver operate on:  
-  - The same timestamp (`t0`)  
-  - The same window length  
-  - The same multimodal features  
-- Fetches the latest fused embedding output from NeuralFusionCore for NetWeaver  
-- Exposes a unified inference API for synchronous prediction
+In bridge mode, ChronoBridge:
 
-### Purpose
-synchronized Mode prevents timing misalignment and ensures both models operate on identical context, enabling coherent final decisions in AlphaFusionNet.
+- Generates rolling contextual windows
+- Extracts intermediate representations from NeuralFusionCore
+- Persists synchronized embeddings and metadata
+
+This data serves as **structural input** for NetWeaver’s dependency modeling.
+
+---
+
+### 4.5 Synchronized Inference Mode
+
+Synchronized mode guarantees that:
+
+- NeuralFusionCore and NetWeaver observe the **same market context**
+- Temporal misalignment is eliminated
+- Downstream fusion logic operates on coherent inputs
+
+This design is critical for **interpretability, auditability, and governance**.
+
+---
+
+## 5. NeuralFusionCore (NFC)
+
+NeuralFusionCore is a **contextual representation engine** that learns how temporal price behavior and textual information co-evolve.
+
+Its outputs should be interpreted as:
+- salience measures
+- risk-aware intensity indicators
+- contextual embeddings  
+
+They are **not** actionable instructions.
+
+---
+
+## 6. NetWeaver (Dependency Modeling)
+
+NetWeaver models **cross-symbol relationships** using graph-based learning.
+
+It focuses on:
+- influence structure
+- dependency strength
+- lead–lag patterns (probabilistic, historical)
+
+These outputs describe **market structure**, not future outcomes.
+
+---
+
+## 7. AlphaFusionNet Policy & Fusion Layer
+
+This layer uses LLM-based reasoning to:
+
+- Combine heterogeneous model outputs
+- Apply governance and risk policies
+- Produce structured, human-readable interpretations
+
+Importantly:
+- Policies are **non-executable**
+- No allocation, trade, or action instructions are produced
+
+---
+
+## 8. Metrics & Monitoring System
+
+AlphaFusionNet produces metrics for:
+
+- Market condition monitoring
+- Risk concentration awareness
+- Structural stability analysis
+- Model consistency and data quality checks
+
+Metrics are used for **oversight and diagnostics**, not performance claims.
+
+---
+
+## 9. Dashboard Layer
+
+The dashboard visualizes:
+
+- Market-level condition summaries
+- Watchlist rationale (monitoring-focused)
+- Dependency graphs and correlation structures
+- Data quality and model agreement indicators
+
+It is designed for **situational awareness**, not transaction execution.
+
+---
+
+## Final Note
+
+AlphaFusionNet is a deep-tech financial intelligence system built to support **responsible, transparent, and risk-aware decision processes** in regulated environments.
