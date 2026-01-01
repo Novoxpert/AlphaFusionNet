@@ -1,0 +1,324 @@
+{
+  "product_goal": "Market monitoring / risk awareness engine combining multimodal ingestion (OHLCV + news), temporal neural modeling, graph dependency modeling, and an AlphaFusionNet fusion/reasoning layer. Outputs are descriptive/diagnostic and must not be used as investment advice.",
+  "merge_goal": "Provide a merge-ready, architecture-oriented dossier: module boundaries, entrypoints, runtime orchestration, and stable contracts (APIs, Celery tasks, Mongo collections, ClickHouse expectations, filesystem artifacts), including submodule topology for safe refactoring and future merges.",
+  "repo_type": "multi-service python orchestrator with nested git submodules",
+  "tech_stack": {
+    "languages": [
+      "Python"
+    ],
+    "frameworks": [
+      "FastAPI",
+      "Uvicorn",
+      "Celery",
+      "PyTorch",
+      "HuggingFace Transformers"
+    ],
+    "db": [
+      "MongoDB",
+      "ClickHouse"
+    ],
+    "queue": [
+      "Redis (Celery broker/backend)",
+      "Redis (feature cache)"
+    ],
+    "infra": [],
+    "ci": []
+  },
+  "modules": [
+    {
+      "name": "AlphaFusionNet (Fusion + Policy/Reasoning)",
+      "paths": [
+        "AlphaFusionNet/src/",
+        "AlphaFusionNet/scripts/alphafusionnet_service.py",
+        "AlphaFusionNet/scripts/alphafusionnet_api_service.py"
+      ],
+      "entrypoints": [
+        "python -m scripts.alphafusionnet_service",
+        "python -m scripts.alphafusionnet_api_service"
+      ],
+      "responsibility": "Fuse NeuralFusionCore signed weights with NetWeaver predicted-return scores using a configurable alpha and optional LLM-generated policy JSON; persist final weights, risk_controls, and reasoning to MongoDB; serve latest/historical results via FastAPI.",
+      "depends_on": [
+        "ChronoBridge (features + synchronized windows)",
+        "NeuralFusionCore (NeuralFusionCore_prediction.json; Mongo NeuralFusionCore_predictions)",
+        "NetWeaver (results/predict/selected_prediction.csv)",
+        "MongoDB",
+        "Redis (via scheduler)",
+        "OpenAI API (optional; OPENAI_API_KEY)"
+      ]
+    },
+    {
+      "name": "ChronoBridge (Ingest + Features + Embeddings)",
+      "paths": [
+        "AlphaFusionNet/apps/ChronoBridge/"
+      ],
+      "entrypoints": [
+        "python -m apps.ChronoBridge.scripts.data_ingest_service",
+        "python -m apps.ChronoBridge.scripts.features_service",
+        "python -m apps.ChronoBridge.scripts.chronobridge_service",
+        "python -m apps.ChronoBridge.scripts.chronobridge_api_service"
+      ],
+      "responsibility": "Fetch OHLCV from ClickHouse and news from MongoDB, push to Redis, build feature parquet datasets, generate synchronized inputs, and persist fused embeddings to MongoDB for downstream consumption.",
+      "depends_on": [
+        "ClickHouse",
+        "MongoDB",
+        "Redis",
+        "Transformer model artifacts (BigBird tokenizer/model files under apps/ChronoBridge/models/)"
+      ]
+    },
+    {
+      "name": "NeuralFusionCore (Temporal+News model)",
+      "paths": [
+        "AlphaFusionNet/apps/NeuralFusionCore/"
+      ],
+      "entrypoints": [
+        "python -m apps.NeuralFusionCore.scripts.train_service",
+        "python -m apps.NeuralFusionCore.scripts.finetune_service",
+        "python -m apps.NeuralFusionCore.scripts.prediction_service",
+        "python -m apps.NeuralFusionCore.scripts.api_service"
+      ],
+      "responsibility": "Train and run inference for multimodal temporal+news fusion model; emits signed long/short portfolio weights; persists to MongoDB and a JSON file consumed by AlphaFusionNet.",
+      "depends_on": [
+        "ChronoBridge feature parquet outputs",
+        "MongoDB",
+        "(Optional) Redis",
+        "PyTorch"
+      ]
+    },
+    {
+      "name": "NetWeaver (Graph dependency model)",
+      "paths": [
+        "AlphaFusionNet/apps/NetWeaver/"
+      ],
+      "entrypoints": [
+        "python -m apps.NetWeaver.src.services.netweaver_train_service",
+        "python -m apps.NetWeaver.src.services.netweaver_finetune_service",
+        "python -m apps.NetWeaver.src.services.netweaver_prediction_service"
+      ],
+      "responsibility": "Train and predict a graph model describing cross-symbol dependencies and producing a ranking/score (predicted_return) per symbol; emits Top-20 selection CSV consumed by AlphaFusionNet.",
+      "depends_on": [
+        "ChronoBridge bridge/synchronized data",
+        "Local processed pickles/CSVs under apps/NetWeaver/data/",
+        "PyTorch / torch-geometric"
+      ]
+    },
+    {
+      "name": "Scheduler (Celery)",
+      "paths": [
+        "AlphaFusionNet/scheduler/"
+      ],
+      "entrypoints": [
+        "celery -A scheduler.tasks worker --loglevel=info",
+        "celery -A scheduler.scheduler beat --loglevel=info"
+      ],
+      "responsibility": "Orchestrates daily workflows, prediction windows, and metrics; enforces trading-day gating; runs steps by invoking Python modules via subprocess.",
+      "depends_on": [
+        "Redis (broker/backend)",
+        "All service entrypoints"
+      ]
+    },
+    {
+      "name": "Metrics (Live + Monthly + Backtesting)",
+      "paths": [
+        "AlphaFusionNet/scripts/metric_live_service.py",
+        "AlphaFusionNet/scripts/metric_monthly_service.py",
+        "AlphaFusionNet/scripts/metric_backtesting.py",
+        "AlphaFusionNet/lib/metric_utils.py",
+        "AlphaFusionNet/lib/db_utils.py"
+      ],
+      "entrypoints": [
+        "python -m scripts.metric_live_service",
+        "python -m scripts.metric_monthly_service",
+        "python -m scripts.metric_backtesting"
+      ],
+      "responsibility": "Compute per-minute NAV snapshots over live windows and month-to-date aggregate metrics; persist to MongoDB collections windows/live_metrics/monthly.",
+      "depends_on": [
+        "MongoDB",
+        "ClickHouse",
+        "AlphaFusionNet_predictions"
+      ]
+    }
+  ],
+  "contracts": {
+    "apis": [
+      {
+        "service": "AlphaFusionNet API",
+        "file": "AlphaFusionNet/scripts/alphafusionnet_api_service.py",
+        "routes": [
+          "GET /latest_alphafusionnet",
+          "GET /alphafusionnet_history",
+          "GET /health"
+        ]
+      },
+      {
+        "service": "ChronoBridge API",
+        "file": "AlphaFusionNet/apps/ChronoBridge/scripts/chronobridge_api_service.py",
+        "routes": [
+          "GET /fused_embeddings",
+          "GET /health"
+        ]
+      },
+      {
+        "service": "NeuralFusionCore API",
+        "file": "AlphaFusionNet/apps/NeuralFusionCore/scripts/api_service.py",
+        "routes": [
+          "GET /latest_prediction",
+          "GET /prediction_history",
+          "GET /health"
+        ]
+      },
+      {
+        "service": "Future Testing API",
+        "file": "AlphaFusionNet/scripts/future_testing_api_service.py",
+        "routes": [
+          "GET /future-testing/latest"
+        ]
+      }
+    ],
+    "events": [
+      {
+        "type": "celery",
+        "broker": "redis://localhost:6379/1",
+        "backend": "redis://localhost:6379/2",
+        "tasks": [
+          "tasks.initial_run",
+          "tasks.daily_update",
+          "tasks.prediction_14_30PM",
+          "tasks.calculate_metric_live",
+          "tasks.calculate_metric_monthly",
+          "tasks.refresh_trading_days_cache"
+        ]
+      }
+    ],
+    "db": [
+      {
+        "type": "mongodb",
+        "collections": [
+          "chrono_bridge",
+          "NeuralFusionCore_predictions",
+          "NetWeaver_predictions",
+          "AlphaFusionNet_predictions",
+          "AlphaFusionNet_future_testing",
+          "TradingAgent_reasons",
+          "windows",
+          "live_metrics",
+          "monthly"
+        ]
+      },
+      {
+        "type": "clickhouse",
+        "notes": "OHLCV table configured via AlphaFusionNet/config/AFN_config.yaml (env-substituted). Expected columns include symbol, candle_time, close (and likely OHLCV fields)."
+      }
+    ],
+    "files": [
+      {
+        "path": "AlphaFusionNet/config/AFN_config.yaml",
+        "role": "Primary configuration (env-substituted secrets)"
+      },
+      {
+        "path": "AlphaFusionNet/apps/ChronoBridge/data/processed/meta.json",
+        "role": "Feature columns + stock list + time mask columns"
+      },
+      {
+        "path": "AlphaFusionNet/apps/ChronoBridge/data/processed/online_test.parquet",
+        "role": "Inference feature dataset used by NeuralFusionCore"
+      },
+      {
+        "path": "AlphaFusionNet/apps/NeuralFusionCore/scripts/NeuralFusionCore_prediction.json",
+        "role": "NeuralFusionCore inference output consumed by AlphaFusionNet"
+      },
+      {
+        "path": "AlphaFusionNet/apps/NetWeaver/results/predict/selected_prediction.csv",
+        "role": "NetWeaver inference output consumed by AlphaFusionNet"
+      },
+      {
+        "path": "AlphaFusionNet/logs/alphafusionnet_service.log",
+        "role": "Fusion service log"
+      }
+    ]
+  },
+  "critical_flows": [
+    "Celery initial_run: compute_trading_days_service -> ChronoBridge ingest+features(train) -> NeuralFusionCore train -> ChronoBridge bridge + API -> NetWeaver train",
+    "Celery daily_update: ChronoBridge ingest(latest) -> ChronoBridge features(finetune) -> NeuralFusionCore finetune -> ChronoBridge bridge -> NetWeaver finetune",
+    "Celery prediction_14_30PM: ChronoBridge synchronize window -> NeuralFusionCore prediction -> NetWeaver prediction -> alphafusionnet_service -> metric_live scheduling -> metric_monthly"
+  ],
+  "important_files": [
+    {
+      "path": "AlphaFusionNet/scheduler/tasks.py",
+      "why": "Orchestration truth source: defines all workflows and subprocess calls"
+    },
+    {
+      "path": "AlphaFusionNet/scripts/alphafusionnet_service.py",
+      "why": "Main fusion runtime, Mongo persistence, risk_controls handling"
+    },
+    {
+      "path": "AlphaFusionNet/apps/ChronoBridge/scripts/data_ingest_service.py",
+      "why": "Defines ClickHouse/Mongo -> Redis ingestion contract"
+    },
+    {
+      "path": "AlphaFusionNet/apps/ChronoBridge/scripts/features_service.py",
+      "why": "Defines Redis -> parquet feature dataset contract"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NeuralFusionCore/scripts/prediction_service.py",
+      "why": "Defines NeuralFusionCore output payload stored in Mongo and JSON"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NetWeaver/src/services/netweaver_prediction_service.py",
+      "why": "Defines NetWeaver prediction process and output file locations"
+    }
+  ],
+  "risks": [
+    "Nested submodules and duplicated code copies (e.g., NeuralFusionCore appears both at apps/NeuralFusionCore and inside apps/ChronoBridge/apps/NeuralFusionCore).",
+    "Submodule fork policy not configured: AlphaFusionNet/memory-bank/submodule_overrides.json is a template.",
+    "Windows shell differences: some docs/scripts assume bash chaining; Celery on Windows uses threads pool.",
+    "Secrets required at runtime (.env, OPENAI_API_KEY, DB creds) must not be committed.",
+    "LLM client uses legacy openai<1.0.0 ChatCompletion API; may require modernization.",
+    "Large ML artifacts (weights, safetensors) can bloat repo; consider Git LFS policies."
+  ],
+  "read_order": [
+    "AlphaFusionNet/README.md",
+    "AlphaFusionNet/docs/architecture.md",
+    "AlphaFusionNet/docs/usage.md",
+    "AlphaFusionNet/config/AFN_config.yaml",
+    "AlphaFusionNet/scheduler/tasks.py",
+    "AlphaFusionNet/apps/ChronoBridge/scripts/data_ingest_service.py",
+    "AlphaFusionNet/apps/ChronoBridge/scripts/features_service.py",
+    "AlphaFusionNet/apps/NeuralFusionCore/scripts/prediction_service.py",
+    "AlphaFusionNet/apps/NetWeaver/src/services/netweaver_prediction_service.py",
+    "AlphaFusionNet/scripts/alphafusionnet_service.py",
+    "AlphaFusionNet/lib/metric_utils.py"
+  ],
+  "submodules": [
+    {
+      "path": "AlphaFusionNet/apps/ChronoBridge",
+      "url": "https://github.com/Novoxpert/ChronoBridge.git",
+      "status": "initialized",
+      "recommended_fork_url": "(set to your fork)"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NeuralFusionCore",
+      "url": "https://github.com/Novoxpert/NeuralFusionCore.git",
+      "status": "initialized",
+      "recommended_fork_url": "(set to your fork)"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NetWeaver",
+      "url": "https://github.com/Novoxpert/NetWeaver.git",
+      "status": "initialized",
+      "recommended_fork_url": "(set to your fork)"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NeuralFusionCore/apps/TimesNet",
+      "url": "https://github.com/Novoxpert/Time-Series-Library.git",
+      "status": "initialized",
+      "recommended_fork_url": "(set to your fork)"
+    },
+    {
+      "path": "AlphaFusionNet/apps/NetWeaver/apps/Financial-GraphAttention",
+      "url": "https://github.com/NovoXpertCo/Financial-GraphAttention.git",
+      "status": "initialized",
+      "recommended_fork_url": "(set to your fork)"
+    }
+  ]
+}
+

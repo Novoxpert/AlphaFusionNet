@@ -1,0 +1,112 @@
+{
+  "apis": [
+    {
+      "file": "apps/ChronoBridge/apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/health"
+    },
+    {
+      "file": "apps/ChronoBridge/apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/latest_prediction"
+    },
+    {
+      "file": "apps/ChronoBridge/apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/prediction_history"
+    },
+    {
+      "file": "apps/ChronoBridge/scripts/chronobridge_api_service.py",
+      "method": "GET",
+      "route": "/fused_embeddings"
+    },
+    {
+      "file": "apps/ChronoBridge/scripts/chronobridge_api_service.py",
+      "method": "GET",
+      "route": "/health"
+    },
+    {
+      "file": "apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/health"
+    },
+    {
+      "file": "apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/latest_prediction"
+    },
+    {
+      "file": "apps/NeuralFusionCore/scripts/api_service.py",
+      "method": "GET",
+      "route": "/prediction_history"
+    },
+    {
+      "file": "scripts/alphafusionnet_api_service.py",
+      "method": "GET",
+      "route": "/alphafusionnet_history"
+    },
+    {
+      "file": "scripts/alphafusionnet_api_service.py",
+      "method": "GET",
+      "route": "/health"
+    },
+    {
+      "file": "scripts/alphafusionnet_api_service.py",
+      "method": "GET",
+      "route": "/latest_alphafusionnet"
+    },
+    {
+      "file": "scripts/future_testing_api_service.py",
+      "method": "GET",
+      "route": "/future-testing/latest"
+    }
+  ],
+  "celery_tasks": [
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.calculate_metric_live"
+    },
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.calculate_metric_monthly"
+    },
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.daily_update"
+    },
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.initial_run"
+    },
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.prediction_14_30PM"
+    },
+    {
+      "file": "scheduler/tasks.py",
+      "name": "tasks.refresh_trading_days_cache"
+    }
+  ],
+  "mongo_collections": [
+    "AlphaFusionNet_future_testing",
+    "AlphaFusionNet_predictions",
+    "NetWeaver_predictions",
+    "NeuralFusionCore_predictions",
+    "TradingAgent_reasons",
+    "chrono_bridge",
+    "live_metrics",
+    "monthly",
+    "windows"
+  ],
+  "file_io_literals": [
+    "./SP500_dataset/%s.csv",
+    "SP500_category.csv",
+    "bazfile",
+    "foo.toml",
+    "r",
+    "realfile",
+    "result_anomaly_detection.txt",
+    "result_imputation.txt",
+    "result_long_term_forecast.txt"
+  ]
+}

@@ -1,0 +1,5 @@
+﻿{
+  "rewrites": [
+    { "from": "https://github.com/OWNER/REPO.git", "to": "https://github.com/YOUR_ORG_OR_USER/REPO.git" }
+  ]
+}
